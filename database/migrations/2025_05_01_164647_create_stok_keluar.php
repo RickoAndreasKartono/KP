@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('stok_keluar', function (Blueprint $table) {
+            $table->id('id_stok_keluar');
+            $table->unsignedBigInteger('id_user');
+            $table->unsignedBigInteger('id_pupuk');
+            $table->integer('jumlah_keluar');
+            $table->string('tujuan', 255);
+            $table->timestamp('tanggal_keluar');
+
+
+            $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
+            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuk')->onDelete('cascade');
+        });
+        
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('stok_keluar');
+    }
+};
