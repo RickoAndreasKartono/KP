@@ -26,7 +26,7 @@
 
     /* Judul */
     h1 {
-      font-size: 60px; /* Menggunakan px untuk ukuran font */
+      font-size: 50px; /* Menggunakan px untuk ukuran font */
       color: #000; /* Warna hitam */
       margin-bottom: 40px; /* Menambahkan jarak antara judul dan login-container */
     }
@@ -107,22 +107,11 @@
       background: #d0f3e8;
       font-size: 18px; /* Menggunakan px untuk ukuran font */
     }
-    /* Eye Icon */
-    .form-group .eye-icon {
-    position: absolute;
-    right: 22px;
-    top: 50%; /* Menempatkan ikon di tengah vertikal */
-    transform: translateY(20%); /* Menyelaraskan ikon dengan benar secara vertikal */
-    cursor: pointer;
-    font-size: 18px;
-    color: #333;
-    }
-
 
     .forgot-password {
       display: block;
       margin-bottom: 30px;
-      color: #4DB6AC;
+      color:rgb(57, 240, 222);
       text-decoration: none;
       font-size: 16px; /* Menggunakan px untuk ukuran font */
     }
@@ -192,8 +181,11 @@
             name="password"
             required
           >
-          <span class="eye-icon" onclick="togglePassword()"><i class="fas fa-eye"></i></span> <!-- Ganti dengan ikon mata dari Font Awesome -->
+         
         </div>
+   
+        <a href="/reset_password" class="forgot-password">Forgot Password?</a>
+
 
         <p class="error-message" id="error-message"></p>
         <button type="button" class="btn-login" id="btn-login">Login</button>
