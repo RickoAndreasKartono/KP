@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_user', 100);
             $table->string('email', 100)->unique();
             $table->string('password', 255);
-            $table->enum('role', ['owner', 'manager', 'kepala_admin', 'kepala_gudang']);
+            $table->enum('role', ['owner', 'manager', 'kepala_admin', 'kepala_gudang'])->after('password')->default('admin');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });

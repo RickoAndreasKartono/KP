@@ -219,7 +219,7 @@
             password: password,
           },
           success: function(response) {
-            window.location.href = '{{ route("dashboard") }}';
+            window.location.href = 'stok_pupuk';
           },
           error: function(xhr) {
             const errors = xhr.responseJSON.errors || {};
