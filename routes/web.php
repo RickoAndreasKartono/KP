@@ -28,6 +28,9 @@ Route::get('/home', function () {
     return view('home.index');
 });
 
+Route::get('/laporan-stok', [StokController::class, 'laporan'])->name('laporan.stok');
+
+
 Route::get('/check-db', function () {
     return DB::connection()->getDatabaseName();
 });

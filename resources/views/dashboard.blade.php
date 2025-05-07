@@ -276,6 +276,159 @@
     <!-- Content for Stok Keluar -->
   </div>
 
+  <!-- Content for Laporan Stok -->
+  <div id="laporan-stok" class="container">
+  <h2>Laporan Stok Pupuk</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nama Pupuk</th>
+        <th>Stok Awal</th>
+        <th>Stok Masuk</th>
+        <th>Stok Keluar</th>
+        <th>Stok Akhir</th>
+        <th>Lokasi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pupuk Urea (N)</td>
+        <td>30</td>
+        <td>10</td>
+        <td>20</td>
+        <td>20</td>
+        <td>Gudang A</td>
+      </tr>
+      <tr>
+        <td>Pupuk NPK</td>
+        <td>50</td>
+        <td>20</td>
+        <td>15</td>
+        <td>55</td>
+        <td>Gudang B</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Content for Manajemen Pembelian -->
+<div id="manajemen pembelian" class="container">
+  <h2>Manajemen Pembelian</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Nomor Pembelian</th>
+        <th>Nama Supplier</th>
+        <th>Tanggal Pembelian</th>
+        <th>Total Pembelian</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>PB-001</td>
+        <td>PT. Agro Supplier</td>
+        <td>2025-04-20</td>
+        <td>Rp 5.000.000</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>PB-002</td>
+        <td>PT. Pupuk Jaya</td>
+        <td>2025-04-22</td>
+        <td>Rp 3.000.000</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Content for Validasi Transaksi -->
+<div id="validasi-transaksi" class="container">
+  <h2>Validasi Transaksi</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID Transaksi</th>
+        <th>Nama Pembeli</th>
+        <th>Jumlah Transaksi</th>
+        <th>Status</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>TRX-001</td>
+        <td>John Doe</td>
+        <td>Rp 5.000.000</td>
+        <td>Pending</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>TRX-002</td>
+        <td>Jane Smith</td>
+        <td>Rp 3.000.000</td>
+        <td>Disetujui</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Content for Kelola User -->
+<div id="kelola-user" class="container">
+  <h2>Kelola User</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID User</th>
+        <th>Nama</th>
+        <th>Email</th>
+        <th>Peran</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>USR-001</td>
+        <td>Andi Budi</td>
+        <td>andi@example.com</td>
+        <td>Admin</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>USR-002</td>
+        <td>Siti Aisyah</td>
+        <td>siti@example.com</td>
+        <td>Operator</td>
+        <td>
+          <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+          <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
   <script>
     const buttons = document.querySelectorAll('.nav-btn');
     const containers = document.querySelectorAll('.container');
