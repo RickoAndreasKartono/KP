@@ -34,8 +34,8 @@
     <h1>CV Agro Citra Indonesia</h1>
     <script>
         setTimeout(() => {
-            window.location.href = 'login';
-        }, 4000); // Redirect to login page after animation
+            window.location.href = '{{url('login')}}';
+        }, 4000); 
     </script>
 </body>
 </html>

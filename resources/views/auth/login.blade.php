@@ -145,7 +145,6 @@
       font-size: 16px; /* Menggunakan px untuk ukuran font */
     }
   </style>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -162,15 +161,19 @@
 
     <!-- Kolom Form -->
     <div class="form-col">
-      <form id="login-form">
+      <form id="login-form" method="POST" action="{{ url('login_post') }}">
+        {{ csrf_field() }}
         <div class="form-group">
           <label for="email">Email</label>
           <input
             id="email"
             type="email"
+            value="{{ old('email') }}"
             name="email"
             required
+
           >
+        
         </div>
 
         <div class="form-group">
@@ -181,54 +184,18 @@
             name="password"
             required
           >
-         
+          @error('password')
+            <span class="error-message">{{ $message }}</span>
+          @enderror
         </div>
    
-        <a href="/reset_password" class="forgot-password">Forgot Password?</a>
-
+        <a href="{{ url('forgot') }}" class="forgot-password">Forgot Password?</a>
 
         <p class="error-message" id="error-message"></p>
-        <button type="button" class="btn-login" id="btn-login">Login</button>
+        <button type="submit" class="btn-login">Login</button>
       </form>
     </div>
 
   </div>
-
-  <script>
-    function togglePassword() {
-      const pwd = document.getElementById('password');
-      pwd.type = pwd.type === 'password' ? 'text' : 'password';
-    }
-
-    $(document).ready(function() {
-      $('#btn-login').on('click', function() {
-        const email = $('#email').val();
-        const password = $('#password').val();
-
-        if (!email || !password) {
-          $('#error-message').text('Email dan Password harus diisi!');
-          return;
-        }
-
-        $.ajax({
-          url: '{{ route("login.attempt") }}', // Laravel route
-          method: 'POST',
-          data: {
-            _token: '{{ csrf_token() }}',
-            email: email,
-            password: password,
-          },
-          success: function(response) {
-            window.location.href = 'stok_pupuk';
-          },
-          error: function(xhr) {
-            const errors = xhr.responseJSON.errors || {};
-            const message = errors.email || 'Login gagal. Periksa email dan password.';
-            $('#error-message').text(message);
-          }
-        });
-      });
-    });
-  </script>
 </body>
 </html>

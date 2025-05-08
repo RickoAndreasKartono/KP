@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', 'Stok Pupuk')
+@section('title', 'Stok Pupuk - Owner')
 
 @section('content')
 <div id="stok-pupuk" class="container active">

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamp('tanggal_pembelian');
 
             $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasok')->onDelete('cascade');
-            $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
         });
         
     }

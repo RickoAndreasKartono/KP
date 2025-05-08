@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status_validasi', ['pending', 'approved', 'rejected']);
             $table->timestamp('tanggal_validasi');
 
-            $table->foreign('id_user')->references('id_user')->on('user')->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelian')->onDelete('cascade');
             $table->foreign('id_stok_keluar')->references('id_stok_keluar')->on('stok_keluar')->onDelete('cascade');
         });

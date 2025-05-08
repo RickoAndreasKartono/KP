@@ -12,7 +12,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <!-- Custom CSS -->
+  
   <style>
+    
     /* Reset CSS */
     * {
       margin: 0;
@@ -162,8 +164,11 @@
     }
   </style>
 </head>
+
 <body>
+
   <!-- Header -->
+  
   <header>
     <div class="user-avatar">
       <img src="{{ asset('images/user.png') }}" alt="User Avatar">
@@ -173,22 +178,19 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ route('stok_pupuk') }}"><button class="{{ request()->routeIs('stok_pupuk') ? 'active' : '' }}">stok pupuk</button></a>
-    <a href="{{ route('stok_masuk') }}"><button class="{{ request()->routeIs('stok_masuk') ? 'active' : '' }}">stok masuk</button></a>
-    <a href="{{ route('stok_keluar') }}"><button class="{{ request()->routeIs('stok_keluar') ? 'active' : '' }}">stok keluar</button></a>
-    <a href="{{ route('laporan-stok') }}"><button class="{{ request()->routeIs('laporan-stok') ? 'active' : '' }}">laporan stok</button></a>
-    <a href="{{ route('manajemen_pembelian') }}"><button class="{{ request()->routeIs('manajemen-pembelian') ? 'active' : '' }}">manajemen pembelian</button></a>
-    <a href="{{ route('validasi-transaksi') }}"><button class="{{ request()->routeIs('validasi-transaksi') ? 'active' : '' }}">validasi transaksi</button></a>
-    <a href="{{ route('kelola-user') }}"><button class="{{ request()->routeIs('kelola-user') ? 'active' : '' }}">kelola user</button></a>
+    <a href="{{ url('stok_pupuk') }}"><button class="{{ request()->is('owner.stok_pupuk') ? 'active' : '' }}">stok pupuk</button></a>
+    <a href="{{ url('stok_masuk') }}"><button class="{{ request()->is('stok_masuk') ? 'active' : '' }}">stok masuk</button></a>
+    <a href="{{ url('stok_keluar') }}"><button class="{{ request()->is('stok_keluar') ? 'active' : '' }}">stok keluar</button></a>
+    <a href="{{ url('laporan-stok') }}"><button class="{{ request()->is('laporan-stok') ? 'active' : '' }}">laporan stok</button></a>
+    <a href="{{ url('manajemen_pembelian') }}"><button class="{{ request()->is('manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button></a>
+    <a href="{{ url('validasi-transaksi') }}"><button class="{{ request()->is('validasi-transaksi') ? 'active' : '' }}">validasi transaksi</button></a>
+    <a href="{{ url('kelola-user') }}"><button class="{{ request()->is('kelola-user') ? 'active' : '' }}">kelola user</button></a>
   </div>
 
-  <!-- Content -->
   <main>
     @yield('content')
   </main>
 
-  <script>
-    // Tambahkan JavaScript jika diperlukan
-  </script>
+ 
 </body>
 </html>

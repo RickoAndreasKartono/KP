@@ -13,10 +13,16 @@ return [
     |
     */
 
+    // 'defaults' => [
+    //     'guard' => env('AUTH_GUARD', 'web'),
+    //     'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+    // ],
+
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'web',
+        'passwords' => 'users',
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -41,6 +47,9 @@ return [
             'provider' => 'users',
         ],
     ],
+
+   
+
 
     /*
     |--------------------------------------------------------------------------
@@ -70,6 +79,13 @@ return [
         //     'table' => 'users',
         // ],
     ],
+    // 'providers' => [
+    //     'users' => [
+    //         'driver' => 'eloquent',
+    //         'model' => App\Models\User::class,
+    //     ],
+    // ],
+
 
     /*
     |--------------------------------------------------------------------------

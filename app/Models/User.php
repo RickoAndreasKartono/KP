@@ -9,7 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'user'; // Sesuaikan nama tabel
+    protected $table = 'users'; // Sesuaikan nama tabel
     protected $primaryKey = 'id_user'; // Primary key manual
 
     protected $fillable = [
