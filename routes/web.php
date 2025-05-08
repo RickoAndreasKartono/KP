@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -15,8 +16,19 @@ Route::post('login_post', [AuthController::class, 'login_post']);
 Route::get('forgot', [AuthController::class, 'forgot']);
 
 Route::group(['middleware' => 'owner'],function () {
-    Route::get('owner/stok_pupuk', [DashboardController::class, 'dashboard']);
+    Route::get('/stok_pupuk', [DashboardController::class, 'dashboard']);
 });
+
+
+Route::group(['middleware' => 'owner'], function () {
+    Route::get('/kelola-user', [UserController::class, 'index'])->name('kelola_user.index');
+    Route::get('/kelola-user/create', [UserController::class, 'create'])->name('kelola_user.create');
+    Route::post('/kelola-user', [UserController::class, 'store'])->name('kelola_user.store');
+    Route::get('/kelola-user/{id}/edit', [UserController::class, 'edit'])->name('kelola_user.edit');
+    Route::put('/kelola-user/{id}', [UserController::class, 'update'])->name('kelola_user.update');
+    Route::delete('/kelola-user/{id}', [UserController::class, 'destroy'])->name('kelola_user.destroy');
+});
+
 
 Route::group(['middleware' => 'manager'],function () {
     Route::get('manager/stok_pupuk', [DashboardController::class, 'dashboard']);
