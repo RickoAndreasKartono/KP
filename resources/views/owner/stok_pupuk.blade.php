@@ -1,10 +1,23 @@
-@extends('layouts.main')
+@extends('layouts.owner')
 
 @section('title', 'Stok Pupuk - Owner')
 
+@section('section-header')
+<div class="section-header">
+  <h2>Data Stok Pupuk</h2>
+  <div class="controls">
+    <div class="add-btn">
+      <i class="fas fa-plus"></i> Tambah
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Cari...">
+    </div>
+  </div>
+</div>
+@endsection
+
 @section('content')
 <div id="stok-pupuk" class="container active">
-  <h2>Data Stok Pupuk</h2>
   <table>
     <thead>
       <tr>

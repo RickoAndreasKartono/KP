@@ -14,9 +14,16 @@ Route::post('login_post', [AuthController::class, 'login_post']);
 
 Route::get('forgot', [AuthController::class, 'forgot']);
 
-Route::group(['middleware' => 'owner'],function () {
-    Route::get('owner/stok_pupuk', [DashboardController::class, 'dashboard']);
+Route::group(['middleware' => 'owner'], function () {
+    Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
+    Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('stok_masuk');
+    Route::get('owner/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('stok_keluar');
+    Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('laporan_stok');
+    Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
+    Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
+    Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
 });
+
 
 Route::group(['middleware' => 'manager'],function () {
     Route::get('manager/stok_pupuk', [DashboardController::class, 'dashboard']);

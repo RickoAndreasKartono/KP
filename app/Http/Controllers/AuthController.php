@@ -43,7 +43,7 @@ class AuthController extends Controller
         }
 
         else {
-            return redirect()->back()->with()('error', 'Please enter the correct email and password');
+            return redirect()->back()->with('error', 'Please enter the correct email and password');
         
         }
     }
