@@ -15,7 +15,6 @@ Route::post('login_post', [AuthController::class, 'login_post']);
 
 Route::get('forgot', [AuthController::class, 'forgot']);
 
-<<<<<<< HEAD
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
     Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('stok_masuk');
@@ -33,21 +32,6 @@ Route::post('/owner/kelola_user', [UserController::class, 'store'])->name('store
 Route::get('/owner/kelola_user/edit/{id}', [UserController::class, 'edit'])->name('edit_user');
 Route::put('/owner/kelola_user/{id}', [UserController::class, 'update'])->name('update_user');
 
-=======
-Route::group(['middleware' => 'owner'],function () {
-    Route::get('/stok_pupuk', [DashboardController::class, 'dashboard']);
-});
-
-
-Route::group(['middleware' => 'owner'], function () {
-    Route::get('/kelola-user', [UserController::class, 'index'])->name('kelola_user.index');
-    Route::get('/kelola-user/create', [UserController::class, 'create'])->name('kelola_user.create');
-    Route::post('/kelola-user', [UserController::class, 'store'])->name('kelola_user.store');
-    Route::get('/kelola-user/{id}/edit', [UserController::class, 'edit'])->name('kelola_user.edit');
-    Route::put('/kelola-user/{id}', [UserController::class, 'update'])->name('kelola_user.update');
-    Route::delete('/kelola-user/{id}', [UserController::class, 'destroy'])->name('kelola_user.destroy');
-});
->>>>>>> b6cc912d5cb7ea324caa4a5973710c7953e1f963
 
 
 Route::group(['middleware' => 'manager'],function () {

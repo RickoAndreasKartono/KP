@@ -17,34 +17,36 @@ class AuthController extends Controller
     }
 
     public function login_post(Request $request)
-{
-    // Validasi input
-    $credentials = $request->only('email', 'password');
+    {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) 
+        {
+            if(Auth::User()->role == 'owner')
+            {
+                return redirect()-> intended('owner/stok_pupuk');
+            } 
+            else if(Auth::User()->role == 'manager')
+            {
+                return redirect()-> intended('manager/stok_pupuk');
+            } 
+            else if(Auth::User()->role == 'kepala_admin')
+            {
+                return redirect()-> intended('kepala_admin/stok_pupuk');
+            } 
+            else if(Auth::User()->role == 'kepala_gudang')
+            {
+                return redirect()-> intended('kepala_gudang/stok_pupuk');
+            } 
+            else 
+            {
+                return redirect('login')->with('error', 'No avaibles email...');
+            }
+        }
 
-<<<<<<< HEAD
         else {
             return redirect()->back()->with('error', 'Please enter the correct email and password');
         
-=======
-    if (Auth::attempt($credentials)) {
-        // Pengecekan role setelah login berhasil
-        if (Auth::user()->role == 'owner') {
-            return redirect()->intended('/stok_pupuk');
-        } elseif (Auth::user()->role == 'manager') {
-            return redirect()->intended('manager/stok_pupuk');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return redirect()->intended('kepala_admin/stok_pupuk');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return redirect()->intended('kepala_gudang/stok_pupuk');
-        } else {
-            return redirect('login')->with('error', 'No available role for this user.');
->>>>>>> b6cc912d5cb7ea324caa4a5973710c7953e1f963
         }
-    } else {
-        return redirect()->back()->with('error', 'Please enter the correct email and password.');
     }
-}
-
 
     public function forgot(){
         return view('auth.forgot');
@@ -88,4 +90,3 @@ class AuthController extends Controller
         return redirect()->route('dashboard.kelola_user')->with('success', 'User created successfully.');
     }
 }
-
