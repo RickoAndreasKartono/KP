@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', [HomeController::class, 'index']);
@@ -23,6 +24,14 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
     Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
 });
+
+
+Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
+Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
+Route::post('/owner/kelola_user', [UserController::class, 'store'])->name('store_user');
+Route::get('/owner/kelola_user/edit/{id}', [UserController::class, 'edit'])->name('edit_user');
+Route::put('/owner/kelola_user/{id}', [UserController::class, 'update'])->name('update_user');
+
 
 
 Route::group(['middleware' => 'manager'],function () {
