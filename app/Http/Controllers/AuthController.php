@@ -89,4 +89,22 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard.kelola_user')->with('success', 'User created successfully.');
     }
+       // Menangani reset password
+public function resetPassword(Request $request)
+{
+    // Validasi password dan konfirmasinya
+    $request->validate([
+        'password' => 'required|confirmed|min:8', // Pastikan password valid dan konfirmasi sesuai
+    ]);
+
+    // Ambil user yang sedang login
+    $user = Auth::user();
+    $user->password = Hash::make($request->password); // Perbarui password
+    $user->save(); // Simpan perubahan
+
+    // Redirect ke login dengan pesan sukses
+    return redirect()->route('login')->with('status', 'Password berhasil diperbarui!');
 }
+
+}
+

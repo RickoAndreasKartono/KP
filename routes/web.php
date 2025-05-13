@@ -5,15 +5,25 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PasswordController;
+
+
 
 
 Route::get('/', [HomeController::class, 'index']);
 
 // // Route untuk login
-Route::get('login', [AuthController::class, 'login']);
+Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login_post', [AuthController::class, 'login_post']);
 
 Route::get('forgot', [AuthController::class, 'forgot']);
+
+// Route untuk memperbarui password
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+
+
+
 
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
