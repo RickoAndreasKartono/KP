@@ -28,16 +28,15 @@ class UserController extends Controller
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'role' => 'required|string',
-            'status' => 'required|string',
+            'role' => 'required|string|in:Manager,Kepala Gudang,Kepala Admin',
         ]);
 
         // Membuat user baru dengan data yang telah divalidasi
         User::create([
-            'name' => $request->username,
+            'name_user' => $request->username,
             'email' => $request->email,
+            'password' => bcrypt($request->password),
             'role' => $request->role,
-            'status' => $request->status,
         ]);
 
         // Redirect ke halaman kelola user dengan pesan sukses

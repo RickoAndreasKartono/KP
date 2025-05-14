@@ -15,6 +15,11 @@
 <div class="container">
   <form action="{{ route('store_user') }}" method="POST">
     @csrf
+    <!-- Input Nama -->
+    <div class="form-group">
+      <label for="name">Nama</label>
+      <input type="name" id="name" name="name" placeholder="Masukkan Nama" required>
+    </div>
     <!-- Input Email -->
     <div class="form-group">
       <label for="email">Email</label>

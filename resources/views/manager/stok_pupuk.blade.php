@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.manager')
 
 @section('title', 'Stok Pupuk - Manager')
 

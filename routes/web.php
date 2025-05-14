@@ -12,11 +12,18 @@ use App\Http\Controllers\PasswordController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-// // Route untuk login
+//Route untuk login
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login_post', [AuthController::class, 'login_post']);
 
-Route::get('forgot', [AuthController::class, 'forgot']);
+//Route untuk Logout
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login');
+})->name('logout');
+
+Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot'); // Untuk menampilkan form forgot password
+Route::post('/forgot', [AuthController::class, 'forgotPost'])->name('password.sendResetLink'); // Mengirimkan link reset password
 
 // Route untuk memperbarui password
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
@@ -44,6 +51,8 @@ Route::put('/owner/kelola_user/{id}', [UserController::class, 'update'])->name('
 
 
 
+
+
 Route::group(['middleware' => 'manager'],function () {
     Route::get('manager/stok_pupuk', [DashboardController::class, 'dashboard']);
 });
@@ -57,8 +66,6 @@ Route::group(['middleware' => 'kepala_gudang'],function () {
 });
 
 
-// // Route untuk logout
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // // Route untuk dashboard dan halamannya (sesuai dengan role)

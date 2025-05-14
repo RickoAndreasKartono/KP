@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Hash;
 use Str;
 
@@ -47,10 +48,28 @@ class AuthController extends Controller
         
         }
     }
+    
 
     public function forgot(){
         return view('auth.forgot');
     }
+
+    public function forgotPost(Request $request)
+{
+    // Validasi email
+    $request->validate([
+        'email' => 'required|email|exists:users,email', // Memastikan email terdaftar
+    ]);
+
+    // Kirimkan link reset password ke email
+    $status = Password::sendResetLink($request->only('email'));
+
+    if ($status == Password::RESET_LINK_SENT) {
+        return back()->with('status', 'Reset link has been sent to your email!');
+    } else {
+        return back()->withErrors(['email' => 'No account found with that email address.']);
+    }
+}
 
     // Handle logout
     public function logout(Request $request)
@@ -105,6 +124,11 @@ public function resetPassword(Request $request)
     // Redirect ke login dengan pesan sukses
     return redirect()->route('login')->with('status', 'Password berhasil diperbarui!');
 }
+public function showResetForm($token)
+{
+    return view('auth.reset-password', ['token' => $token]);
+}
+
 
 }
 

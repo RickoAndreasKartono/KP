@@ -36,9 +36,9 @@
     <div class="form-group">
       <label for="role">Peran</label>
       <select id="role" name="role" required>
-        <option value="Admin" {{ $user->role == 'Admin' ? 'selected' : '' }}>Admin</option>
-        <option value="Owner" {{ $user->role == 'Owner' ? 'selected' : '' }}>Owner</option>
-        <option value="Staff" {{ $user->role == 'Staff' ? 'selected' : '' }}>Staff</option>
+        <option value="Manager" {{ $user->role == 'Manager' ? 'selected' : '' }}>Admin</option>
+        <option value="Kepala Admin" {{ $user->role == 'Kepala Admin' ? 'selected' : '' }}>Owner</option>
+        <option value="Kepala Gudang" {{ $user->role == 'Kepala Gudang' ? 'selected' : '' }}>Staff</option>
       </select>
     </div>
 

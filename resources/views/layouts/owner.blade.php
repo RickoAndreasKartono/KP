@@ -237,7 +237,7 @@
       <div class="user-role">
         Owner
       </div>
-      <button class="logout-btn" onclick="window.location.href='/logout'">Logout</button>
+      <button class="logout-btn" onclick="window.location.href='{{route('login') }}'">Logout</button>
     </div>
     <h1>CV Agro Citra Indonesia</h1>
   </header>

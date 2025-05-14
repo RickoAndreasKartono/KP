@@ -11,15 +11,19 @@
         <i class="fas fa-plus"></i> Tambah User
       </div>
     </a>
-    <div class="search-bar">
-      <input type="text" placeholder="Cari user..." id="searchUser">
-    </div>
   </div>
 </div>
 @endsection
 
 @section('content')
 <div class="container">
+  <!-- Menampilkan pesan sukses jika ada -->
+  @if(session('success'))
+    <div class="alert alert-success">
+      {{ session('success') }}
+    </div>
+  @endif
+
   <table>
     <thead>
       <tr>
@@ -29,27 +33,21 @@
         <th>Aksi</th>
       </tr>
     </thead>
-    <tbody id="userTableBody">
+    <tbody>
+      @foreach ($users as $user)
       <tr>
-        <td>John Doe</td>
-        <td>johndoe@example.com</td>
-        <td>Admin</td>
+        <td>{{ $user->nama_user }}</td>
+        <td>{{ $user->email }}</td>
+        <td>{{ $user->role }}</td>
         <td>
-          <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
-          <button class="action-btn delete-btn" title="Hapus"><i class="fas fa-trash"></i></button>
+          <a href="{{ route('edit_user', ['id' => $user->id_user]) }}">
+            <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+          </a>
+          <button class="action-btn delete-btn" title="Hapus" onclick="confirmDelete({{ $user->id_user }})"><i class="fas fa-trash"></i></button>
         </td>
       </tr>
-      <tr>
-        <td>Jane Smith</td>
-        <td>janesmith@example.com</td>
-        <td>Owner</td>
-        <td>
-          <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
-          <button class="action-btn delete-btn" title="Hapus"><i class="fas fa-trash"></i></button>
-        </td>
-      </tr>
+      @endforeach
     </tbody>
   </table>
 </div>
 @endsection
-
