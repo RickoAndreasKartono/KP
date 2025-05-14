@@ -17,35 +17,37 @@
     @csrf
     <!-- Input Nama -->
     <div class="form-group">
-      <label for="name">Nama</label>
-      <input type="name" id="name" name="name" placeholder="Masukkan Nama" required>
+        <label for="name">Nama</label>
+        <input type="text" id="name" name="name" placeholder="Masukkan Nama" required>
     </div>
+    
     <!-- Input Email -->
     <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Masukkan Email" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Masukkan Email" required>
     </div>
     
     <!-- Input Password -->
     <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Masukkan Password" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan Password" required>
     </div>
     
     <!-- Role Select -->
     <div class="form-group">
-      <label for="role">Peran</label>
-      <select id="role" name="role" required>
-        <option value="Admin">Manager</option>
-        <option value="Owner">Kepala Admin</option>
-        <option value="Staff">Kepala Gudang</option>
-      </select>
+        <label for="role">Peran</label>
+        <select id="role" name="role" required>
+            <option value="manager">Manager</option>
+            <option value="kepala_admin">Kepala Admin</option>
+            <option value="kepala_gudang">Kepala Gudang</option>
+        </select>
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="done-btn">Done</button>
+        <button type="submit" class="done-btn">Done</button>
     </div>
-  </form>
+</form>
+
 </div>  
 @endsection
 

@@ -28,7 +28,11 @@ Route::post('/forgot', [AuthController::class, 'forgotPost'])->name('password.se
 // Route untuk memperbarui password
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
-
+Route::group(['middleware' => 'owner'], function () {
+    Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
+    Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
+    Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
+});
 
 
 
@@ -45,7 +49,7 @@ Route::group(['middleware' => 'owner'], function () {
 
 Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
 Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
-Route::post('/owner/kelola_user', [UserController::class, 'store'])->name('store_user');
+Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
 Route::get('/owner/kelola_user/edit/{id}', [UserController::class, 'edit'])->name('edit_user');
 Route::put('/owner/kelola_user/{id}', [UserController::class, 'update'])->name('update_user');
 

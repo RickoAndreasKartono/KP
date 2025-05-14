@@ -18,7 +18,7 @@
         
         <label for="role">Role:</label>
         <select id="role" name="role" required>
-            <option value="admin">Owner</option>
+            <option value="owner">Owner</option>
             <option value="manager">Manager</option>
             <option value="kepala_admin">Kepala Admin</option>
             <option value="kepala_gudang">Kepala Gudang</option>

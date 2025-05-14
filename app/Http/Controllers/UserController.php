@@ -21,27 +21,29 @@ class UserController extends Controller
         return view('owner.tambah_user');
     }
 
-    // Menyimpan data User baru
-    public function store(Request $request)
-    {
-        // Validasi data yang diterima dari form
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'role' => 'required|string|in:Manager,Kepala Gudang,Kepala Admin',
-        ]);
+  public function store(Request $request)
+{
 
-        // Membuat user baru dengan data yang telah divalidasi
-        User::create([
-            'name_user' => $request->username,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => $request->role,
-        ]);
+    // Validasi data yang diterima dari form
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:8',
+        'role' => 'required|string|in:manager,kepala_admin, kepala_gudang',
+    ]);
 
-        // Redirect ke halaman kelola user dengan pesan sukses
-        return redirect()->route('owner.kelola_user')->with('success', 'User berhasil ditambahkan!');
-    }
+    // Membuat user baru dengan data yang telah divalidasi
+    User::create([
+        'nama_user' => $request->name,
+        'email' => $request->email,
+        'password' => bcrypt($request->password), // Mengenkripsi password
+        'role' => $request->role,
+    ]);
+
+    // Redirect ke halaman kelola user dengan pesan sukses
+    return redirect()->route('kelola_user')->with('success', 'User berhasil ditambahkan!');
+}
+
 
     // Menghapus User berdasarkan ID
     public function destroy($id)
