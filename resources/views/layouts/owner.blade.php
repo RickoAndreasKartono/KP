@@ -41,6 +41,8 @@
       font-family: 'Potta One', cursive;
       color: #fff;
       font-size: 30px;
+      
+      
     }
 
     .user-info {

@@ -10,6 +10,8 @@ use App\Http\Controllers\PasswordController;
 
 
 
+
+
 Route::get('/', [HomeController::class, 'index']);
 
 //Route untuk login
@@ -28,11 +30,6 @@ Route::post('/forgot', [AuthController::class, 'forgotPost'])->name('password.se
 // Route untuk memperbarui password
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
-Route::group(['middleware' => 'owner'], function () {
-    Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
-    Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
-    Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
-});
 
 
 
@@ -43,15 +40,18 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('laporan_stok');
     Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
     Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
-    Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
+    Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
+    Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
+    Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
+    Route::delete('/owner/kelola_user/{id_user}', [UserController::class, 'destroy'])->name('delete_user');
 });
 
 
 Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
 Route::get('/owner/kelola_user/tambah', [UserController::class, 'create'])->name('tambah_user');
 Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
-Route::get('/owner/kelola_user/edit/{id}', [UserController::class, 'edit'])->name('edit_user');
-Route::put('/owner/kelola_user/{id}', [UserController::class, 'update'])->name('update_user');
+Route::get('/owner/kelola_user/edit/{id_user}', [UserController::class, 'edit'])->name('edit_user');
+Route::put('/owner/kelola_user/{id_user}', [UserController::class, 'update'])->name('update_user');
 
 
 
@@ -62,11 +62,11 @@ Route::group(['middleware' => 'manager'],function () {
 });
 
 Route::group(['middleware' => 'kepala_admin'],function () {
-    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'dashboard']);
+    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk']);
 });
 
 Route::group(['middleware' => 'kepala_gudang'],function () {
-    Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'dashboard']);
+    Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'kepalaGudang']);
 });
 
 

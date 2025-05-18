@@ -16,7 +16,7 @@
   <!-- Add User Button -->
   <div class="header-right">
     <a href="{{ route('tambah_user') }}">
-      <div class="add-btn action-btn">
+      <div class="add-btn">
         <i class="fas fa-plus"></i> Tambah User
       </div>
     </a>
@@ -43,32 +43,24 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($users as $id_user)
-        <tr>
-          <td>{{ $id_user->nama_user }}</td>
-          <td>{{ $id_user->email }}</td>
-          <td>{{ $id_user->role }}</td>
-          <td>
-            <!-- Tombol Edit -->
-            <a href="{{ route('edit_user', ['id_user' => $id_user->id_user]) }}" class="action-btn edit-btn">
-              <i class="fas fa-edit"></i>
-            </a>
-
-            <!-- Tombol Delete -->
-            <form action="{{ route('delete_user', ['id_user' => $id_user->id_user]) }}" method="POST" style="display:inline;">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="action-btn delete-btn">
-                <i class="fas fa-trash"></i>
-              </button>
-            </form>
-          </td>
-        </tr>
+      @foreach ($users as $user)
+      <tr>
+        <td>{{ $user->nama_user }}</td>
+        <td>{{ $user->email }}</td>
+        <td>{{ $user->role }}</td>
+        <td>
+          <a href="{{ route('edit_user', ['id_user' => $user->id_user]) }}">
+            <button class="action-btn edit-btn" title="Edit"><i class="fas fa-edit"></i></button>
+          </a>
+          <button class="action-btn delete-btn" title="Hapus" onclick="confirmDelete({{ $user->id_user }})"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
       @endforeach
     </tbody>
   </table>
 </div>
 @endsection
+
 
 @push('styles')
 <style>
@@ -140,26 +132,3 @@
 .add-btn:hover {
   background-color: #218838;
 }
-
-/* Styling for Action Buttons */
-.action-btn {
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.edit-btn {
-  background-color: #4CAF50;  /* Green */
-  color: white;
-}
-
-.delete-btn {
-  background-color: #f44336;  /* Red */
-  color: white;
-}
-
-.action-btn:hover {
-  opacity: 0.8;
-}
-</style>
-@endpush

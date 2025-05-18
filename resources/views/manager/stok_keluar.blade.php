@@ -1,10 +1,10 @@
 @extends('layouts.manager')
 
-@section('title', 'Stok Pupuk - Manager')
+@section('title', 'Stok Keluar - Manager')
 
 @section('section-header')
 <div class="section-header">
-  <h2>Data Stok Pupuk</h2>
+  <h2>Stok Keluar</h2>
   <div class="controls">
     <div class="add-btn">
       <i class="fas fa-plus"></i> Tambah

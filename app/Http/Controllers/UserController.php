@@ -23,7 +23,6 @@ class UserController extends Controller
 
   public function store(Request $request)
 {
-
     // Validasi data yang diterima dari form
     $validated = $request->validate([
         'name' => 'required|string|max:255',
@@ -46,43 +45,54 @@ class UserController extends Controller
 
 
     // Menghapus User berdasarkan ID
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
+public function destroy($id_user)
+{
+    $user = User::findOrFail($id_user);
 
-        // Redirect setelah menghapus
-        return redirect()->route('owner.kelola_user')->with('success', 'User berhasil dihapus!');
+    // Cek jika user adalah owner, jangan dihapus
+    if ($user->role === 'owner') {
+        return redirect()->route('kelola_user')->with('error', 'Owner user tidak dapat dihapus.');
     }
+
+
+
+    $user->delete();
+
+    // Redirect setelah menghapus
+    return redirect()->route('kelola_user')->with('success', 'User berhasil dihapus!');
+}
+
 
     // Menampilkan halaman Edit User
-    public function edit($id)
+    public function edit($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         return view('owner.edit_user', compact('user'));
     }
+    
 
     // Memperbarui data User
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_user)
     {
         // Validasi data yang diterima
         $validated = $request->validate([
             'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id_user . ',id_user',
             'role' => 'required|string',
-            'status' => 'required|string',
         ]);
 
         // Cari User yang akan diupdate
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         $user->update([
-            'name' => $request->username,
+            'nama_user' => $request->username,
             'email' => $request->email,
             'role' => $request->role,
-            'status' => $request->status,
         ]);
+    
 
         // Redirect setelah update
-        return redirect()->route('owner.kelola_user')->with('success', 'User berhasil diperbarui!');
+        return redirect()->route('kelola_user')->with('success', 'User berhasil diperbarui!');
     }
+
+    
 }

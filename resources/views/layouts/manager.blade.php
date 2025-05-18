@@ -41,6 +41,14 @@
       font-family: 'Potta One', cursive;
       color: #fff;
       font-size: 30px;
+      
+      
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .user-avatar {
@@ -59,6 +67,28 @@
       height: 50px;
       border-radius: 50%;
       object-fit: cover;
+    }
+
+    .user-role {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .logout-btn {
+      padding: 8px 16px;
+      background-color: #f44336;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      border: 2px solid black;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: #d32f2f;
     }
 
     .navbar {
@@ -202,22 +232,42 @@
 <body>
   <!-- Header -->
   <header>
-    <div class="user-avatar">
-      <img src="{{ asset('images/user.png') }}" alt="User Avatar">
-    </div>
+    <div class="user-info">
+      <div class="user-avatar">
+        <img src="{{ asset('images/user.png') }}" alt="User Avatar">
+      </div>
+      <div class="user-role">
+        Manager
+      </div>
+    <button class="logout-btn" onclick="window.location.href='{{route('login') }}'">Logout</button>
+  </div>
     <h1>CV Agro Citra Indonesia</h1>
   </header>
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ url('stok_pupuk') }}"><button class="nav-btn active {{ request()->is('owner.stok_pupuk') ? 'active' : '' }}">stok pupuk</button></a>
-    <a href="{{ url('stok_masuk') }}"><button class="nav-btn {{ request()->is('owner.stok_masuk') ? 'active' : '' }}">stok masuk</button></a>
-    <a href="{{ url('stok_keluar') }}"><button class="nav-btn {{ request()->is('owner.stok_keluar') ? 'active' : '' }}">stok keluar</button></a>
-    <a href="{{ url('laporan_stok') }}"><button class="nav-btn {{ request()->is('owner.laporan_stok') ? 'active' : '' }}">laporan stok</button></a>
-    <a href="{{ url('manajemen_pembelian') }}"><button class="nav-btn {{ request()->is('owner.manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button></a>
-    <a href="{{ url('validasi_transaksi') }}"><button class="nav-btn {{ request()->is('owner.validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button></a>
-    <a href="{{ url('kelola_user') }}"><button class="nav-btn {{ request()->is('owner.kelola_user') ? 'active' : '' }}">kelola user</button></a>
-  </div>
+    <a href="{{ route('stok_pupuk') }}">
+        <button class="nav-btn {{ request()->is('manager/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
+    </a>
+    <a href="{{ route('stok_masuk') }}">
+        <button class="nav-btn {{ request()->is('manager/stok_masuk') ? 'active' : '' }}">stok masuk</button>
+    </a>
+    <a href="{{ route('stok_keluar') }}">
+        <button class="nav-btn {{ request()->is('manager/stok_keluar') ? 'active' : '' }}">stok keluar</button>
+    </a>
+    <a href="{{ route('laporan_stok') }}">
+        <button class="nav-btn {{ request()->is('manager/laporan_stok') ? 'active' : '' }}">laporan stok</button>
+    </a>
+    <a href="{{ route('manajemen_pembelian') }}">
+        <button class="nav-btn {{ request()->is('manager/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
+    </a>
+    <a href="{{ route('validasi_transaksi') }}">
+        <button class="nav-btn {{ request()->is('manager/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
+    </a>
+    <a href="{{ route('kelola_user') }}">
+        <button class="nav-btn {{ request()->is('manager/kelola_user') ? 'active' : '' }}">kelola user</button>
+    </a>
+</div>
 
   <!-- Section Header -->
   <div class="section-header">
