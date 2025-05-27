@@ -45,6 +45,9 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         
         // Custom middleware
-        'owner' => \App\Http\Middleware\OwnerMiddleware::class,  // Add your custom middleware here
+        'owner' => \App\Http\Middleware\OwnerMiddleware::class,
+        'manager' => \App\Http\Middleware\ManagerMiddleware::class,
+        'kepala_admin' => \App\Http\Middleware\KepalaAdminMiddleware::class,
+        'kepala_gudang' => \App\Http\Middleware\KepalaGudangMiddleware::class,  // Add your custom middleware here
     ];
 }

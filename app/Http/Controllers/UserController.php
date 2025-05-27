@@ -28,7 +28,7 @@ class UserController extends Controller
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:8',
-        'role' => 'required|string|in:manager,kepala_admin, kepala_gudang',
+        'role' => 'required|string|in:manager,kepala_admin,kepala_gudang',
     ]);
 
     // Membuat user baru dengan data yang telah divalidasi
