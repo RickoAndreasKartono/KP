@@ -10,130 +10,209 @@ class DashboardController extends Controller
 {
     public function stokPupuk()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.stok_pupuk');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.stok_pupuk');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.stok_pupuk');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.stok_pupuk');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.stok_pupuk', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.stok_pupuk', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.stok_pupuk', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.stok_pupuk', $data);
         } else {
            
         }
     }
     public function stokMasuk()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.stok_masuk');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.stok_masuk');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.stok_masuk');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.stok_masuk');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.stok_masuk', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.stok_masuk', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.stok_masuk', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.stok_masuk', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika tidak ada role yang cocok
+           
         }
     }
 
     public function stokKeluar()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.stok_keluar');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.stok_keluar');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.stok_keluar');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.stok_keluar');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.stok_keluar', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.stok_keluar', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.stok_keluar', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.stok_keluar', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika tidak ada role yang cocok
+           
         }
     }
 
     public function laporanStok()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.laporan_stok');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.laporan_stok');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.laporan_stok');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.laporan_stok');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.laporan_stok', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.laporan_stok', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.laporan_stok', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.laporan_stok', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika tidak ada role yang cocok
+           
+        }
+    }
+    public function profileSettings()
+    {
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.profile_settings', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.profile_settings', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.profile_settings', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.profile_settings', $data);
+        } else {
+           
         }
     }
 
     public function manajemenPembelian()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.manajemen_pembelian');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.manajemen_pembelian');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.manajemen_pembelian');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.manajemen_pembelian');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.manajemen_pembelian', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.manajemen_pembelian', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.manajemen_pembelian', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.manajemen_pembelian', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika tidak ada role yang cocok
+           
         }
     }
 
     public function validasiTransaksi()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.validasi_transaksi');
-        } elseif (Auth::user()->role == 'manager') {
-            return view('manager.validasi_transaksi');
-        } elseif (Auth::user()->role == 'kepala_admin') {
-            return view('kepala_admin.validasi_transaksi');
-        } elseif (Auth::user()->role == 'kepala_gudang') {
-            return view('kepala_gudang.validasi_transaksi');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.validasi_transaksi', $data);
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.validasi_transaksi', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.validasi_transaksi', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.validasi_transaksi', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika tidak ada role yang cocok
+           
         }
     }
 
     public function kelolaUser()
     {
-        if (Auth::user()->role == 'owner') {
-            return view('owner.kelola_user');
+        if (Auth::user()->role == 'owner') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('owner.kelola_user', $data);
+             
+        } 
+        elseif (Auth::user()->role == 'manager') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('manager.kelola_user', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_admin') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_admin.kelola_user', $data);
+        } 
+        elseif (Auth::user()->role == 'kepala_gudang') 
+        {
+            $data['getRecord'] = User::find(Auth::user()->id_user);
+            return view('kepala_gudang.kelola_user', $data);
         } else {
-            return redirect()->route('home'); // atau halaman default jika bukan 'owner'
+           
         }
     }
-
-    // public function dashboard()
-    // {
-    //     if(Auth::user()->role == 'owner')
-    //     {
-    //         return view('owner.stok_pupuk');
-    //         return view('owner.stok_masuk');
-    //         return view('owner.stok_keluar');
-    //         return view('owner.laporan_stok');
-    //         return view('owner.manajemen_pembelian');
-    //         return view('owner.validasi_transaksi');
-    //         return view('owner.kelola_user');
-    //     }
-    //     else if(Auth::user()->role == 'manager')
-    //     {
-    //         return view('manager.stok_pupuk');
-    //     }
-    //     else if(Auth::user()->role == 'kepala_admin')
-    //     {
-    //         return view('kepala_admin.stok_pupuk');
-    //     }
-    //     else if(Auth::user()->role == 'kepala_gudang')
-    //     {
-    //         return view('kepala_gudang.stok_pupuk');
-    //     }
-    //     else 
-    //     {
-
-    //     }
-    // }
   
 }

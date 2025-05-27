@@ -149,7 +149,7 @@
 <body>
 
   <!-- Judul di atas login container -->
-  <h1>CV Agro Citra Indonesia</h1>
+  <h1>Profile Settings</h1>
 
   <div class="login-container">
 
@@ -159,64 +159,11 @@
       <h2>Welcome Back!</h2>
     </div>
 
-    <!-- Kolom Form -->
-    <div class="form-col">
-      <form id="login-form" method="POST" action="{{ url('login_post') }}">
-        {{ csrf_field() }}
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value="{{ old('email') }}"
-            name="email"
-            required
-
-          >
-        
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            required
-          >
-          @error('password')
-            <span class="error-message">{{ $message }}</span>
-          @enderror
-          
-        </div>
-   
-        <a href="{{ url('forgot') }}" class="forgot-password">Forgot Password?</a>
-
-        <p class="error-message" id="error-message"></p>
-        @if(Auth::check())
-            @if(Auth::user()->role == 'owner')
-              <a href="{{ route('stok_pupuk') }}"></a>
-            @elseif(Auth::user()->role == 'manager')
-              <a href="{{ route('stok_pupuk') }}"></a>
-            @elseif(Auth::user()->role == 'kepala_admin')
-              <a href="{{ route('stok_pupuk') }}"></a>
-            @elseif(Auth::user()->role == 'kepala_gudang')
-              <a href="{{ route('stok_pupuk') }}"></a>
-            @endif
-        @endif
-        <button type="submit" class="btn-login">Login</button>
-       
-       
-
-      </form>
-      @if (session('status'))
-          <div style="color: green; font-weight: bold;">
-              {{ session('status') }}
-          </div>
-      @endif
-
-    </div>
-
+   <div class="row">
+   <p><b>Nama - </b> {{$getRecord->nama_user}} </p>
+   <p><b>Email - </b> {{$getRecord->email}} </p>
+   <p><b>Role - </b> {{$getRecord->role}} </p>
+   <button type="submit" class="btn-login"><a href="{{route('logout')}}">Logout </a></button>
   </div>
 </body>
 </html>

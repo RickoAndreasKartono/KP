@@ -5,14 +5,21 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 
-
 Route::get('/', [HomeController::class, 'index']);
 
-// // Route untuk login
-Route::get('login', [AuthController::class, 'login']);
+// Route untuk login
+Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login_post', [AuthController::class, 'login_post']);
 
-Route::get('forgot', [AuthController::class, 'forgot']);
+Route::get('forgot', [AuthController::class, 'forgot'])->name('forgot');
+Route::post('forgot_post', [AuthController::class, 'forgot_post'])->name('forgot_post');
+
+Route::get('reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [AuthController::class, 'submitResetPasswordForm'])->name('password.update');
+
+Route::get('validate_forgot_pass/{token}', [AuthController::class, 'validate_forgot_pass'])->name('validate_forgot_pass');
+Route::post('validate_forgot_pass_post', [AuthController::class, 'validate_forgot_pass_post'])->name('validate_forgot_pass_post');
+
 
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
@@ -22,6 +29,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
     Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
     Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
+    Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('profile_settings');
 });
 
 
@@ -38,8 +46,9 @@ Route::group(['middleware' => 'kepala_gudang'],function () {
 });
 
 
-// // Route untuk logout
-// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Route untuk logout
+Route::get('logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // // Route untuk dashboard dan halamannya (sesuai dengan role)
