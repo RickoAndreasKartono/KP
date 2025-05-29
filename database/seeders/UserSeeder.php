@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
         User::create([
             'nama_user' => 'Default Admin',
             'email' => 'admin@default.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            'password' => Hash::make('password123'), // Hash password
             'role' => 'owner',
         ]);
     }

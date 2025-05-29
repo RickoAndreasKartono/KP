@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Password;
+=======
+use App\Models\User;
+>>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 use Hash;
 use Str;
+use App\Models\PasswordResetToken;
+use Illuminate\Support\Facades\Password;
+use App\Mail\ResetPasswordMail;
+use Mail;
 
 class AuthController extends Controller
 {
@@ -54,6 +62,7 @@ class AuthController extends Controller
         return view('auth.forgot');
     }
 
+<<<<<<< HEAD
     public function forgotPost(Request $request)
 {
     // Validasi email
@@ -70,17 +79,62 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'No account found with that email address.']);
     }
 }
+=======
+    public function forgot_post(Request $request )
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return back()->with(
+            $status === Password::RESET_LINK_SENT
+                ? ['status' => 'Link reset telah dikirimkan. Silakan periksa email kamu.']
+                : ['email' => __($status)]
+        );
+
+    }
+>>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 
     // Handle logout
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/login');
+        return redirect(url('login'));
     }
+
+    public function showResetForm($token)
+    {
+        return view('auth.reset', ['token' => $token]);
+    }
+
+    public function submitResetPasswordForm(Request $request)
+    {
+        \Log::info('Submit reset called'); // DEBUG LOG
+
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|confirmed|min:8',
+            'token' => 'required'
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+                    ? redirect()->route('login')->with('status', 'Password berhasil direset!')
+                    : back()->withErrors(['email' => [__($status)]]);
+        }
 
     // Show user management form (for Owner only)
     public function manageUsers()
