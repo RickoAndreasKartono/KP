@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Password;
-=======
 use App\Models\User;
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 use Hash;
 use Str;
 use App\Models\PasswordResetToken;
@@ -56,30 +52,11 @@ class AuthController extends Controller
         
         }
     }
-    
 
     public function forgot(){
         return view('auth.forgot');
     }
 
-<<<<<<< HEAD
-    public function forgotPost(Request $request)
-{
-    // Validasi email
-    $request->validate([
-        'email' => 'required|email|exists:users,email', // Memastikan email terdaftar
-    ]);
-
-    // Kirimkan link reset password ke email
-    $status = Password::sendResetLink($request->only('email'));
-
-    if ($status == Password::RESET_LINK_SENT) {
-        return back()->with('status', 'Reset link has been sent to your email!');
-    } else {
-        return back()->withErrors(['email' => 'No account found with that email address.']);
-    }
-}
-=======
     public function forgot_post(Request $request )
     {
         $request->validate([
@@ -97,7 +74,6 @@ class AuthController extends Controller
         );
 
     }
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 
     // Handle logout
     public function logout()
@@ -162,27 +138,4 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard.kelola_user')->with('success', 'User created successfully.');
     }
-       // Menangani reset password
-public function resetPassword(Request $request)
-{
-    // Validasi password dan konfirmasinya
-    $request->validate([
-        'password' => 'required|confirmed|min:8', // Pastikan password valid dan konfirmasi sesuai
-    ]);
-
-    // Ambil user yang sedang login
-    $user = Auth::user();
-    $user->password = Hash::make($request->password); // Perbarui password
-    $user->save(); // Simpan perubahan
-
-    // Redirect ke login dengan pesan sukses
-    return redirect()->route('login')->with('status', 'Password berhasil diperbarui!');
 }
-public function showResetForm($token)
-{
-    return view('auth.reset-password', ['token' => $token]);
-}
-
-
-}
-

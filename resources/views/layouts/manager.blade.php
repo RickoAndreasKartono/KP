@@ -246,25 +246,25 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ route('stok_pupuk') }}">
+    <a href="{{ route('manager.stok_pupuk') }}">
         <button class="nav-btn {{ request()->is('manager/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
     </a>
-    <a href="{{ route('stok_masuk') }}">
+    <a href="{{ route('manager.stok_masuk') }}">
         <button class="nav-btn {{ request()->is('manager/stok_masuk') ? 'active' : '' }}">stok masuk</button>
     </a>
-    <a href="{{ route('stok_keluar') }}">
+    <a href="{{ route('manager.stok_keluar') }}">
         <button class="nav-btn {{ request()->is('manager/stok_keluar') ? 'active' : '' }}">stok keluar</button>
     </a>
-    <a href="{{ route('laporan_stok') }}">
+    <a href="{{ route('manager.laporan_stok') }}">
         <button class="nav-btn {{ request()->is('manager/laporan_stok') ? 'active' : '' }}">laporan stok</button>
     </a>
-    <a href="{{ route('manajemen_pembelian') }}">
+    <a href="{{ route('manager.manajemen_pembelian') }}">
         <button class="nav-btn {{ request()->is('manager/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
     </a>
-    <a href="{{ route('validasi_transaksi') }}">
+    <a href="{{ route('manager.validasi_transaksi') }}">
         <button class="nav-btn {{ request()->is('manager/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
     </a>
-    <a href="{{ route('kelola_user') }}">
+    <a href="{{ route('manager.kelola_user') }}">
         <button class="nav-btn {{ request()->is('manager/kelola_user') ? 'active' : '' }}">kelola user</button>
     </a>
 </div>

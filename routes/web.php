@@ -13,23 +13,10 @@ use App\Http\Controllers\PasswordController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-<<<<<<< HEAD
-//Route untuk login
-Route::get('login', [AuthController::class, 'login'])->name('login');
-Route::post('login_post', [AuthController::class, 'login_post']);
+// Route untuk logout
+Route::get('logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-//Route untuk Logout
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect()->route('login');
-})->name('logout');
-
-Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot'); // Untuk menampilkan form forgot password
-Route::post('/forgot', [AuthController::class, 'forgotPost'])->name('password.sendResetLink'); // Mengirimkan link reset password
-
-// Route untuk memperbarui password
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-=======
 // Route untuk login
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('login_post', [AuthController::class, 'login_post']);
@@ -42,7 +29,16 @@ Route::post('reset-password', [AuthController::class, 'submitResetPasswordForm']
 
 Route::get('validate_forgot_pass/{token}', [AuthController::class, 'validate_forgot_pass'])->name('validate_forgot_pass');
 Route::post('validate_forgot_pass_post', [AuthController::class, 'validate_forgot_pass_post'])->name('validate_forgot_pass_post');
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
+
+Route::group(['middleware' => 'manager'], function () {
+    Route::get('manager/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('manager.stok_pupuk');
+    Route::get('manager/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('manager.stok_masuk');
+    Route::get('manager/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('manager.stok_keluar');
+    Route::get('manager/laporan_stok', [DashboardController::class, 'laporanStok'])->name('manager.laporan_stok');
+    Route::get('manager/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manager.manajemen_pembelian');
+    Route::get('manager/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('manager.validasi_transaksi');
+    Route::get('manager/kelola_user', [DashboardController::class, 'kelolaUser'])->name('manager.kelola_user');
+});
 
 
 Route::group(['middleware' => 'owner'], function () {
@@ -52,7 +48,6 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('laporan_stok');
     Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
     Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
-<<<<<<< HEAD
 
     // Rute untuk kelola user di dalam grup owner
     Route::get('/owner/kelola_user', [UserController::class, 'index'])->name('kelola_user');
@@ -61,18 +56,10 @@ Route::group(['middleware' => 'owner'], function () {
     Route::delete('/owner/kelola_user/{id_user}', [UserController::class, 'destroy'])->name('delete_user');
     Route::get('/owner/kelola_user/edit/{id_user}', [UserController::class, 'edit'])->name('edit_user');
     Route::put('/owner/kelola_user/{id_user}', [UserController::class, 'update'])->name('update_user');
-=======
-    Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
-    Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('profile_settings');
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 });
 
 
 
-Route::group(['middleware' => 'manager'],function () {
-    Route::get('manager/stok_pupuk', [DashboardController::class, 'stokPupuk']);
-    Route::get('manager/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('manager.stok_masuk');
-});
 
 Route::group(['middleware' => 'kepala_admin'],function () {
     Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk']);
@@ -84,12 +71,6 @@ Route::group(['middleware' => 'kepala_gudang'],function () {
 });
 
 
-<<<<<<< HEAD
-=======
-// Route untuk logout
-Route::get('logout', [AuthController::class, 'logout']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 
 
 // // Route untuk dashboard dan halamannya (sesuai dengan role)
