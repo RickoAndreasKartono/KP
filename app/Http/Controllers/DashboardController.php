@@ -38,6 +38,7 @@ class DashboardController extends Controller
         if (Auth::user()->role == 'owner') 
         {
             $data['getRecord'] = User::find(Auth::user()->id_user);
+            $data['stokMasuk'] = \App\Models\StokMasuk::with(['pupuk', 'user'])->latest()->get();
             return view('owner.stok_masuk', $data);
         } 
         elseif (Auth::user()->role == 'manager') 
@@ -214,5 +215,8 @@ class DashboardController extends Controller
            
         }
     }
+
+    
+
   
 }

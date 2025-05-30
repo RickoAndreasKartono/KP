@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\StokMasukController;
+
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -24,6 +26,8 @@ Route::post('validate_forgot_pass_post', [AuthController::class, 'validate_forgo
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
     Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('stok_masuk');
+    Route::get('owner/stok_masuk/add', [StokMasukController::class, 'create'])->name('add_stok_masuk');
+    Route::post('owner/stok_masuk/store', [StokMasukController::class, 'store'])->name('store_stok_masuk');
     Route::get('owner/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('stok_keluar');
     Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('laporan_stok');
     Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
@@ -31,6 +35,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
     Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('profile_settings');
 });
+
 
 
 Route::group(['middleware' => 'manager'],function () {

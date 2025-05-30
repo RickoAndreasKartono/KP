@@ -197,6 +197,21 @@
     .delete-btn:hover {
       color: rgb(189, 36, 189);
     }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between; /* Memisahkan elemen di kiri dan kanan */
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -235,10 +250,8 @@
 
 
 
-  <!-- Section Header -->
-  <div class="section-header">
-    @yield('section-header')
-  </div>
+   <!-- Section Header -->
+  @yield('section-header')
 
   <!-- Content -->
   <div class="container">
