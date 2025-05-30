@@ -6,9 +6,6 @@
 <div class="section-header">
   <h2>Input Stok Masuk</h2>
   <div class="controls">
-    <div class="add-btn">
-      <i class="fas fa-plus"></i> Tambah
-    </div>
     <div class="search-bar">
       <input type="text" placeholder="Cari...">
     </div>

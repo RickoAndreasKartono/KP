@@ -7,6 +7,35 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+     public function kelola_user(Request $request)
+    {
+        // Mendapatkan kata kunci pencarian dari input
+        $search = trim($request->get('search'));
+
+        // Query builder untuk users
+        $query = User::query();
+
+        // Jika ada query pencarian dan tidak kosong, tambahkan kondisi pencarian
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('nama_user', 'LIKE', '%' . $search . '%')
+                  ->orWhere('email', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        // Ambil hasil pencarian dengan pagination
+        $users = $query->orderBy('nama_user', 'asc')->paginate(10); // gunakan paginate untuk mempermudah navigasi hasil
+
+        // Kembalikan ke tampilan dengan data users dan search term
+        return view('owner.kelola_user', compact('users', 'search'));
+    }
+
+    
+    // Method untuk tambah user
+    public function tambah_user()
+    {
+        return view('tambah_user');
+    }
     // Menampilkan halaman Kelola User
     public function index()
     {

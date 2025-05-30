@@ -56,6 +56,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::delete('/owner/kelola_user/{id_user}', [UserController::class, 'destroy'])->name('delete_user');
     Route::get('/owner/kelola_user/edit/{id_user}', [UserController::class, 'edit'])->name('edit_user');
     Route::put('/owner/kelola_user/{id_user}', [UserController::class, 'update'])->name('update_user');
+    Route::get('/owner/kelola-user', [UserController::class, 'kelola_user'])->name('kelola_user');
 });
 
 

@@ -9,7 +9,6 @@
     <a href="{{ route('kelola_user') }}">
       <button class="cancel-btn">Cancel</button>
     </a>
-    <button class="done-btn" type="submit">Done</button>
   </div>
 </div>
 @endsection
@@ -32,10 +31,10 @@
       <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" placeholder="Masukkan Email" required>
     </div>
 
-     <div class="form-group"> 
-        <label for="password">Password (Kosongkan jika tidak diubah)</label>
-        <input type="password" id="password" name="password"value="{{ old('password', $user->password) }}" placeholder="Masukkan Password (Kosongkan jika tidak diubah)" required>
-    </div>
+     <div class="form-group">
+  <label for="password">Masukkan Password Baru</label>
+  <input type="password" id="password" name="password" placeholder="Masukkan Password Baru">
+</div>
 
     <!-- Peran -->
     <div class="form-group">

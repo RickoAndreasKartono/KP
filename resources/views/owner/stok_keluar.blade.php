@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 @extends('layouts.owner')
 
 @section('title', 'Stok Keluar - Owner')
@@ -7,9 +6,6 @@
 <div class="section-header">
   <h2>Stok Keluar</h2>
   <div class="controls">
-    <div class="add-btn">
-      <i class="fas fa-plus"></i> Tambah
-    </div>
     <div class="search-bar">
       <input type="text" placeholder="Cari...">
     </div>
@@ -42,15 +38,5 @@
       </tr>
     </tbody>
   </table>
-=======
-@extends('layouts.main')
-
-@section('title', 'Stok Keluar')
-
-@section('content')
-<div id="stok-keluar" class="container active">
-  <h2>Data Stok Keluar</h2>
-  <!-- Tambahkan konten stok keluar -->
->>>>>>> 2f4d4d1fa6f50e5a6d349fa1752a3f5573d7e9f7
 </div>
 @endsection
