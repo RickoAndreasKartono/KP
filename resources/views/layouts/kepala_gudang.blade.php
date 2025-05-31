@@ -208,16 +208,30 @@
     <h1>CV Agro Citra Indonesia</h1>
   </header>
 
-  <!-- Navbar -->
-  <div class="navbar">
-    <a href="{{ url('stok_pupuk') }}"><button class="nav-btn active {{ request()->is('owner.stok_pupuk') ? 'active' : '' }}">stok pupuk</button></a>
-    <a href="{{ url('stok_masuk') }}"><button class="nav-btn {{ request()->is('owner.stok_masuk') ? 'active' : '' }}">stok masuk</button></a>
-    <a href="{{ url('stok_keluar') }}"><button class="nav-btn {{ request()->is('owner.stok_keluar') ? 'active' : '' }}">stok keluar</button></a>
-    <a href="{{ url('laporan_stok') }}"><button class="nav-btn {{ request()->is('owner.laporan_stok') ? 'active' : '' }}">laporan stok</button></a>
-    <a href="{{ url('manajemen_pembelian') }}"><button class="nav-btn {{ request()->is('owner.manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button></a>
-    <a href="{{ url('validasi_transaksi') }}"><button class="nav-btn {{ request()->is('owner.validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button></a>
-    <a href="{{ url('kelola_user') }}"><button class="nav-btn {{ request()->is('owner.kelola_user') ? 'active' : '' }}">kelola user</button></a>
-  </div>
+<!-- Navbar -->
+<div class="navbar">
+  <a href="{{ url('kepala_gudang/stok_pupuk') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
+  </a>
+  <a href="{{ url('kepala_gudang/stok_masuk') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/stok_masuk') ? 'active' : '' }}">stok masuk</button>
+  </a>
+  <a href="{{ url('kepala_gudang/stok_keluar') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/stok_keluar') ? 'active' : '' }}">stok keluar</button>
+  </a>
+  <a href="{{ url('kepala_gudang/laporan_stok') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/laporan_stok') ? 'active' : '' }}">laporan stok</button>
+  </a>
+  <a href="{{ url('kepala_gudang/manajemen_pembelian') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
+  </a>
+  <a href="{{ url('kepala_gudang/validasi_transaksi') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
+  </a>
+  <a href="{{ url('kepala_gudang/kelola_user') }}">
+    <button class="nav-btn {{ request()->is('kepala_gudang/kelola_user') ? 'active' : '' }}">kelola user</button>
+  </a>
+</div>
 
   <!-- Section Header -->
   <div class="section-header">

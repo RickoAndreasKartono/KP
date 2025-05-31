@@ -60,13 +60,20 @@ Route::group(['middleware' => 'owner'], function () {
 });
 
 
-Route::group(['middleware' => 'kepala_admin'],function () {
-    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk']);
+Route::group(['middleware' => 'kepala_admin'], function () {
+    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_admin.stok_pupuk');
+    Route::get('kepala_admin/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_admin.stok_masuk');
+    Route::get('kepala_admin/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_admin.stok_keluar');
+    Route::get('kepala_admin/laporan_stok', [DashboardController::class, 'laporanStok'])->name('kepala_admin.laporan_stok');
+    Route::get('kepala_admin/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('kepala_admin.manajemen_pembelian');
+    Route::get('kepala_admin/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('kepala_admin.validasi_transaksi');
 });
 
-Route::group(['middleware' => 'kepala_gudang'],function () {
+Route::group(['middleware' => 'kepala_gudang'], function () {
     Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_gudang.stok_pupuk');
     Route::get('kepala_gudang/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_gudang.stok_masuk');
+    Route::get('kepala_gudang/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_gudang.stok_keluar');
+    Route::get('kepala_gudang/laporan_stok', [DashboardController::class, 'laporanStok'])->name('kepala_gudang.laporan_stok');
 });
 
 
