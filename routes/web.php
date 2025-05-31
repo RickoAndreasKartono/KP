@@ -55,11 +55,9 @@ Route::group(['middleware' => 'owner'], function () {
     Route::post('/owner/kelola_user/tambah', [UserController::class, 'store'])->name('store_user');
     Route::delete('/owner/kelola_user/{id_user}', [UserController::class, 'destroy'])->name('delete_user');
     Route::get('/owner/kelola_user/edit/{id_user}', [UserController::class, 'edit'])->name('edit_user');
-    Route::put('/owner/kelola_user/{id_user}', [UserController::class, 'update'])->name('update_user');
+    Route::put('/owner/kelola_user/{id_user}', [UserController::class, 'update_user'])->name('update_user');
     Route::get('/owner/kelola-user', [UserController::class, 'kelola_user'])->name('kelola_user');
 });
-
-
 
 
 Route::group(['middleware' => 'kepala_admin'],function () {

@@ -96,32 +96,20 @@ public function destroy($id_user)
     public function edit($id_user)
     {
         $user = User::findOrFail($id_user);
+        
         return view('owner.edit_user', compact('user'));
     }
     
 
     // Memperbarui data User
-    public function update(Request $request, $id_user)
-    {
-        // Validasi data yang diterima
-        $validated = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id_user . ',id_user',
-            'role' => 'required|string',
-        ]);
+   public function update_user(Request $request, $id_user)
+{
+    $user = User::findOrFail($id_user);
 
-        // Cari User yang akan diupdate
-        $user = User::findOrFail($id_user);
-        $user->update([
-            'nama_user' => $request->username,
-            'email' => $request->email,
-            'role' => $request->role,
-        ]);
-    
+    $user->role = $request->role;
+    $user->save();
 
-        // Redirect setelah update
-        return redirect()->route('kelola_user')->with('success', 'User berhasil diperbarui!');
-    }
-
+    return redirect()->route('kelola_user')->with('success', 'Peran berhasil diperbarui.');
+}
     
 }

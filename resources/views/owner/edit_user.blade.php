@@ -14,44 +14,47 @@
 @endsection
 
 @section('content')
+@php
+  $editing_self = auth()->user()->id_user == $user->id_user && auth()->user()->role == 'owner';
+@endphp
+
 <div class="container">
+  @if($editing_self)
+    <div class="alert alert-warning" role="alert">
+      Anda tidak dapat mengedit data Anda sendiri sebagai Owner.
+    </div>
+  @endif
+  
   <form action="{{ route('update_user', $user->id_user) }}" method="POST">
     @csrf
     @method('PUT') <!-- Untuk mengindikasikan bahwa ini adalah request PUT -->
 
-    <!-- Nama Pengguna -->
-    <div class="form-group">
-      <label for="username">Nama Pengguna</label>
-      <input type="text" id="username" name="username" value="{{ old('username', $user->name_user) }}" placeholder="Masukkan Nama Pengguna" required>
-    </div>
-
     <!-- Email -->
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" placeholder="Masukkan Email" required>
+      <input type="email" id="email" name="email" value="{{ $user->email }}" disabled>
     </div>
-
-     <div class="form-group">
-  <label for="password">Masukkan Password Baru</label>
-  <input type="password" id="password" name="password" placeholder="Masukkan Password Baru">
-</div>
 
     <!-- Peran -->
     <div class="form-group">
       <label for="role">Peran</label>
-      <select id="role" name="role" required>
-        <option value="Manager" {{ $user->role == 'Manager' ? 'selected' : '' }}>Manager</option>
-        <option value="Kepala Admin" {{ $user->role == 'Kepala Admin' ? 'selected' : '' }}>Kepala Admin</option>
-        <option value="Kepala Gudang" {{ $user->role == 'Kepala Gudang' ? 'selected' : '' }}>Kepala Gudang</option>
+      <select id="role" name="role" required {{ $editing_self ? 'disabled' : '' }}>
+        <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Manager</option>
+        <option value="kepala_admin" {{ $user->role == 'kepala_admin' ? 'selected' : '' }}>Kepala Admin</option>
+        <option value="kepala_gudang" {{ $user->role == 'kepala_gudang' ? 'selected' : '' }}>Kepala Gudang</option>
       </select>
+      @if ($editing_self)
+        <input type="hidden" name="role" value="{{ $user->role }}">
+      @endif
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="done-btn">Done</button>
+      <button type="submit" class="done-btn" {{ $editing_self ? 'disabled' : '' }}>Done</button>
     </div>
   </form>
 </div>
 @endsection
+
 
 @push('styles')
 <style>

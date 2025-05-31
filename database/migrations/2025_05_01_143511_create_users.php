@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique(); // Email harus unik dan tidak nullable
             $table->string('password'); // Tidak nullable
             $table->enum('role', ['owner', 'manager', 'kepala_admin', 'kepala_gudang'])->default('owner'); // Set default role
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });
