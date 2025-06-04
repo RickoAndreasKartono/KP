@@ -219,33 +219,35 @@
 <body>
   <!-- Header -->
   <header>
-    <div class="user-avatar">
-      <img src="{{ asset('images/user.png') }}" alt="User Avatar">
-    </div>
+    <a href="{{ route('kepala_admin.profile_settings') }}" style="text-decoration: none;">
+      <div class="user-avatar">
+        <img src="{{ asset('images/user.png') }}" alt="User Avatar">
+      </div>
+    </a>
     <h1>CV Agro Citra Indonesia</h1>
   </header>
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ route('stok_pupuk') }}">
-        <button class="nav-btn {{ request()->is('owner/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
+    <a href="{{ route('kepala_admin.stok_pupuk') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
     </a>
-    <a href="{{ route('stok_masuk') }}">
-        <button class="nav-btn {{ request()->is('owner/stok_masuk') ? 'active' : '' }}">stok masuk</button>
+    <a href="{{ route('kepala_admin.stok_masuk') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/stok_masuk') ? 'active' : '' }}">stok masuk</button>
     </a>
-    <a href="{{ route('stok_keluar') }}">
-        <button class="nav-btn {{ request()->is('owner/stok_keluar') ? 'active' : '' }}">stok keluar</button>
+    <a href="{{ route('kepala_admin.stok_keluar') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/stok_keluar') ? 'active' : '' }}">stok keluar</button>
     </a>
-    <a href="{{ route('laporan_stok') }}">
-        <button class="nav-btn {{ request()->is('owner/laporan_stok') ? 'active' : '' }}">laporan stok</button>
+    <a href="{{ route('kepala_admin.laporan_stok') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/laporan_stok') ? 'active' : '' }}">laporan stok</button>
     </a>
-    <a href="{{ route('manajemen_pembelian') }}">
-        <button class="nav-btn {{ request()->is('owner/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
+    <a href="{{ route('kepala_admin.manajemen_pembelian') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
     </a>
-    <a href="{{ route('validasi_transaksi') }}">
-        <button class="nav-btn {{ request()->is('owner/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
+    <a href="{{ route('kepala_admin.validasi_transaksi') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
     </a>
-    <a href="{{ route('pemasok') }}">
+    <a href="{{ route('kepala_admin.pemasok') }}">
         <button class="nav-btn {{ request()->is('kepala_admin/pemasok') ? 'active' : '' }}">pemasok</button>
     </a>
 </div>

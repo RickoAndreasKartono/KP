@@ -219,7 +219,7 @@
 <body>
   <!-- Header -->
   <header>
-    <a href="{{ route('profile_settings') }}" style="text-decoration: none;">
+    <a href="{{ route('owner.profile_settings') }}" style="text-decoration: none;">
       <div class="user-avatar">
         <img src="{{ asset('images/user.png') }}" alt="User Avatar">
       </div>
@@ -230,25 +230,25 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ route('stok_pupuk') }}">
+    <a href="{{ route('owner.stok_pupuk') }}">
         <button class="nav-btn {{ request()->is('owner/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
     </a>
-    <a href="{{ route('stok_masuk') }}">
+    <a href="{{ route('owner.stok_masuk') }}">
         <button class="nav-btn {{ request()->is('owner/stok_masuk') ? 'active' : '' }}">stok masuk</button>
     </a>
-    <a href="{{ route('stok_keluar') }}">
+    <a href="{{ route('owner.stok_keluar') }}">
         <button class="nav-btn {{ request()->is('owner/stok_keluar') ? 'active' : '' }}">stok keluar</button>
     </a>
-    <a href="{{ route('laporan_stok') }}">
+    <a href="{{ route('owner.laporan_stok') }}">
         <button class="nav-btn {{ request()->is('owner/laporan_stok') ? 'active' : '' }}">laporan stok</button>
     </a>
-    <a href="{{ route('manajemen_pembelian') }}">
+    <a href="{{ route('owner.manajemen_pembelian') }}">
         <button class="nav-btn {{ request()->is('owner/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
     </a>
-    <a href="{{ route('validasi_transaksi') }}">
+    <a href="{{ route('owner.validasi_transaksi') }}">
         <button class="nav-btn {{ request()->is('owner/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
     </a>
-    <a href="{{ route('kelola_user') }}">
+    <a href="{{ route('owner.kelola_user') }}">
         <button class="nav-btn {{ request()->is('owner/kelola_user') ? 'active' : '' }}">kelola user</button>
     </a>
     

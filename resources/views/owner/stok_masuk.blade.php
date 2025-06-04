@@ -6,7 +6,7 @@
   <div class="section-header">
     <h2>Input Stok Masuk</h2>
     <div class="controls-right">
-      <a href="{{ route('add_stok_masuk') }}" class="add-btn">
+      <a href="{{ route('owner.add_stok_masuk') }}" class="add-btn">
         <i class="fas fa-plus"></i> Tambah
       </a>
       <div class="search-bar">

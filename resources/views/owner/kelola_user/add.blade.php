@@ -6,7 +6,7 @@
 <div class="section-header">
   <h2>Tambah User</h2>
   <div class="controls-right">
-    <a href="{{ route('kelola_user') }}" class="btn btn-secondary">
+    <a href="{{ route('owner.kelola_user') }}" class="btn btn-secondary">
       <i class="fas fa-arrow-left"></i> Kembali
     </a>
   </div>
@@ -26,7 +26,7 @@
     </div>
   @endif
 
-  <form method="POST" action="{{ route('kelola_user.add') }}">
+  <form method="POST" action="{{ route('owner.kelola_user.add') }}">
     @csrf
     <div class="row mb-3">
       <label for="nama" class="col-md-2 col-form-label">Nama</label>
