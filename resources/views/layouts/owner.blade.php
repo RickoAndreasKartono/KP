@@ -122,10 +122,12 @@
       cursor: pointer;
       white-space: nowrap; /* Prevent wrap */
       border: 2px solid black;
+      text-decoration: none;
     }
 
     .add-btn:hover {
-      background-color: rgb(68, 154, 185); /* Hover color */
+      background-color: rgb(68, 154, 185); 
+      text-decoration: none;
     }
 
     .search-bar input {
@@ -217,11 +219,14 @@
 <body>
   <!-- Header -->
   <header>
-    <div class="user-avatar">
-      <img src="{{ asset('images/user.png') }}" alt="User Avatar">
-    </div>
+    <a href="{{ route('profile_settings') }}" style="text-decoration: none;">
+      <div class="user-avatar">
+        <img src="{{ asset('images/user.png') }}" alt="User Avatar">
+      </div>
+    </a>
     <h1>CV Agro Citra Indonesia</h1>
   </header>
+
 
   <!-- Navbar -->
   <div class="navbar">
@@ -246,6 +251,7 @@
     <a href="{{ route('kelola_user') }}">
         <button class="nav-btn {{ request()->is('owner/kelola_user') ? 'active' : '' }}">kelola user</button>
     </a>
+    
 </div>
 
 

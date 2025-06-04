@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('detail_manajemen_pembelians', function (Blueprint $table) {
             $table->id('id_detail');
-            $table->foreignId('id_pembelian')->constrained('manajemen_pembelians', 'id_pembelian')->onDelete('cascade');
-            $table->foreignId('id_pupuk')->constrained('pupuks', 'id_pupuk')->onDelete('cascade');
+            $table->unsignedBigInteger('id_pembelian');
+            $table->unsignedBigInteger('id_pupuk');
             $table->integer('jumlah');
             $table->integer('harga_satuan');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuks')->onDelete('cascade');
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelians')->onDelete('cascade');
         });
 
         

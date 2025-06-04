@@ -122,10 +122,12 @@
       cursor: pointer;
       white-space: nowrap; /* Prevent wrap */
       border: 2px solid black;
+      text-decoration: none;
     }
 
     .add-btn:hover {
-      background-color: rgb(68, 154, 185); /* Hover color */
+      background-color: rgb(68, 154, 185); 
+      text-decoration: none;
     }
 
     .search-bar input {
@@ -197,6 +199,21 @@
     .delete-btn:hover {
       color: rgb(189, 36, 189);
     }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between; /* Memisahkan elemen di kiri dan kanan */
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
   </style>
 </head>
 <body>
@@ -210,38 +227,38 @@
 
   <!-- Navbar -->
   <div class="navbar">
-    <a href="{{ url('stok_pupuk') }}"><button class="nav-btn active {{ request()->is('owner.stok_pupuk') ? 'active' : '' }}">stok pupuk</button></a>
-    <a href="{{ url('stok_masuk') }}"><button class="nav-btn {{ request()->is('owner.stok_masuk') ? 'active' : '' }}">stok masuk</button></a>
-    <a href="{{ url('stok_keluar') }}"><button class="nav-btn {{ request()->is('owner.stok_keluar') ? 'active' : '' }}">stok keluar</button></a>
-    <a href="{{ url('laporan_stok') }}"><button class="nav-btn {{ request()->is('owner.laporan_stok') ? 'active' : '' }}">laporan stok</button></a>
-    <a href="{{ url('manajemen_pembelian') }}"><button class="nav-btn {{ request()->is('owner.manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button></a>
-    <a href="{{ url('validasi_transaksi') }}"><button class="nav-btn {{ request()->is('owner.validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button></a>
-    <a href="{{ url('kelola_user') }}"><button class="nav-btn {{ request()->is('owner.kelola_user') ? 'active' : '' }}">kelola user</button></a>
-  </div>
+    <a href="{{ route('stok_pupuk') }}">
+        <button class="nav-btn {{ request()->is('owner/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
+    </a>
+    <a href="{{ route('stok_masuk') }}">
+        <button class="nav-btn {{ request()->is('owner/stok_masuk') ? 'active' : '' }}">stok masuk</button>
+    </a>
+    <a href="{{ route('stok_keluar') }}">
+        <button class="nav-btn {{ request()->is('owner/stok_keluar') ? 'active' : '' }}">stok keluar</button>
+    </a>
+    <a href="{{ route('laporan_stok') }}">
+        <button class="nav-btn {{ request()->is('owner/laporan_stok') ? 'active' : '' }}">laporan stok</button>
+    </a>
+    <a href="{{ route('manajemen_pembelian') }}">
+        <button class="nav-btn {{ request()->is('owner/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
+    </a>
+    <a href="{{ route('validasi_transaksi') }}">
+        <button class="nav-btn {{ request()->is('owner/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
+    </a>
+    <a href="{{ route('pemasok') }}">
+        <button class="nav-btn {{ request()->is('kepala_admin/pemasok') ? 'active' : '' }}">pemasok</button>
+    </a>
+</div>
 
-  <!-- Section Header -->
-  <div class="section-header">
-    @yield('section-header')
-  </div>
+
+
+   <!-- Section Header -->
+  @yield('section-header')
 
   <!-- Content -->
   <div class="container">
     @yield('content')
   </div>
 
-  <script>
-    const buttons = document.querySelectorAll('.nav-btn');
-    const containers = document.querySelectorAll('.container');
-
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        buttons.forEach(btn => btn.classList.remove('active'));
-        containers.forEach(container => container.classList.remove('active'));
-
-        button.classList.add('active');
-        document.getElementById(button.dataset.target).classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>

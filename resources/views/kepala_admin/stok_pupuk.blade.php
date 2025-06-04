@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('layouts.kepala_admin')
 
 @section('title', 'Stok Pupuk - Kepala Admin')
 
