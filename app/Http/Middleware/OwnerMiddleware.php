@@ -8,14 +8,25 @@ use Illuminate\Support\Facades\Auth;
 
 class OwnerMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next):Response
     {
-        // Mengecek apakah pengguna yang sedang login adalah 'owner'
-        if (Auth::check() && Auth::user()->role === 'owner') {
-            return $next($request);  // Lanjutkan request jika role adalah 'owner'
+        if(Auth::check())
+        {
+            if(Auth::user()->role == 'owner')
+            {
+                return $next($request);
+            }
+            else 
+            {
+                Auth::logout();
+                return redirect(url('login'));
+            }
         }
-
-        // Jika bukan 'owner', redirect ke halaman login atau halaman lain
-        return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
-    }
+        else 
+        {
+            Auth::logout();
+            return redirect(url('login'));
+        }
+       
+}
 }

@@ -112,30 +112,5 @@ class AuthController extends Controller
                     : back()->withErrors(['email' => [__($status)]]);
         }
 
-    // Show user management form (for Owner only)
-    public function manageUsers()
-    {
-        $this->authorize('manage-users'); // Add policy for Owner-only access
-        
-        $users = User::all();
-        return view('dashboard.kelola_user', compact('users'));
-    }
-
-    // Create a new user
-    public function storeUser(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-            'role' => 'required|in:owner,manager,kepala_admin,kepala_gudang',
-        ]);
-
-        User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
-
-        return redirect()->route('dashboard.kelola_user')->with('success', 'User created successfully.');
-    }
+   
 }

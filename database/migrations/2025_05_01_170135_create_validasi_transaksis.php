@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('validasi_transaksis', function (Blueprint $table) {
             $table->id('id_validasi');
-            $table->foreignId('id_pembelian')->nullable()->constrained('manajemen_pembelians', 'id_pembelian')->onDelete('cascade');
-            $table->foreignId('id_stok_keluar')->nullable()->constrained('stok_keluars', 'id_stok_keluar')->onDelete('cascade');
+            $table->unsignedBigInteger('id_pembelian');
+            $table->unsignedBigInteger('id_stok_keluar');
             $table->enum('status_validasi', ['pending', 'validated', 'rejected']);
-            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
+            $table->unsignedBigInteger('id_user');
             $table->date('tanggal_validasi');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelians')->onDelete('cascade');
+            $table->foreign('id_stok_keluar')->references('id_stok_keluar')->on('stok_keluars')->onDelete('cascade');
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
         });
 
 

@@ -122,10 +122,12 @@
       cursor: pointer;
       white-space: nowrap; /* Prevent wrap */
       border: 2px solid black;
+      text-decoration: none;
     }
 
     .add-btn:hover {
-      background-color: rgb(68, 154, 185); /* Hover color */
+      background-color: rgb(68, 154, 185); 
+      text-decoration: none;
     }
 
     .search-bar input {
@@ -197,14 +199,31 @@
     .delete-btn:hover {
       color: rgb(189, 36, 189);
     }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between; /* Memisahkan elemen di kiri dan kanan */
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .controls-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="user-avatar">
-      <img src="{{ asset('images/user.png') }}" alt="User Avatar">
-    </div>
+    <a href="{{ route('profile_settings') }}" style="text-decoration: none;">
+      <div class="user-avatar">
+        <img src="{{ asset('images/user.png') }}" alt="User Avatar">
+      </div>
+    </a>
     <h1>CV Agro Citra Indonesia</h1>
   </header>
 
@@ -233,29 +252,15 @@
   </a>
 </div>
 
-  <!-- Section Header -->
-  <div class="section-header">
-    @yield('section-header')
-  </div>
+
+
+   <!-- Section Header -->
+  @yield('section-header')
 
   <!-- Content -->
   <div class="container">
     @yield('content')
   </div>
 
-  <script>
-    const buttons = document.querySelectorAll('.nav-btn');
-    const containers = document.querySelectorAll('.container');
-
-    buttons.forEach(button => {
-      button.addEventListener('click', () => {
-        buttons.forEach(btn => btn.classList.remove('active'));
-        containers.forEach(container => container.classList.remove('active'));
-
-        button.classList.add('active');
-        document.getElementById(button.dataset.target).classList.add('active');
-      });
-    });
-  </script>
 </body>
 </html>

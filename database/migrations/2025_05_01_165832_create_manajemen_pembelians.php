@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('manajemen_pembelians', function (Blueprint $table) {
             $table->id('id_pembelian');
-            $table->foreignId('id_pemasok')->constrained('pemasoks', 'id_pemasok')->onDelete('cascade');
+            $table->unsignedBigInteger('id_pemasok');
             $table->integer('total_harga');
             $table->enum('status', ['pending', 'validated', 'rejected']);
             $table->date('tanggal_pembelian');
-            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
+            $table->unsignedBigInteger('id_user');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
         });
 
         

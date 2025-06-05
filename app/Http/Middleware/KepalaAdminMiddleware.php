@@ -8,25 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class KepalaAdminMiddleware
 {
-    public function handle(Request $request, Closure $next):Response
+   
+    public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check())
-        {
-            if(Auth::user()->role == 'kepala_admin')
-            {
-                return $next($request);
-            }
-            else 
-            {
-                Auth::logout();
-                return redirect(url('login'));
-            }
+        if (Auth::check() && Auth::user()->role == 'kepala_admin') {
+            return $next($request);
         }
-        else 
-        {
-            Auth::logout();
-            return redirect(url('login'));
-        }
+
+        return abort(403, 'Unauthorized access.');
+    }
+
        
-}
+
 }

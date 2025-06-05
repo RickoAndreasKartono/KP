@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="container">
-  <form action="{{ route('store_stok_masuk') }}" method="POST">
+  <form action="{{ route('owner.store_stok_masuk') }}" method="POST">
     @csrf
     <div style="margin-bottom: 15px;">
       <label for="id_pupuk">Pilih Pupuk:</label><br>
@@ -36,7 +36,7 @@
       <button type="submit" class="add-btn">
         <i class="fas fa-check"></i> Done
       </button>
-      <a href="{{ route('stok_masuk') }}" class="add-btn" style="background-color: #ccc; color: black;">
+      <a href="{{ route('owner.stok_masuk') }}" class="add-btn" style="background-color: #ccc; color: black;">
         <i class="fas fa-times"></i> Batal
       </a>
     </div>

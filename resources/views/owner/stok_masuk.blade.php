@@ -3,20 +3,15 @@
 @section('title', 'Stok Pupuk - Owner')
 
 @section('section-header')
-<div class="d-flex justify-content-between align-items-center mb-3"> {{-- Added Bootstrap flex classes directly here --}}
-    <h2>Stok Pupuk</h2>
-    <div class="d-flex align-items-center gap-3 flex-wrap"> {{-- Removed 'controls' class as it's not needed with Bootstrap --}}
-        <form action="{{ route('stok_pupuk') }}" method="GET" class="d-flex">
-            <input type="text" name="search" value="{{ request()->query('search') }}" placeholder="Cari Nama Pupuk" class="form-control me-2" style="min-width: 280px;">
-            <button type="submit" class="btn btn-primary d-flex align-items-center">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-
-        <a href="{{ route('stok_pupuk') }}" class="btn btn-success d-flex align-items-center gap-2"> {{-- Changed route and text to 'Tambah Pupuk' --}}
-            <i class="fas fa-plus"></i>
-            <span>Tambah Pupuk</span>
-        </a>
+  <div class="section-header">
+    <h2>Input Stok Masuk</h2>
+    <div class="controls-right">
+      <a href="{{ route('add_stok_masuk') }}" class="add-btn">
+        <i class="fas fa-plus"></i> Tambah
+      </a>
+      <div class="search-bar">
+        <input type="text" placeholder="Cari...">
+      </div>
     </div>
 </div>
 @endsection
