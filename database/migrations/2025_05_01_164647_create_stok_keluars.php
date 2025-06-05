@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stok_keluar', function (Blueprint $table) {
+        Schema::create('stok_keluars', function (Blueprint $table) {
             $table->id('id_stok_keluar');
-            $table->unsignedBigInteger('id_user');
-            $table->unsignedBigInteger('id_pupuk');
+            $table->foreignId('id_pupuk')->constrained('pupuks', 'id_pupuk')->onDelete('cascade');
             $table->integer('jumlah_keluar');
-            $table->string('tujuan', 255);
-            $table->timestamp('tanggal_keluar');
-
-
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuk')->onDelete('cascade');
+            $table->string('tujuan');
+            $table->date('tanggal_keluar');
+            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
+            $table->timestamps();
         });
+
         
     }
 

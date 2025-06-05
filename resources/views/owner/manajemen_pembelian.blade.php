@@ -2,16 +2,16 @@
 
 @section('title', 'Manajemen Pembelian - Owner')
 
-@section('section-header')
-<div class="section-header">
-  <h2>Manajemen Pembelian</h2>
-  <div class="controls">
-    <div class="search-bar">
-      <input type="text" placeholder="Cari...">
+  @section('section-header')
+  <div class="section-header">
+    <h2>Manajemen Pembelian</h2>
+    <div class="controls">
+      <div class="search-bar">
+        <input type="text" placeholder="Cari...">
+      </div>
     </div>
   </div>
-</div>
-@endsection
+  @endsection
 
 @section('content')
 <div id="stok-pupuk" class="container active">

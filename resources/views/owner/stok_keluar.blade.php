@@ -1,17 +1,6 @@
 @extends('layouts.owner')
 
-@section('title', 'Stok Keluar - Owner')
-
-@section('section-header')
-<div class="section-header">
-  <h2>Stok Keluar</h2>
-  <div class="controls">
-    <div class="search-bar">
-      <input type="text" placeholder="Cari...">
-    </div>
-  </div>
-</div>
-@endsection
+@section('title', 'Stok Keluar')
 
 @section('content')
 <div id="stok-pupuk" class="container active">

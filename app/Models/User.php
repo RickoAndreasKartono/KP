@@ -19,6 +19,26 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function stokMasuks()
+    {
+        return $this->hasMany(StokMasuk::class, 'id_user');
+    }
+
+    public function stokKeluars()
+    {
+        return $this->hasMany(StokKeluar::class, 'id_user');
+    }
+
+    public function pembelians()
+    {
+        return $this->hasMany(ManajemenPembelian::class, 'id_user');
+    }
+
+    public function validasis()
+    {
+        return $this->hasMany(Validasi::class, 'id_user');
+    }
 }
 
 

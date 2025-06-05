@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Dashboard') - CV Agro Citra Indonesia</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&family=M+PLUS+1p:wght@700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         /* Global styles */
@@ -24,6 +24,18 @@
             font-family: 'M PLUS 1p', sans-serif;
             background-color: #b9d8d6;
             padding: 20px;
+        }
+
+        /* Remove underlines from ALL links */
+        a {
+            text-decoration: none;
+        }
+
+        a:hover,
+        a:focus,
+        a:active,
+        a:visited {
+            text-decoration: none;
         }
 
         header {
@@ -42,6 +54,7 @@
             font-family: 'Potta One', cursive;
             color: #fff;
             font-size: 30px;
+            text-decoration: none;
         }
 
         .user-info {
@@ -72,6 +85,7 @@
             color: white;
             font-size: 18px;
             font-weight: bold;
+            text-decoration: none;
         }
 
         .logout-btn {
@@ -84,16 +98,29 @@
             font-size: 16px;
             border: 2px solid black;
             transition: background-color 0.3s ease;
+            text-decoration: none;
         }
 
         .logout-btn:hover {
             background-color: #d32f2f;
+            text-decoration: none;
         }
 
         .navbar {
             display: flex;
             gap: 10px;
             margin: 20px 0;
+        }
+
+        .navbar a {
+            text-decoration: none;
+        }
+
+        .navbar a:hover,
+        .navbar a:focus,
+        .navbar a:active,
+        .navbar a:visited {
+            text-decoration: none;
         }
 
         .navbar button {
@@ -107,6 +134,7 @@
             font-size: 18px;
             color: #2f5656;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
         }
 
         .navbar button.active {
@@ -116,64 +144,78 @@
         .navbar button:hover {
             background-color: rgb(166, 227, 218);
             transform: translateY(-3px);
+            text-decoration: none;
         }
 
         /* Section Header Styling */
+        /* Removed flex properties from .section-header as it will be handled by Bootstrap classes in specific blade files */
         .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
             margin-top: 20px;
             margin-bottom: 20px;
+            /* Keep basic margins */
         }
 
         .section-header h2 {
             font-size: 30px;
             color: black;
             font-weight: bold;
+            text-decoration: none;
+            /* No margin-bottom here unless specifically needed for a type of header */
         }
 
-        .controls {
+        /* Add Button Styling (re-using the old .add-btn which was good) */
+        /* Note: Your image shows btn-success with black border, which is custom.
+           Let's refine the custom button styles below. */
+
+
+        /* Bootstrap specific overrides for the new design */
+        .form-control {
+            background-color: #909090;
+            border: 2px solid white;
+            color: white;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .form-control::placeholder {
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #2f5656;
+            border-color: #2f5656;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            padding: 8px 12px;
         }
 
-        /* Add Button Styling */
-        .add-btn {
+        .btn-primary:hover {
+            background-color: #3d6160;
+            border-color: #3d6160;
+        }
+
+        .btn-success {
+            background-color: #4caf50;
+            border: 2px solid black; /* Set border to black */
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 5px;
             padding: 8px 12px;
-            background-color: #4caf50;
-            color: white;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
             white-space: nowrap;
-            border: 2px solid black;
         }
 
-        .add-btn:hover {
+        .btn-success:hover {
             background-color: rgb(68, 154, 185);
+            border-color: black; /* Maintain black border on hover */
         }
 
-        /* Search Bar Styling */
-        .search-bar input {
-            background-color: #909090;
-            padding: 8px 12px;
-            border: 2px solid white;
-            border-radius: 8px;
-            outline: none;
-            font-size: 18px;
-            color: white;
-            width: 400px;
-        }
-
-        .search-bar input::placeholder {
-            color: white;
-        }
 
         /* Container Styling */
         .container {
@@ -210,10 +252,18 @@
             color: #2f5656;
             margin: 0 5px;
             transition: color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
         }
 
         .action-btn:hover {
             transform: scale(1.2);
+            text-decoration: none;
+        }
+
+        .action-btn:focus,
+        .action-btn:active,
+        .action-btn:visited {
+            text-decoration: none;
         }
 
         .edit-btn {
@@ -222,6 +272,7 @@
 
         .edit-btn:hover {
             color: rgb(1, 179, 255);
+            text-decoration: none;
         }
 
         .delete-btn {
@@ -230,12 +281,12 @@
 
         .delete-btn:hover {
             color: rgb(189, 36, 189);
+            text-decoration: none;
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
     <header>
         <div class="user-info">
             <div class="user-avatar">
@@ -249,7 +300,6 @@
         <h1>CV Agro Citra Indonesia</h1>
     </header>
 
-    <!-- Navbar -->
     <div class="navbar">
         <a href="{{ route('stok_pupuk') }}">
             <button class="nav-btn {{ request()->is('owner/stok_pupuk') ? 'active' : '' }}">stok pupuk</button>
@@ -270,19 +320,16 @@
             <button class="nav-btn {{ request()->is('owner/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
         </a>
         <a href="{{ route('kelola_user') }}">
-            <button class="nav-btn {{ request()->is('owner/kelola_user') ? 'active' : '' }}">kelola user</button>
+            <button class="nav-btn {{ request()->is('owner/kelola-user') ? 'active' : '' }}">kelola user</button>
         </a>
     </div>
 
-    <!-- Section Header -->
     <div class="section-header">
         @yield('section-header')
     </div>
 
-    <!-- Content -->
     <div class="container">
         @yield('content')
     </div>
 </body>
-
 </html>

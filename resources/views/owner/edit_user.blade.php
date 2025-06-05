@@ -25,20 +25,30 @@
     </div>
   @endif
   
+  @if($errors->any())
+    <div class="alert alert-danger" role="alert">
+      <ul>
+        @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+        @endforeach
+      </ul>
+    </div>
+  @endif
+  
   <form action="{{ route('update_user', $user->id_user) }}" method="POST">
     @csrf
-    @method('PUT') <!-- Untuk mengindikasikan bahwa ini adalah request PUT -->
+    @method('PUT')
 
     <!-- Email -->
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="{{ $user->email }}" disabled>
+    <div class="form-group mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" id="email" name="email" value="{{ $user->email }}" class="form-control" disabled>
     </div>
 
     <!-- Peran -->
-    <div class="form-group">
-      <label for="role">Peran</label>
-      <select id="role" name="role" required {{ $editing_self ? 'disabled' : '' }}>
+    <div class="form-group mb-3">
+      <label for="role" class="form-label">Peran</label>
+      <select id="role" name="role" class="form-select" required {{ $editing_self ? 'disabled' : '' }}>
         <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Manager</option>
         <option value="kepala_admin" {{ $user->role == 'kepala_admin' ? 'selected' : '' }}>Kepala Admin</option>
         <option value="kepala_gudang" {{ $user->role == 'kepala_gudang' ? 'selected' : '' }}>Kepala Gudang</option>
@@ -48,108 +58,83 @@
       @endif
     </div>
 
-    <div class="form-actions">
-      <button type="submit" class="done-btn" {{ $editing_self ? 'disabled' : '' }}>Done</button>
+    <div class="form-actions d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary" {{ $editing_self ? 'disabled' : '' }}>Done</button>
     </div>
   </form>
 </div>
 @endsection
 
-
 @push('styles')
 <style>
-  /* Basic layout adjustments */
-.container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 20px;
-}
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+  }
 
-/* Section header */
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+  .section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2f5656;
+  }
 
-.section-header h2 {
-  font-size: 24px;
-  font-weight: 600;
-}
+  .form-group label {
+    font-size: 16px;
+    font-weight: 600;
+  }
 
-.controls {
-  display: flex;
-  gap: 10px;
-}
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+  }
 
-.controls .cancel-btn, .controls .done-btn {
-  padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-}
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #007BFF;
+  }
+
+  .form-actions button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-actions button:hover {
+    background-color: #0056b3;
+  }
 
 .cancel-btn {
-  background-color: #f44336;
-  color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color: #4CAF50; /* Warna hijau */
+    color: white;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
 }
 
-.done-btn {
-  background-color: #4CAF50;
-  color: white;
+.cancel-btn:hover {
+    background-color: #45a049; /* Hijau lebih gelap saat di-hover */
 }
 
-.done-btn[type="submit"] {
-  background-color: #007BFF;
-}
-
-.done-btn:hover, .cancel-btn:hover {
-  opacity: 0.8;
-}
-
-/* Form Group */
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #007BFF;
-}
-
-/* Form actions */
-.form-actions {
-  margin-top: 20px;
-}
-
-.form-actions button {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.form-actions button:hover {
-  opacity: 0.8;
-}
+  /* Alert Styling */
+  .alert {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+</style>
+@endpush
