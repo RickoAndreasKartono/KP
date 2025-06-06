@@ -1,32 +1,25 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class OwnerMiddleware
 {
-    public function handle(Request $request, Closure $next):Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check())
-        {
-            if(Auth::user()->role == 'owner')
-            {
+        if(Auth::check()) {
+            if(Auth::user()->role == 'owner') {
                 return $next($request);
-            }
-            else 
-            {
-                Auth::logout();
-                return redirect(url('login'));
+            } else {
+                return abort(403, 'Unauthorized access.');
             }
         }
-        else 
-        {
-            Auth::logout();
-            return redirect(url('login'));
-        }
-       
-}
+        return redirect()->route('login');
+
+    }
+
+
 }

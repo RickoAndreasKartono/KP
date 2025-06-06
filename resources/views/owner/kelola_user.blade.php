@@ -1,131 +1,73 @@
 @extends('layouts.owner')
 
-@section('title', 'Kelola User')
+@section('title', 'Kelola User - Owner')
+
+@section('section-header')
+<div class="section-header">
+    <h2>Kelola User</h2>
+    <div class="controls-right">
+        <a href="{{ route('owner.kelola_user.add') }}" class="add-btn">
+            <i class="fas fa-plus"></i> Tambah User
+        </a>
+        <form method="GET" action="{{ route('owner.kelola_user') }}" class="search-bar">
+            <input type="text" name="search" placeholder="Cari Nama..." value="{{ request('search') }}"> {{-- Ubah placeholder --}}
+        </form>
+    </div>
+</div>
+@endsection
 
 @section('content')
-<div class="container">
-    <h2>Kelola Pengguna</h2>
+<div id="kelola-user" class="container active">
 
-    <!-- Add User Button -->
-    <div class="controls">
-        <a href="#addUserModal" data-bs-toggle="modal" class="add-btn">Tambah Pengguna</a>
-    </div>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
 
-    <!-- Search User -->
-    <div class="search-bar">
-        <input type="text" id="search-user" placeholder="Cari pengguna..." onkeyup="filterUsers()">
-    </div>
-
-    <!-- User Table -->
-    <table id="user-table">
+    <table>
         <thead>
             <tr>
+                <th>No.</th> {{-- Ganti ID User menjadi No. --}}
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Created At</th>
-                <th>Aksi</th>
+                <th>Aksi</th> {{-- Hapus kolom Password (Hashed) --}}
             </tr>
         </thead>
         <tbody>
-            @foreach($users as $user)
+            @forelse($users as $index => $user) {{-- Tambahkan $index untuk nomor urut --}}
             <tr>
+                <td>{{ $index + 1 }}</td> {{-- Tampilkan nomor urut --}}
                 <td>{{ $user->nama_user }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ ucfirst($user->role) }}</td>
-                <td>{{ $user->created_at->format('d-m-Y H:i') }}</td>
                 <td>
-                    <!-- Edit Role Button -->
-                    <a href="#editRoleModal" data-bs-toggle="modal" data-id="{{ $user->id_user }}" data-role="{{ $user->role }}" class="edit-btn action-btn">
-                        <i class="fas fa-edit"></i>
-                    </a>
-
-                    <!-- Delete Button -->
-                    <form method="POST" action="{{ route('kelola_user.delete', $user->id_user) }}" style="display: inline;">
+                    <form method="POST" action="{{ route('owner.kelola_user.update_role', $user->id_user) }}" class="update-role-form">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" class="delete-btn action-btn" onclick="return confirm('Hapus pengguna ini?')">
+                        <select name="role" class="form-control form-control-sm">
+                            <option value="manager" {{ $user->role == 'manager' ? 'selected' : '' }}>Manager</option>
+                            <option value="kepala_admin" {{ $user->role == 'kepala_admin' ? 'selected' : '' }}>Kepala Admin</option>
+                            <option value="kepala_gudang" {{ $user->role == 'kepala_gudang' ? 'selected' : '' }}>Kepala Gudang</option>
+                        </select>
+                        <button type="submit" class="btn-table-action btn-update-role" title="Update Role">
+                            <i class="fas fa-check-circle"></i>
+                        </button>
+                    </form>
+                </td>
+                {{-- Kolom Password (Hashed) dihapus --}}
+                <td>
+                    <form method="POST" action="{{ route('owner.kelola_user.delete', $user->id_user) }}" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn-table-action btn-delete-user" title="Hapus User">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="5">Belum ada data user.</td> {{-- Ubah colspan menjadi 5 karena ada 5 kolom sekarang --}}
+            </tr>
+            @endforelse
         </tbody>
     </table>
-
-    <!-- Add User Modal -->
-    <div id="addUserModal" class="modal">
-        <div class="modal-content">
-            <h3>Tambah Pengguna Baru</h3>
-            <form method="POST" action="{{ route('kelola_user.add') }}">
-                @csrf
-                <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-
-                <label for="role">Role:</label>
-                <select id="role" name="role" required>
-                    <option value="owner">Owner</option>
-                    <option value="manager">Manager</option>
-                    <option value="kepala_admin">Kepala Admin</option>
-                    <option value="kepala_gudang">Kepala Gudang</option>
-                </select>
-
-                <button type="submit">Tambah</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Role Modal -->
-    <div id="editRoleModal" class="modal">
-        <div class="modal-content">
-            <h3>Edit Role Pengguna</h3>
-            <form method="POST" action="{{ route('kelola_user.update') }}">
-                @csrf
-                @method('PUT')
-                <input type="hidden" id="edit-user-id" name="id_user">
-
-                <label for="role">Role:</label>
-                <select id="edit-role" name="role" required>
-                    <option value="owner">Owner</option>
-                    <option value="manager">Manager</option>
-                    <option value="kepala_admin">Kepala Admin</option>
-                    <option value="kepala_gudang">Kepala Gudang</option>
-                </select>
-
-                <button type="submit">Simpan</button>
-            </form>
-        </div>
-    </div>
 </div>
-
-<script>
-    // Search Users
-    function filterUsers() {
-        let input = document.getElementById('search-user').value.toLowerCase();
-        let rows = document.querySelectorAll('#user-table tbody tr');
-
-        rows.forEach(row => {
-            let name = row.children[0].textContent.toLowerCase();
-            row.style.display = name.includes(input) ? '' : 'none';
-        });
-    }
-
-    // Edit Role Modal
-    document.querySelectorAll('.edit-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            let userId = this.dataset.id;
-            let role = this.dataset.role;
-
-            document.getElementById('edit-user-id').value = userId;
-            document.getElementById('edit-role').value = role;
-        });
-    });
-</script>
 @endsection

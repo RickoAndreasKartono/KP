@@ -5,13 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StokMasukController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PemasokController;
 
 Route::get('/', [HomeController::class, 'index']);
-
-// Route untuk logout
-Route::get('logout', [AuthController::class, 'logout']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Auth routes
 Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -26,6 +23,29 @@ Route::post('reset-password', [AuthController::class, 'submitResetPasswordForm']
 Route::get('validate_forgot_pass/{token}', [AuthController::class, 'validate_forgot_pass'])->name('validate_forgot_pass');
 Route::post('validate_forgot_pass_post', [AuthController::class, 'validate_forgot_pass_post'])->name('validate_forgot_pass_post');
 
+// Routes for Owner only
+Route::group(['middleware' => 'owner'], function () {
+    Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('owner.stok_pupuk');
+    Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('owner.stok_masuk');
+    Route::get('owner/stok_masuk/add_pupuk', [StokMasukController::class, 'create'])->name('owner.add_stok_masuk');
+    Route::post('owner/stok_masuk/store', [StokMasukController::class, 'store'])->name('owner.store_stok_masuk');
+    Route::get('owner/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('owner.stok_keluar');
+    Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('owner.laporan_stok');
+    Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('owner.manajemen_pembelian');
+    Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('owner.validasi_transaksi');
+    Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('owner.kelola_user');
+
+    // User Management
+    Route::get('owner/kelola_user/add', [UserController::class, 'create'])->name('owner.kelola_user.add');
+    Route::post('owner/kelola_user/add', [UserController::class, 'store'])->name('owner.kelola_user.store');
+    Route::post('owner/kelola_user/update-role/{id}', [UserController::class, 'updateRole'])->name('owner.kelola_user.update_role');
+    Route::delete('owner/kelola_user/delete/{id}', [UserController::class, 'destroy'])->name('owner.kelola_user.delete');
+
+    Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('owner.profile_settings');
+    Route::patch('owner/profile_update', [UserController::class, 'updateProfile'])->name('update_profile');
+});
+
+// Routes for Manager
 Route::group(['middleware' => 'manager'], function () {
     Route::get('manager/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('manager.stok_pupuk');
     Route::get('manager/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('manager.stok_masuk');
@@ -36,100 +56,28 @@ Route::group(['middleware' => 'manager'], function () {
     Route::get('manager/kelola_user', [DashboardController::class, 'kelolaUser'])->name('manager.kelola_user');
 });
 
-// Routes for Owner only
-Route::group(['middleware' => 'owner'], function () {
-    Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('stok_pupuk');
-    Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('stok_masuk');
-    Route::get('owner/stok_masuk/add', [StokMasukController::class, 'create'])->name('add_stok_masuk');
-    Route::post('owner/stok_masuk/store', [StokMasukController::class, 'store'])->name('store_stok_masuk');
-    Route::get('owner/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('stok_keluar');
-    Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('laporan_stok');
-    Route::get('owner/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manajemen_pembelian');
-    Route::get('owner/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('validasi_transaksi');
-    Route::get('owner/kelola_user', [DashboardController::class, 'kelolaUser'])->name('kelola_user');
-    Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('profile_settings');
+Route::group(['middleware' => 'kepala_admin'], function () {
+    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_admin.stok_pupuk');
+    Route::get('kepala_admin/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_admin.stok_masuk');
+    Route::get('kepala_admin/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_admin.stok_keluar');
+    Route::get('kepala_admin/laporan_stok', [DashboardController::class, 'laporanStok'])->name('kepala_admin.laporan_stok');
+    Route::get('kepala_admin/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('kepala_admin.manajemen_pembelian');
+    Route::get('kepala_admin/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('kepala_admin.validasi_transaksi');
+    Route::get('kepala_admin/pemasok', [DashboardController::class, 'pemasok'])->name('kepala_admin.pemasok');
+    
+    Route::get('kepala_admin/pemasok/add', [PemasokController::class, 'create'])->name('kepala_admin.pemasok.add');
+    Route::post('kepala_admin/pemasok/add', [PemasokController::class, 'store'])->name('kepala_admin.pemasok.store');
+    Route::post('kepala_admin/pemasok/update-role/{id}', [PemasokController::class, 'updateRole'])->name('kepala_admin.pemasok.update_role');
+    Route::delete('kepala_admin/pemasok/delete/{id}', [PemasokController::class, 'destroy'])->name('kepala_admin.pemasok.delete');
+
+    Route::get('kepala_admin/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_admin.profile_settings');
 });
 
-
-
-Route::group(['middleware' => 'manager'],function () {
-    Route::get('manager/stok_pupuk', [DashboardController::class, 'dashboard']);
+Route::group(['middleware' => 'kepala_gudang'], function () {
+    Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_gudang.stok_pupuk');
+    // Tambahkan route lain sesuai kebutuhan
 });
 
-Route::group(['middleware' => 'kepala_admin'],function () {
-    Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'dashboard']);
-});
-
-Route::group(['middleware' => 'kepala_gudang'],function () {
-    Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'dashboard']);
-});
-
-
-// Route untuk logout
+// Logout
 Route::get('logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-
-// // Route untuk dashboard dan halamannya (sesuai dengan role)
-// Route::middleware('auth')->group(function () {
-//     Route::get('/dashboard/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('dashboard.stok_pupuk');
-//     Route::get('/dashboard/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('dashboard.stok_masuk');
-//     Route::get('/dashboard/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('dashboard.stok_keluar');
-//     Route::get('/dashboard/laporan_stok', [DashboardController::class, 'laporanStok'])->name('dashboard.laporan_stok');
-//     Route::get('/dashboard/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('dashboard.validasi_transaksi');
-//     // Hanya owner yang bisa mengelola user
-//     Route::middleware('role:owner')->get('/dashboard/kelola_user', [AuthController::class, 'manageUsers'])->name('dashboard.kelola_user');
-// });
-
-
-
-// // Login dan Logout
-
-// Route::post('/login', [LoginController::class, 'login'])->name('login.attempt');
-// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-// Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
-// // Reset Password
-// Route::get('/reset_password', [ResetPasswordController::class, 'showResetForm'])->name('password.request');
-// Route::post('/password/update', [ResetPasswordController::class, 'updatePassword'])->name('password.update');
-
-// // Rute untuk akses umum (semua pengguna yang sudah login)
-// Route::middleware('auth')->group(function () {
-//     Route::get('/dashboard/stok_pupuk', function () {
-//         return view('dashboard.stok_pupuk'); // Tampilkan dashboard utama
-//     })->name('stok_pupuk');
-
-//     Route::get('/home', function () {
-//         return view('home.index');
-//     });
-
-//     // Laporan Stok
-//     Route::get('/laporan-stok', [StokController::class, 'laporan'])->name('laporan.stok');
-
-//     // Stok Masuk
-//     Route::view('/stok_masuk', 'dashboard.stok_masuk')->name('stok_masuk');
-
-//     // Stok Kluar
-//     Route::view('/stok_keluar', 'dashboard.stok_keluar')->name('stok_keluar');
-// });
-
-// // Akses Berdasarkan Role
-// Route::middleware(['auth', 'role:owner'])->group(function () {
-//     Route::resource('owner/users', UserController::class); // Kelola User untuk Admin
-//     Route::view('/kelola_user', 'dashboard.kelola_user')->name('kelola_user');
-// });
-
-// Route::middleware(['auth', 'role:kepala_gudang'])->group(function () {
-//     Route::view('/stok_masuk', 'dashboard.stok_masuk')->name('stok_masuk');
-//     Route::view('/stok_keluar', 'dashboard.stok_keluar')->name('stok_keluar');
-// });
-
-
-// // Tambahan Debug
-// Route::get('/check-db', function () {
-//     return DB::connection()->getDatabaseName();
-// });
-
-// Route::get('/debug-db', function () {
-//     return DB::table('users')->get();
-// });
