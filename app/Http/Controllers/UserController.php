@@ -2,85 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // Menampilkan daftar pengguna
-    public function index()
-    {
-        $users = User::all();  // Ambil semua data user
-        return view('user.index', compact('users')); // Menampilkan daftar user
-    }
-
-    // Menampilkan form untuk membuat pengguna baru
     public function create()
     {
-        return view('user.create');  // Tampilkan form pembuatan user
+        // View form tambah user
+        return view('owner.kelola_user.add');
     }
 
-    // Menyimpan pengguna baru
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
-            'nama_user' => 'required|string|max:255',
+            'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',  // Pastikan password dikonfirmasi
-            'role' => 'required|in:owner,manager,kepala_admin,kepala_gudang',
+            'password' => 'required|min:6',
+            'role' => 'required|in:manager,kepala_admin,kepala_gudang',
         ]);
 
-        // Membuat user baru
         User::create([
-            'nama_user' => $request->nama_user,
+            'nama_user' => $request->nama,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash password
+            'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully');
+        return redirect()->route('owner.kelola_user')->with('success', 'User berhasil ditambahkan.');
     }
 
-    // Menampilkan form untuk mengedit pengguna
-    public function edit($id)
+    public function updateRole(Request $request, $id)
     {
-        $user = User::findOrFail($id);  // Mencari user berdasarkan ID
-        return view('user.edit', compact('user'));  // Tampilkan form edit
-    }
-
-    // Mengupdate data pengguna
-    public function update(Request $request, $id)
-    {
-        // Validasi input
         $request->validate([
-            'nama_user' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,  // Validasi email kecuali pengguna yang sama
-            'password' => 'nullable|min:6|confirmed',  // Password bisa kosong
-            'role' => 'required|in:owner,manager,kepala_admin,kepala_gudang',
+            'role' => 'required|in:manager,kepala_admin,kepala_gudang',
         ]);
 
-        $user = User::findOrFail($id);  // Cari pengguna berdasarkan ID
-
-        // Update data pengguna
-        $user->nama_user = $request->nama_user;
-        $user->email = $request->email;
-        if ($request->password) {
-            $user->password = Hash::make($request->password);  // Jika password diubah, hash password baru
-        }
+        $user = User::findOrFail($id);
         $user->role = $request->role;
-        $user->save();  // Simpan perubahan
+        $user->save();
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully');
+        return redirect()->back()->with('success', 'Role user diperbarui.');
     }
 
-    // Menghapus pengguna
+     public function updateProfile(Request $request)
+    {
+
+        $request->validate([
+            'nama_user' => 'required|string|max:255',
+        ]);
+
+        $user = Auth::user();
+        $user->nama_user = $request->nama_user;
+
+        $user->save();
+
+         return redirect()->back()->with('success', 'Perubahan berhasil disimpan!');
+    }
+
     public function destroy($id)
     {
-        $user = User::findOrFail($id);  // Cari pengguna berdasarkan ID
-        $user->delete();  // Hapus pengguna
+        $user = User::findOrFail($id);
+        $user->delete();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->back()->with('success', 'User dihapus.');
     }
+
+    
 }

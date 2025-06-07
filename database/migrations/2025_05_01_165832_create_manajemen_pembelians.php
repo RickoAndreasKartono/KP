@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('manajemen_pembelian', function (Blueprint $table) {
+        Schema::create('manajemen_pembelians', function (Blueprint $table) {
             $table->id('id_pembelian');
-            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_pemasok');
-            $table->decimal('total_harga', 10, 2);
+            $table->integer('total_harga');
             $table->enum('status', ['pending', 'validated', 'rejected']);
-            $table->timestamp('tanggal_pembelian');
+            $table->date('tanggal_pembelian');
+            $table->unsignedBigInteger('id_user');
+            $table->timestamps();
 
-            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasok')->onDelete('cascade');
+            // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
         });
+
         
     }
 

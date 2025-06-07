@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
+    /* Reset & Font */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Potta One', cursive;
@@ -23,12 +24,14 @@
       flex-direction: column;
     }
 
+    /* Judul */
     h1 {
-      font-size: 50px;
-      color: #000;
-      margin-bottom: 40px;
+      font-size: 50px; /* Menggunakan px untuk ukuran font */
+      color: #000; /* Warna hitam */
+      margin-bottom: 40px; /* Menambahkan jarak antara judul dan login-container */
     }
 
+    /* Container 2 Kolom */
     .login-container {
       display: flex;
       background: rgba(255, 255, 255, 0.5);
@@ -39,6 +42,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
+    /* Kolom Avatar */
     .avatar-col {
       flex: 1;
       background: transparent;
@@ -49,7 +53,6 @@
       align-items: center;
       justify-content: center;
     }
-
     .avatar-col img {
       width: 180px;
       height: 180px;
@@ -57,13 +60,13 @@
       border-radius: 50%;
       background: #fff;
     }
-
     .avatar-col h2 {
       margin-top: 20px;
-      font-size: 24px;
+      font-size: 24px; /* Menggunakan px untuk ukuran font */
       color: #000;
     }
 
+    /* Kolom Form */
     .form-col {
       flex: 1.3;
       background: #3d6160;
@@ -71,14 +74,14 @@
       padding: 40px 30px;
       position: relative;
     }
-
     .form-col h1 {
       text-align: center;
       color: #fff;
       margin-bottom: 30px;
-      font-size: 40px;
+      font-size: 40px; /* Menggunakan px untuk ukuran font */
     }
 
+    /* Menggunakan font Mplus 1p Bold untuk elemen berikut */
     .form-group label,
     .forgot-password,
     .error-message {
@@ -90,21 +93,19 @@
       margin-bottom: 20px;
       position: relative;
     }
-
     .form-group label {
       display: block;
       color: #fff;
       margin-bottom: 8px;
-      font-size: 20px;
+      font-size: 20px; /* Menggunakan px untuk ukuran font */
     }
-
     .form-group input {
       width: 100%;
       padding: 12px 16px;
       border-radius: 8px;
       border: 2px solid #000;
       background: #d0f3e8;
-      font-size: 18px;
+      font-size: 18px; /* Menggunakan px untuk ukuran font */
     }
 
     .forgot-password {
@@ -112,9 +113,8 @@
       margin-bottom: 30px;
       color:rgb(57, 240, 222);
       text-decoration: none;
-      font-size: 16px;
+      font-size: 16px; /* Menggunakan px untuk ukuran font */
     }
-
     .forgot-password:hover {
       text-decoration: underline;
     }
@@ -129,103 +129,41 @@
       color: #fff;
       border: 2px solid #ccc;
       border-radius: 12px;
-      font-size: 25px;
+      font-size: 25px; /* Menggunakan px untuk ukuran font */
       cursor: pointer;
       text-decoration: none;
     }
-
     .btn-login:hover {
       background: #6e6e6e;
     }
 
     .error-message {
-      color:rgb(255, 140, 142);
+      color: red;
       margin-top: 10px;
       text-align: center;
       margin-bottom: 10px;
-      font-size: 16px;
-    }
-
-    .success-message {
-      color: rgb(151, 255, 167);
-      margin-bottom: 15px;
-      text-align: center;
-      font-size: 16px;
+      font-size: 16px; /* Menggunakan px untuk ukuran font */
     }
   </style>
 </head>
 <body>
 
-  <h1>CV Agro Citra Indonesia</h1>
+  <!-- Judul di atas login container -->
+  <h1>Profile Settings</h1>
 
   <div class="login-container">
+
+    <!-- Kolom Avatar -->
     <div class="avatar-col">
       <img src="images/user.png" alt="User">
       <h2>Welcome Back!</h2>
     </div>
 
-    <div class="form-col">
-      <form id="login-form" method="POST" action="{{ url('login_post') }}">
-        {{ csrf_field() }}
-
-        <h1>Login</h1>
-
-        <!-- Global error message (from validator or session flash) -->
-        @if ($errors->any())
-          <div class="error-message">
-            <ul style="list-style: none; padding: 0;">
-              @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-              @endforeach
-            </ul>
-          </div>
-        @endif
-
-        @if (session('error'))
-          <div class="error-message">
-            {{ session('error') }}
-          </div>
-        @endif
-
-        @if (session('status'))
-          <div class="success-message">
-            {{ session('status') }}
-          </div>
-        @endif
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value="{{ old('email') }}"
-            name="email"
-            required
-          >
-          @error('email')
-            <span class="error-message">{{ $message }}</span>
-          @enderror
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            required
-          >
-          @error('password')
-            <span class="error-message">{{ $message }}</span>
-          @enderror
-        </div>
-
-        <a href="{{ url('forgot') }}" class="forgot-password">Forgot Password?</a>
-
-        <button type="submit" class="btn-login">Login</button>
-
-      </form>
-    </div>
+   <div class="row">
+   <p><b>Nama - </b> {{$getRecord->nama_user}} </p>
+   <p><b>Email - </b> {{$getRecord->email}} </p>
+   <p><b>Role - </b> {{$getRecord->role}} </p>
+   <button type="submit" class="btn-login"><a href="{{route('logout')}}">Logout </a></button>
   </div>
 </body>
 </html>

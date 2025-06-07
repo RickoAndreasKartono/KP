@@ -11,18 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('validasi_transaksi', function (Blueprint $table) {
+        Schema::create('validasi_transaksis', function (Blueprint $table) {
             $table->id('id_validasi');
-            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_pembelian');
             $table->unsignedBigInteger('id_stok_keluar');
-            $table->enum('status_validasi', ['pending', 'approved', 'rejected']);
-            $table->timestamp('tanggal_validasi');
+            $table->enum('status_validasi', ['pending', 'validated', 'rejected']);
+            $table->unsignedBigInteger('id_user');
+            $table->date('tanggal_validasi');
+            $table->timestamps();
 
+            // Foreign keys
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelians')->onDelete('cascade');
+            $table->foreign('id_stok_keluar')->references('id_stok_keluar')->on('stok_keluars')->onDelete('cascade');
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelian')->onDelete('cascade');
-            $table->foreign('id_stok_keluar')->references('id_stok_keluar')->on('stok_keluar')->onDelete('cascade');
         });
+
 
         
     }

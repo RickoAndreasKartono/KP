@@ -11,17 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detail_manajemen_pembelian', function (Blueprint $table) {
+        Schema::create('detail_manajemen_pembelians', function (Blueprint $table) {
             $table->id('id_detail');
             $table->unsignedBigInteger('id_pembelian');
             $table->unsignedBigInteger('id_pupuk');
             $table->integer('jumlah');
-            $table->decimal('harga_satuan', 10, 2);
+            $table->integer('harga_satuan');
+            $table->timestamps();
 
-            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelian')->onDelete('cascade');
-            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuk')->onDelete('cascade');
-    
+            // Foreign keys
+            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuks')->onDelete('cascade');
+            $table->foreign('id_pembelian')->references('id_pembelian')->on('manajemen_pembelians')->onDelete('cascade');
         });
+
         
     }
 

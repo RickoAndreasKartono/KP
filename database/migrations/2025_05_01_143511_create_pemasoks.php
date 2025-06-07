@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pemasok', function (Blueprint $table) {
-            $table->id('id_pemasok');
-            $table->string('nama_pemasok', 100);
-            $table->text('alamat');
-            $table->string('no_telp', 15);
+        Schema::create('pemasoks', function (Blueprint $table) {
+            $table->id('id_pemasok'); 
+            $table->string('nama_pemasok');
+            $table->string('alamat');
+            $table->string('telepon');
             $table->timestamps();
         });
+
+
         
     }
 

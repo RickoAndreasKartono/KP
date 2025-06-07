@@ -1,10 +1,23 @@
-@extends('layouts.kepala_admin')
+@extends('layouts.kepala_gudang')
 
-@section('title', 'Stok Pupuk - Kepala Admin')
+@section('title', 'Stok Masuk - Kepala Gudang')
+
+@section('section-header')
+<div class="section-header">
+  <h2>Input Stok Masuk</h2>
+  <div class="controls">
+    <div class="add-btn">
+      <i class="fas fa-plus"></i> Tambah
+    </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Cari...">
+    </div>
+  </div>
+</div>
+@endsection
 
 @section('content')
-<div id="stok_pupuk" class="container active">
-  <h2>Data Stok Pupuk</h2>
+<div id="stok-pupuk" class="container active">
   <table>
     <thead>
       <tr>

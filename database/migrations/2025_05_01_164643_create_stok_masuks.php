@@ -11,20 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stok_masuk', function (Blueprint $table) {
+        Schema::create('stok_masuks', function (Blueprint $table) {
             $table->id('id_stok_masuk');
-            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_pupuk');
-            $table->integer('jumlah');
+            $table->integer('jumlah_masuk');
             $table->date('tanggal_masuk');
+            $table->unsignedBigInteger('id_pemasok');
+            $table->unsignedBigInteger('id_user');
             $table->timestamps();
-        
+
             // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuk')->onDelete('cascade');
+            $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuks')->onDelete('cascade');
+            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
+        
         });
-        
-        
+
     }
 
     /**

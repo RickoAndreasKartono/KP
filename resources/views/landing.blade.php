@@ -18,15 +18,36 @@
         h1 {
             font-size: 3rem;
             color: black;
-            animation: slideIn 5s forwards, fadeOut 3s forwards;
+            animation: bounceIn 5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, fadeOut 3s 5s forwards;
+            opacity: 0;
         }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0) translateY(-100vh);
+                opacity: 0;
+            }
+            40% {
+                transform: scale(1.2) translateY(0);
+                opacity: 1;
+            }
+            60% {
+                transform: scale(0.9) translateY(-30px);
+            }
+            80% {
+                transform: scale(1.05) translateY(15px);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
         }
         @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -34,8 +55,8 @@
     <h1>CV Agro Citra Indonesia</h1>
     <script>
         setTimeout(() => {
-            window.location.href = '{{url('login')}}';
-        }, 4000); 
+            window.location.href = '{{ url("login") }}';
+        }, 8000); 
     </script>
 </body>
 </html>

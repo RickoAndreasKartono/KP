@@ -28,6 +28,14 @@
       text-align: center;
     }
 
+    h2 {
+      font-family: 'Inria Sans', sans-serif;
+      font-size: 20px;
+      color: white;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
     p {
       font-family: 'Inria Sans', sans-serif;
       font-size: 30px;
@@ -88,21 +96,23 @@
 </head>
 <body>
   <h1>CV Agro Citra Indonesia</h1>
-  <p>Enter your email and new password</p>
+  <p>Enter your email to send the reset link</p>
 
   <div class="reset-container">
-    <form id="reset-password-form" method="POST" action="{{ route('password.update') }}">
-      @csrf
+    <form id="reset-password-form" method="POST" action="{{ route('forgot_post') }}">
+      {{ csrf_field() }}
       <div class="form-group">
         <label for="email">Email</label>
         <input id="email" type="email" name="email" placeholder="Enter your email" required>
       </div>
-      <div class="form-group">
-        <label for="password">New Password</label>
-        <input id="password" type="password" name="password" placeholder="Enter your new password" required>
-      </div>
+      @error('email')
+        <h2>{{ $message }}</h2>
+      @enderror
       <button type="submit" class="btn-reset">Reset</button>
     </form>
+    @if (session('status'))
+      <h2 style="color: lightgreen;">{{ session('status') }}</h2>
+    @endif
   </div>
 </body>
 </html>
