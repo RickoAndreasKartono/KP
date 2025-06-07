@@ -54,12 +54,14 @@
                 </td>
                 {{-- Kolom Password (Hashed) dihapus --}}
                 <td>
-                    <form method="POST" action="{{ route('owner.kelola_user.delete', $user->id_user) }}" onsubmit="return confirm('Yakin ingin menghapus user ini?')">
-                        @csrf @method('DELETE')
-                        <button type="submit" class="btn-table-action btn-delete-user" title="Hapus User">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
+                    {{-- SESUDAH --}}
+                    <form method="POST" action="{{ route('owner.kelola_user.delete', $user->id_user) }}" class="delete-form"> {{-- Tambahkan class untuk identifikasi --}}
+                @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-table-action btn-delete-user" title="Hapus User">
+                     <i class="fas fa-trash"></i>
+           </button>
+    </form>
                 </td>
             </tr>
             @empty
