@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('laporan_stoks', function (Blueprint $table) {
             $table->id('id_laporan');
             $table->unsignedBigInteger('id_pupuk');
-            $table->string('periode');
             $table->integer('total_masuk');
             $table->integer('total_keluar');
             $table->integer('stok_akhir');

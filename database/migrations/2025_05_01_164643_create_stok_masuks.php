@@ -16,17 +16,15 @@ return new class extends Migration
             $table->unsignedBigInteger('id_pupuk');
             $table->integer('jumlah_masuk');
             $table->date('tanggal_masuk');
-            $table->unsignedBigInteger('id_pemasok');
+            // Kolom id_pemasok dihapus
             $table->unsignedBigInteger('id_user');
             $table->timestamps();
 
             // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuks')->onDelete('cascade');
-            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
-        
+            // Foreign key untuk pemasok dihapus
         });
-
     }
 
     /**
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stok_masuk');
+        Schema::dropIfExists('stok_masuks'); // Pastikan nama tabel sudah benar
     }
 };

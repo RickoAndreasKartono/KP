@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('validasi_transaksis', function (Blueprint $table) {
             $table->id('id_validasi');
-            $table->unsignedBigInteger('id_pembelian');
-            $table->unsignedBigInteger('id_stok_keluar');
+            $table->unsignedBigInteger('id_pembelian')->nullable;
+            $table->unsignedBigInteger('id_stok_keluar')->nullable();
             $table->enum('status_validasi', ['pending', 'validated', 'rejected']);
             $table->unsignedBigInteger('id_user');
             $table->date('tanggal_validasi');

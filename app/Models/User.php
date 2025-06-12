@@ -39,6 +39,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Validasi::class, 'id_user');
     }
+
+    public function hasRole(string $roleName): bool
+    {
+        // Fungsi ini akan membandingkan role user di database
+        // dengan nama role yang kita cek.
+        return $this->role === $roleName;
+    }
 }
 
 

@@ -1,30 +1,64 @@
 <?php
 
+// File: app/Http/Controllers/ValidasiTransaksiController.php
+
 namespace App\Http\Controllers;
 
+use App\Models\ManajemenPembelian; // DI-TAMBAHKAN: Gunakan model ManajemenPembelian
+use App\Models\ValidasiTransaksi;
 use Illuminate\Http\Request;
 
-class validasiTransaksiController extends Controller
+class ValidasiTransaksiController extends Controller
 {
-    public function validasiTransaksi($id_user)
-{
-    // Hanya Owner dan Kepala Admin yang bisa melakukan validasi transaksi
-    if (!in_array(auth()->user()->role, ['owner', 'kepala admin'])) {
-        return redirect('/dashboard');
+    public function index()
+    {
+        $validations = ValidasiTransaksi::with(['pembelian', 'stokKeluar', 'user'])
+            ->orderByRaw("FIELD(status_validasi, 'pending', 'validated', 'rejected')")
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('manager.validasi_transaksi.index', compact('validations'));
     }
 
-    // Logika untuk validasi transaksi
-    $transaction = Transaction::findOrFail($id);
-    $transaction->validate();
-    return redirect()->route('transaction.index');
-}
+    /**
+     * Menyetujui pengajuan validasi dan memberi umpan balik.
+     */
+    public function approve($id_validasi)
+    {
+        $validasi = ValidasiTransaksi::findOrFail($id_validasi);
+        $validasi->status_validasi = 'validated';
+        $validasi->save();
 
-public function ajukanValidasi($id)
-{
-    // Manager hanya bisa mengajukan permintaan validasi
-    $transaction = Transaction::findOrFail($id);
-    $transaction->requestValidation();
-    return redirect()->route('transaction.index');
-}
+        // DI-TAMBAHKAN: Update status pada data pembelian asli
+        if ($validasi->id_pembelian) {
+            $pembelian = ManajemenPembelian::find($validasi->id_pembelian);
+            if ($pembelian) {
+                $pembelian->status = 'validated'; // Sesuaikan dengan nilai di migrasi Anda
+                $pembelian->save();
+            }
+        }
 
+        return redirect()->route('manager.validasi_transaksi.index')->with('success', 'Pengajuan berhasil divalidasi.');
+    }
+
+    /**
+     * Menolak pengajuan validasi dan memberi umpan balik.
+     */
+    public function reject($id_validasi)
+    {
+        $validasi = ValidasiTransaksi::findOrFail($id_validasi);
+        $validasi->status_validasi = 'rejected';
+        $validasi->save();
+
+        // DI-TAMBAHKAN: Update status pada data pembelian asli
+        if ($validasi->id_pembelian) {
+            $pembelian = ManajemenPembelian::find($validasi->id_pembelian);
+            if ($pembelian) {
+                $pembelian->status = 'rejected'; // Sesuaikan dengan nilai di migrasi Anda
+                $pembelian->save();
+            }
+        }
+
+        return redirect()->route('manager.validasi_transaksi.index')->with('success', 'Pengajuan telah ditolak.');
+    }
 }

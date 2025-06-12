@@ -56,9 +56,10 @@ class DashboardController extends Controller
     }
 
     public function manajemenPembelian()
-    {
-        return $this->loadViewByRole('manajemen_pembelian');
-    }
+{
+  return $this->loadViewByRole('validasi_transaksi');  
+}
+
 
     public function validasiTransaksi()
     {
@@ -89,37 +90,6 @@ class DashboardController extends Controller
 
         // Untuk role lain hanya tampilkan view tanpa daftar user
         $viewPath = "$role.kelola_user";
-        if (view()->exists($viewPath)) {
-            return view($viewPath, ['getRecord' => User::find($user->id_user)]);
-        }
-
-        abort(403, 'Unauthorized or view not found.');
-    }
-
-    public function pemasok()
-    {
-        $user = Auth::user();
-        $role = $user->role;
-
-        if ($role === 'kepala_admin') {
-            $query = User::where('role', '!=', 'kepala_admin');
-
-            if ($search = request('search')) {
-                $query->where(function($q) use ($search) {
-                    $q->where('id_pemasok', 'like', "%$search%")
-                    ->orWhere('nama_pemasok', 'like', "%$search%");
-                });
-            }
-
-            $users = $query->get();
-            return view('kepala_admin.pemasok', [
-                'getRecord' => User::find($user->id_user),
-                'users' => $users,
-            ]);
-        }
-
-        // Untuk role lain hanya tampilkan view tanpa daftar user
-        $viewPath = "$role.pemasok";
         if (view()->exists($viewPath)) {
             return view($viewPath, ['getRecord' => User::find($user->id_user)]);
         }

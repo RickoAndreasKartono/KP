@@ -6,7 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\ManajemenPembelianController;
+use App\Http\Controllers\ValidasiTransaksiController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -52,8 +53,11 @@ Route::group(['middleware' => 'manager'], function () {
     Route::get('manager/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('manager.stok_keluar');
     Route::get('manager/laporan_stok', [DashboardController::class, 'laporanStok'])->name('manager.laporan_stok');
     Route::get('manager/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('manager.manajemen_pembelian');
-    Route::get('manager/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('manager.validasi_transaksi');
+    Route::get('manager/validasi_transaksi', [ValidasiTransaksiController::class, 'index'])->name('manager.validasi_transaksi.index');
+    Route::patch('manager/validasi_transaksi/{id_validasi}/approve', [ValidasiTransaksiController::class, 'approve'])->name('manager.validasi_transaksi.approve');
+    Route::patch('manager/validasi_transaksi/{id_validasi}/reject', [ValidasiTransaksiController::class, 'reject'])->name('manager.validasi_transaksi.reject');
     Route::get('manager/kelola_user', [DashboardController::class, 'kelolaUser'])->name('manager.kelola_user');
+    
 });
 
 Route::group(['middleware' => 'kepala_admin'], function () {
@@ -61,21 +65,28 @@ Route::group(['middleware' => 'kepala_admin'], function () {
     Route::get('kepala_admin/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_admin.stok_masuk');
     Route::get('kepala_admin/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_admin.stok_keluar');
     Route::get('kepala_admin/laporan_stok', [DashboardController::class, 'laporanStok'])->name('kepala_admin.laporan_stok');
-    Route::get('kepala_admin/manajemen_pembelian', [DashboardController::class, 'manajemenPembelian'])->name('kepala_admin.manajemen_pembelian');
     Route::get('kepala_admin/validasi_transaksi', [DashboardController::class, 'validasiTransaksi'])->name('kepala_admin.validasi_transaksi');
-    Route::get('kepala_admin/pemasok', [DashboardController::class, 'pemasok'])->name('kepala_admin.pemasok');
-    
-    Route::get('kepala_admin/pemasok/add', [PemasokController::class, 'create'])->name('kepala_admin.pemasok.add');
-    Route::post('kepala_admin/pemasok/add', [PemasokController::class, 'store'])->name('kepala_admin.pemasok.store');
-    Route::post('kepala_admin/pemasok/update-role/{id}', [PemasokController::class, 'updateRole'])->name('kepala_admin.pemasok.update_role');
-    Route::delete('kepala_admin/pemasok/delete/{id}', [PemasokController::class, 'destroy'])->name('kepala_admin.pemasok.delete');
-
     Route::get('kepala_admin/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_admin.profile_settings');
+    Route::get('kepala_admin/manajemen_pembelian', [ManajemenPembelianController::class, 'index'])->name('kepala_admin.manajemen_pembelian.index');
+    Route::get('kepala_admin/manajemen_pembelian/create', [ManajemenPembelianController::class, 'create'])->name('kepala_admin.manajemen_pembelian.create');
+    Route::post('kepala_admin/manajemen_pembelian', [ManajemenPembelianController::class, 'store'])->name('kepala_admin.manajemen_pembelian.store');
+    Route::get('kepala_admin/manajemen_pembelian/{manajemenPembelian}/edit', [ManajemenPembelianController::class, 'edit'])->name('kepala_admin.manajemen_pembelian.edit');
+    Route::put('kepala_admin/manajemen_pembelian/{manajemenPembelian}', [ManajemenPembelianController::class, 'update'])->name('kepala_admin.manajemen_pembelian.update');
+    Route::delete('kepala_admin/manajemen_pembelian/{manajemenPembelian}', [ManajemenPembelianController::class, 'destroy'])->name('kepala_admin.manajemen_pembelian.destroy');
 });
 
 Route::group(['middleware' => 'kepala_gudang'], function () {
     Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_gudang.stok_pupuk');
-    // Tambahkan route lain sesuai kebutuhan
+    Route::get('kepala_gudang/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_gudang.stok_masuk');
+    Route::get('kepala_gudang/stok_masuk', [StokMasukController::class, 'index'])->name('kepala_gudang.stok_masuk');
+    Route::get('kepala_gudang/manajemen_pembelian', [ManajemenPembelianController::class, 'index'])->name('kepala_gudang.manajemen_pembelian.index');
+    Route::post('kepala_gudang/manajemen_pembelian/{pembelian}/proses', [ManajemenPembelianController::class, 'prosesStokMasuk']) ->name('kepala_gudang.manajemen_pembelian.proses');
+    Route::get('kepala_gudang/stok_masuk/tambah', [StokMasukController::class, 'create'])->name('stok_masuk.create');
+    // Route POST ini untuk memproses form
+    Route::post('kepala_gudang/stok_masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
+    // ================================================================
+
+    Route::get('kepala_gudang/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_gudang.stok_keluar');
 });
 
 // Logout

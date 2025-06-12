@@ -13,19 +13,17 @@ return new class extends Migration
     {
         Schema::create('manajemen_pembelians', function (Blueprint $table) {
             $table->id('id_pembelian');
-            $table->unsignedBigInteger('id_pemasok');
-            $table->integer('total_harga');
-            $table->enum('status', ['pending', 'validated', 'rejected']);
+            $table->string('nama_pupuk');
+            $table->integer('jumlah');
+            $table->string('satuan');
+            $table->string('pemasok');
+            $table->enum('status', ['pending', 'validated', 'rejected'])->default('pending');
             $table->date('tanggal_pembelian');
             $table->unsignedBigInteger('id_user');
+
             $table->timestamps();
-
-            // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
         });
-
-        
     }
 
     /**
@@ -33,6 +31,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('manajemen_pembelian');
+        // Drop the table if it exists (typo corrected from 'manajemen_pembelian')
+        Schema::dropIfExists('manajemen_pembelians');
     }
 };

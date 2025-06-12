@@ -34,13 +34,13 @@ class UserController extends Controller
         return redirect()->route('owner.kelola_user')->with('success', 'User berhasil ditambahkan.');
     }
 
-    public function updateRole(Request $request, $id)
+    public function updateRole(Request $request, $id_user)
     {
         $request->validate([
             'role' => 'required|in:manager,kepala_admin,kepala_gudang',
         ]);
 
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         $user->role = $request->role;
         $user->save();
 
@@ -62,9 +62,9 @@ class UserController extends Controller
          return redirect()->back()->with('success', 'Perubahan berhasil disimpan!');
     }
 
-    public function destroy($id)
+    public function destroy($id_user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id_user);
         $user->delete();
 
         return redirect()->back()->with('success', 'User dihapus.');
