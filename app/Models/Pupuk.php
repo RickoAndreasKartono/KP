@@ -28,6 +28,7 @@ class Pupuk extends Model
     protected $fillable = [
         'nama_pupuk',
         'jumlah_tersedia',
+        'satuan',
         'lokasi_simpan',
     ];
 

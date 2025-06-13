@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StokMasukController;
+use App\Http\Controllers\StokKeluarController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ManajemenPembelianController;
 use App\Http\Controllers\ValidasiTransaksiController;
@@ -28,7 +29,6 @@ Route::post('validate_forgot_pass_post', [AuthController::class, 'validate_forgo
 Route::group(['middleware' => 'owner'], function () {
     Route::get('owner/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('owner.stok_pupuk');
     Route::get('owner/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('owner.stok_masuk');
-    Route::get('owner/stok_masuk/add_pupuk', [StokMasukController::class, 'create'])->name('owner.add_stok_masuk');
     Route::post('owner/stok_masuk/store', [StokMasukController::class, 'store'])->name('owner.store_stok_masuk');
     Route::get('owner/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('owner.stok_keluar');
     Route::get('owner/laporan_stok', [DashboardController::class, 'laporanStok'])->name('owner.laporan_stok');
@@ -77,18 +77,22 @@ Route::group(['middleware' => 'kepala_admin'], function () {
 
 Route::group(['middleware' => 'kepala_gudang'], function () {
     Route::get('kepala_gudang/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_gudang.stok_pupuk');
-    Route::get('kepala_gudang/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_gudang.stok_masuk');
-    Route::get('kepala_gudang/stok_masuk', [StokMasukController::class, 'index'])->name('kepala_gudang.stok_masuk');
+    Route::get('kepala_gudang/stok_masuk', [StokMasukController::class, 'index'])->name('kepala_gudang.stok_masuk.index');
     Route::get('kepala_gudang/manajemen_pembelian', [ManajemenPembelianController::class, 'index'])->name('kepala_gudang.manajemen_pembelian.index');
     Route::post('kepala_gudang/manajemen_pembelian/{pembelian}/proses', [ManajemenPembelianController::class, 'prosesStokMasuk']) ->name('kepala_gudang.manajemen_pembelian.proses');
-    Route::get('kepala_gudang/stok_masuk/tambah', [StokMasukController::class, 'create'])->name('stok_masuk.create');
-    // Route POST ini untuk memproses form
-    Route::post('kepala_gudang/stok_masuk', [StokMasukController::class, 'store'])->name('stok_masuk.store');
-    // ================================================================
+    Route::get('kepala_gudang/stok_masuk/tambah', [StokMasukController::class, 'create'])->name('kepala_gudang.stok_masuk.create');
+    Route::post('kepala_gudang/stok_masuk', [StokMasukController::class, 'store'])->name('kepala_gudang.stok_masuk.store');
+    Route::get('kepala_gudang/stok_masuk/{pupuk}/edit', [StokMasukController::class, 'edit'])->name('kepala_gudang.stok_masuk.edit');
+    Route::put('kepala_gudang/stok_masuk/{pupuk}', [StokMasukController::class, 'update'])->name('kepala_gudang.stok_masuk.update');
+    Route::delete('kepala_gudang/stok_masuk/{pupuk}', [StokMasukController::class, 'destroy'])->name('kepala_gudang.stok_masuk.destroy');
 
-    Route::get('kepala_gudang/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_gudang.stok_keluar');
+    // STOK KELUAR
+    Route::get('kepala_gudang/stok_keluar', [StokKeluarController::class, 'index'])->name('kepala_gudang.stok_keluar.index');
+    Route::get('kepala_gudang/stok_keluar/tambah', [StokKeluarController::class, 'create'])->name('kepala_gudang.stok_keluar.create');
+    Route::post('kepala_gudang/stok_keluar', [StokKeluarController::class, 'store'])->name('kepala_gudang.stok_keluar.store');
+    Route::get('kepala_gudang/stok_keluar/{stokKeluar}/edit', [StokKeluarController::class, 'edit'])->name('kepala_gudang.stok_keluar.edit');
+    Route::put('kepala_gudang/stok_keluar/{stokKeluar}', [StokKeluarController::class, 'update'])->name('kepala_gudang.stok_keluar.update');
 });
-
 // Logout
 Route::get('logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

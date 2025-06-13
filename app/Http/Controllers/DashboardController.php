@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\StokMasuk; // DITAMBAHKAN: Import model StokMasuk
 use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
@@ -16,10 +17,8 @@ class DashboardController extends Controller
         $role = $user->role;
         $data = array_merge($extraData, ['getRecord' => User::find($user->id_user)]);
         
-        // Jika halaman stok_masuk owner, tambahkan data stok masuk
-        if ($page === 'stok_masuk' && $role === 'owner') {
-            $data['stokMasuk'] = \App\Models\StokMasuk::with(['pupuk', 'user'])->latest()->get();
-        }
+        // DIHAPUS: Logika stok masuk dipindahkan ke fungsinya sendiri
+        // if ($page === 'stok_masuk' && $role === 'owner') { ... }
 
         $viewPath = "$role.$page";
 
@@ -35,9 +34,32 @@ class DashboardController extends Controller
         return $this->loadViewByRole('stok_pupuk');
     }
 
-    public function stokMasuk()
+    /**
+     * DIPERBARUI: Fungsi ini sekarang menangani logikanya sendiri
+     * untuk memungkinkan fungsionalitas pencarian.
+     */
+    public function stokMasuk(Request $request)
     {
-        return $this->loadViewByRole('stok_masuk');
+        // 1. Ambil kata kunci pencarian dari URL
+        $search = $request->input('search');
+
+        // 2. Mulai query untuk mengambil data stok masuk
+        $query = StokMasuk::with(['user', 'pupuk'])->latest('tanggal_masuk');
+
+        // 3. Jika ada kata kunci pencarian, filter data
+        if ($search) {
+            $query->whereHas('pupuk', function ($q) use ($search) {
+                $q->where('nama_pupuk', 'like', '%' . $search . '%');
+            });
+        }
+
+        // 4. Ambil hasil akhir dari query
+        $stokMasuk = $query->get();
+
+        // 5. Kirim data yang sudah disaring ke view milik owner
+        // (Asumsi view ada di 'owner.stok_masuk.index' atau 'owner.stok_masuk')
+        return view('read.stok_masuk', compact('stokMasuk'));
+    
     }
 
     public function stokKeluar()
@@ -56,10 +78,9 @@ class DashboardController extends Controller
     }
 
     public function manajemenPembelian()
-{
-  return $this->loadViewByRole('validasi_transaksi');  
-}
-
+    {
+        return $this->loadViewByRole('validasi_transaksi');    
+    }
 
     public function validasiTransaksi()
     {
@@ -77,7 +98,7 @@ class DashboardController extends Controller
             if ($search = request('search')) {
                 $query->where(function($q) use ($search) {
                     $q->where('id_user', 'like', "%$search%")
-                    ->orWhere('nama_user', 'like', "%$search%");
+                      ->orWhere('nama_user', 'like', "%$search%");
                 });
             }
 
