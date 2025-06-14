@@ -16,12 +16,12 @@
         <main class="profile-body">
             
             {{-- [DITAMBAHKAN] Tombol Kembali --}}
-           <a href="{{ (url()->previous() != url()->full()) ? url()->previous() : route('owner.stok_pupuk') }}" class="btn-back">
+           <a href="{{ (url()->previous() != url()->full()) ? url()->previous() : route('kepala_gudang.stok_pupuk') }}" class="btn-back">
                 <i class="fas fa-arrow-left"></i>
                 Kembali
             </a>
 
-            <form action="{{ route('owner.update_profile') }}" method="POST">
+            <form action="{{ route('kepala_gudang.update_profile') }}" method="POST">
                 @csrf
                 @method('PATCH')
 

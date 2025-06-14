@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
-use App\Models\StokMasuk; // DITAMBAHKAN: Import model StokMasuk
+use App\Models\StokMasuk;
+use App\Models\StokKeluar; 
+use App\Models\Pupuk; 
 use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
@@ -29,10 +31,35 @@ class DashboardController extends Controller
         abort(403, 'Unauthorized or view not found.');
     }
 
-    public function stokPupuk()
+     public function stokPupuk(Request $request)
     {
-        return $this->loadViewByRole('stok_pupuk');
+        // Ambil kata kunci pencarian dari URL
+        $search = $request->input('search');
+
+        // Mulai query untuk mengambil data master pupuk
+        // dengan menghitung total dari relasi stokMasuks dan stokKeluars
+        $query = Pupuk::withSum('stokMasuks as total_masuk', 'jumlah_masuk')
+                      ->withSum('stokKeluars as total_keluar', 'jumlah_keluar')
+                      ->orderBy('nama_pupuk');
+
+        // Filter data jika ada pencarian
+        if ($search) {
+            $query->where('nama_pupuk', 'like', '%' . $search . '%');
+        }
+
+        $daftarPupuk = $query->get();
+        
+        // Hitung sisa stok untuk setiap item pupuk
+        $daftarPupuk->each(function ($pupuk) {
+            $pupuk->total_masuk = $pupuk->total_masuk ?? 0;
+            $pupuk->total_keluar = $pupuk->total_keluar ?? 0;
+            $pupuk->sisa_stok = $pupuk->total_masuk - $pupuk->total_keluar;
+        });
+
+        // Kirim data yang sudah dihitung ke view
+        return view('read.stok_pupuk', compact('daftarPupuk'));
     }
+
 
     /**
      * DIPERBARUI: Fungsi ini sekarang menangani logikanya sendiri
@@ -62,9 +89,33 @@ class DashboardController extends Controller
     
     }
 
-    public function stokKeluar()
+    public function stokKeluar(Request $request)
     {
-        return $this->loadViewByRole('stok_keluar');
+        // 1. Ambil kata kunci pencarian dari URL
+        $search = $request->input('search');
+
+        // 2. Mulai query untuk mengambil data stok keluar
+        $query = StokKeluar::with(['user', 'pupuk'])->latest('tanggal_keluar');
+
+        // 3. Jika ada kata kunci pencarian, filter data
+        if ($search) {
+            $query->whereHas('pupuk', function ($q) use ($search) {
+                $q->where('nama_pupuk', 'like', '%' . $search . '%');
+            });
+        }
+
+        // 4. Ambil hasil akhir dari query
+        $stokKeluarHistory = $query->get();
+
+        // 5. Tentukan path view berdasarkan role
+        $viewPath = 'read.stok_keluar'; // Menggunakan view bersama
+
+        // Anda bisa menambahkan logika untuk path view yang berbeda per role jika perlu
+        // if(view()->exists(Auth::user()->role . '.stok_keluar')) {
+        //     $viewPath = Auth::user()->role . '.stok_keluar';
+        // }
+
+        return view($viewPath, ['stokKeluarHistory' => $stokKeluarHistory]);
     }
 
     public function laporanStok()

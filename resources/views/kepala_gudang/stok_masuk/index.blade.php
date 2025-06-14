@@ -18,7 +18,7 @@
 
 <div class="container">
     <div class="page-header">
-        <h2>Data Stok Pupuk</h2>
+        <h2>Data Stok Masuk</h2>
         <a href="{{ route('kepala_gudang.stok_masuk.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Tambah Pupuk Baru
         </a>

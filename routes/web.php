@@ -43,7 +43,7 @@ Route::group(['middleware' => 'owner'], function () {
     Route::delete('owner/kelola_user/delete/{id}', [UserController::class, 'destroy'])->name('owner.kelola_user.delete');
 
     Route::get('owner/profile_settings', [DashboardController::class, 'profileSettings'])->name('owner.profile_settings');
-    Route::patch('owner/profile_update', [UserController::class, 'updateProfile'])->name('update_profile');
+    Route::patch('owner/profile_update', [UserController::class, 'updateProfile'])->name('owner.update_profile');
 });
 
 // Routes for Manager
@@ -57,6 +57,8 @@ Route::group(['middleware' => 'manager'], function () {
     Route::patch('manager/validasi_transaksi/{id_validasi}/approve', [ValidasiTransaksiController::class, 'approve'])->name('manager.validasi_transaksi.approve');
     Route::patch('manager/validasi_transaksi/{id_validasi}/reject', [ValidasiTransaksiController::class, 'reject'])->name('manager.validasi_transaksi.reject');
     Route::get('manager/kelola_user', [DashboardController::class, 'kelolaUser'])->name('manager.kelola_user');
+    Route::get('manager/profile_settings', [DashboardController::class, 'profileSettings'])->name('manager.profile_settings');
+    Route::patch('manager/profile_update', [UserController::class, 'updateProfile'])->name('manager.update_profile');
     
 });
 
@@ -73,6 +75,8 @@ Route::group(['middleware' => 'kepala_admin'], function () {
     Route::get('kepala_admin/manajemen_pembelian/{manajemenPembelian}/edit', [ManajemenPembelianController::class, 'edit'])->name('kepala_admin.manajemen_pembelian.edit');
     Route::put('kepala_admin/manajemen_pembelian/{manajemenPembelian}', [ManajemenPembelianController::class, 'update'])->name('kepala_admin.manajemen_pembelian.update');
     Route::delete('kepala_admin/manajemen_pembelian/{manajemenPembelian}', [ManajemenPembelianController::class, 'destroy'])->name('kepala_admin.manajemen_pembelian.destroy');
+    Route::get('kepala_admin/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_admin.profile_settings');
+    Route::patch('kepala_admin/profile_update', [UserController::class, 'updateProfile'])->name('kepala_admin.update_profile');
 });
 
 Route::group(['middleware' => 'kepala_gudang'], function () {
@@ -92,6 +96,8 @@ Route::group(['middleware' => 'kepala_gudang'], function () {
     Route::post('kepala_gudang/stok_keluar', [StokKeluarController::class, 'store'])->name('kepala_gudang.stok_keluar.store');
     Route::get('kepala_gudang/stok_keluar/{stokKeluar}/edit', [StokKeluarController::class, 'edit'])->name('kepala_gudang.stok_keluar.edit');
     Route::put('kepala_gudang/stok_keluar/{stokKeluar}', [StokKeluarController::class, 'update'])->name('kepala_gudang.stok_keluar.update');
+    Route::get('kepala_gudang/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_gudang.profile_settings');
+    Route::patch('kepala_gudang/profile_update', [UserController::class, 'updateProfile'])->name('kepala_gudang.update_profile');
 });
 // Logout
 Route::get('logout', [AuthController::class, 'logout']);

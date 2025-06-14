@@ -357,7 +357,7 @@
 <body>
     <header>
         {{-- Sisi Kiri: Info Pengguna --}}
-        <a href="{{ route('owner.profile_settings') }}">
+        <a href="{{ route('kepala_gudang.profile_settings') }}">
             <div class="user-avatar">
                 <img src="{{ asset('images/user.png') }}" alt="User Avatar">
             </div>
