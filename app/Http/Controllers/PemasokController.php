@@ -52,6 +52,30 @@ class PemasokController extends Controller
 
         return redirect()->route('kepala_admin.pemasok')->with('success', 'Pemasok berhasil ditambahkan.');
     }
+    public function edit($id)
+    {
+        $pemasok = Pemasok::findOrFail($id);
+        return view('kepala_admin.pemasok.edit', compact('pemasok'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_pemasok' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'telepon' => 'required|digits_between:1,15',
+        ]);
+
+        $pemasok = Pemasok::findOrFail($id);
+        $pemasok->update([
+            'nama_pemasok' => $request->nama_pemasok,
+            'alamat' => $request->alamat,
+            'telepon' => $request->telepon,
+        ]);
+
+        return redirect()->route('kepala_admin.pemasok')->with('success', 'Data pemasok berhasil diperbarui.');
+    }
+
 
     /**
      * Hapus pemasok berdasarkan id

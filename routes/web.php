@@ -84,6 +84,9 @@ Route::group(['middleware' => 'kepala_admin'], function () {
     Route::get('kepala_admin/pemasok/add', [PemasokController::class, 'create'])->name('kepala_admin.pemasok.add');
     Route::post('kepala_admin/pemasok/add', [PemasokController::class, 'store'])->name('kepala_admin.pemasok.store');
     Route::delete('kepala_admin/pemasok/delete/{id}', [PemasokController::class, 'destroy'])->name('kepala_admin.pemasok.delete');
+    Route::get('kepala-admin/pemasok/{id}/edit', [PemasokController::class, 'edit'])->name('kepala_admin.pemasok.edit');
+    Route::put('kepala-admin/pemasok/{id}', [PemasokController::class, 'update'])->name('kepala_admin.pemasok.update');
+
 
 });
 

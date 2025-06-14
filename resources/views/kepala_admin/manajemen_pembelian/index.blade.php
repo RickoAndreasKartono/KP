@@ -119,7 +119,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $pembelian->nama_pupuk }}</td>
                     <td>{{ $pembelian->jumlah }} {{ $pembelian->satuan }}</td>
-                    <td>{{ $pembelian->pemasok }}</td>
+                    <td>{{ $pembelian->pemasok->nama_pemasok }}</td>
                     <td>{{ \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->isoFormat('D MMMM Y') }}</td>
                     <td>
                         {{-- Mengubah tampilan status agar lebih menarik --}}

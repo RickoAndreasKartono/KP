@@ -16,13 +16,15 @@ return new class extends Migration
             $table->string('nama_pupuk');
             $table->integer('jumlah');
             $table->string('satuan');
-            $table->string('pemasok');
+            $table->unsignedBigInteger('id_pemasok');
             $table->enum('status', ['pending', 'validated', 'rejected'])->default('pending');
             $table->date('tanggal_pembelian');
             $table->unsignedBigInteger('id_user');
 
             $table->timestamps();
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
+
         });
     }
 

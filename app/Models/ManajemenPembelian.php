@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Http\Controllers\PemasokController;
 
 class ManajemenPembelian extends Model
 {
@@ -27,14 +28,10 @@ class ManajemenPembelian extends Model
      * Kolom yang bisa diisi secara massal (mass assignable).
      * @var array
      */
+
     protected $fillable = [
-        'nama_pupuk',
-        'jumlah',
-        'satuan',
-        'pemasok',
-        'status',
-        'tanggal_pembelian',
-        'id_user',
+        'id_pemasok', 'nama_pupuk', 'jumlah', 'satuan',
+        'tanggal_pembelian', 'id_user', 'status'
     ];
 
     /**
@@ -46,4 +43,10 @@ class ManajemenPembelian extends Model
         // Perhatikan 'id_user' sebagai foreign key dan 'id_user' sebagai owner key di tabel users.
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
+
+    public function pemasok()
+    {
+        return $this->belongsTo(Pemasok::class, 'id_pemasok');
+    }
+
 }

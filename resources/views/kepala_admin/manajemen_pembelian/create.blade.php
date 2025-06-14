@@ -1,3 +1,4 @@
+
 @extends('layouts.kepala_admin') {{-- Sesuaikan dengan nama file layout utama Anda --}}
 
 @section('title', 'Buat Pengajuan Pembelian')
@@ -53,11 +54,17 @@
 
                 <div class="form-group">
                     <label for="pemasok">Nama Pemasok</label>
-                    <input type="text" name="pemasok" id="pemasok" class="form-control @error('pemasok') is-invalid @enderror" value="{{ old('pemasok') }}" required>
+                    <select name="id_pemasok" class="form-control" required>
+                        <option value="">-- Pilih Pemasok --</option>
+                        @foreach ($pemasoks as $pemasok)
+                            <option value="{{ $pemasok->id_pemasok }}">{{ $pemasok->nama_pemasok }}</option>
+                        @endforeach
+                    </select>
                     @error('pemasok')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
 
                 <div class="form-group">
                     <label for="tanggal_pembelian">Tanggal Pembelian</label>

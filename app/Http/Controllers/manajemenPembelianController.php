@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pemasok;
 use App\Models\ManajemenPembelian;
 use App\Models\ValidasiTransaksi;
 use App\Models\StokMasuk; // PASTIKAN ANDA MENG-IMPORT MODEL STOK MASUK
@@ -33,13 +34,12 @@ class ManajemenPembelianController extends Controller
         }
     }
 
-    /**
-     * Menampilkan form untuk membuat data pembelian baru.
-     */
     public function create()
     {
-        return view('kepala_admin.manajemen_pembelian.create');
+        $pemasoks = Pemasok::all(); // ambil semua data pemasok
+        return view('kepala_admin.manajemen_pembelian.create', compact('pemasoks'));
     }
+
 
     /**
      * Menyimpan data pembelian baru dan membuat pengajuan validasi.
@@ -47,26 +47,20 @@ class ManajemenPembelianController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
+            'id_pemasok' => 'required|exists:pemasoks,id_pemasok',
             'nama_pupuk' => 'required|string|max:255',
             'jumlah' => 'required|integer|min:1',
             'satuan' => 'required|string|max:50',
-            'pemasok' => 'required|string|max:255',
             'tanggal_pembelian' => 'required|date',
         ]);
 
         $validatedData['id_user'] = Auth::id();
         $validatedData['status'] = 'pending';
 
-        $pembelian = ManajemenPembelian::create($validatedData);
+        ManajemenPembelian::create($validatedData);
 
-        if ($pembelian) {
-            ValidasiTransaksi::create([
-                'id_pembelian'      => $pembelian->id_pembelian,
-                'status_validasi'   => 'pending',
-                'id_user'           => Auth::id(),
-                'tanggal_validasi'  => now(),
-            ]);
-        }
+                
+
 
         return redirect()->route('kepala_admin.manajemen_pembelian.index')
                          ->with('success', 'Data pembelian berhasil ditambahkan dan dikirim untuk validasi.');

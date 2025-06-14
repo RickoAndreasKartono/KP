@@ -274,22 +274,24 @@
 
         /* Styling untuk form kontrol select (dropdown) dalam tabel */
         table td select {
-            padding: 6px 10px;
+            padding: 8px 30px 8px 10px; /* padding kanan diperbesar */
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px; /* Menyesuaikan ukuran font */
+            font-size: 16px;
             color: #2f5656;
-            background-color: #f0f0f0; /* Memberi sedikit warna latar belakang */
-            -webkit-appearance: none; /* Menghilangkan gaya default browser untuk select */
+            background-color: #f0f0f0;
+            -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            /* Tambahkan ikon dropdown kustom menggunakan SVG data URI */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232f5656'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 8px center;
+            background-position: right 10px center; /* digeser ke kanan */
             background-size: 16px;
+            width: 100%; /* biar fleksibel dalam kolom */
+            max-width: 220px; /* atau sesuaikan ukuran lebar maksimal */
             cursor: pointer;
         }
+
 
         table td select:focus {
             border-color: #2f5656;
@@ -343,9 +345,11 @@
         /* Penyesuaian lebar kolom untuk Role dan Aksi */
         table th:nth-child(4),
         table td:nth-child(4) {
-            width: 200px;
+            width: 280px;
             white-space: nowrap;
         }
+
+
 
         table th:last-child,
         table td:last-child {
