@@ -26,11 +26,11 @@
     <table>
         <thead>
             <tr>
-                <th>No.</th> {{-- Ganti ID User menjadi No. --}}
+                <th>No.</th>
                 <th>Nama</th>
                 <th>Email</th>
                 <th>Role</th>
-                <th>Aksi</th> {{-- Hapus kolom Password (Hashed) --}}
+                <th>Aksi</th> 
             </tr>
         </thead>
         <tbody>

@@ -406,8 +406,8 @@
   <a href="{{ url('kepala_admin/validasi_transaksi') }}">
     <button class="nav-btn {{ request()->is('kepala_admin/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
   </a>
-  <a href="{{ url('kepala_admin/kelola_user') }}">
-    <button class="nav-btn {{ request()->is('kepala_admin/kelola_user') ? 'active' : '' }}">kelola user</button>
+  <a href="{{ url('kepala_admin/pemasok') }}">
+    <button class="nav-btn {{ request()->is('kepala_admin/pemasok') ? 'active' : '' }}">pemasok</button>
   </a>
 </div>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\StokKeluarController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ManajemenPembelianController;
 use App\Http\Controllers\ValidasiTransaksiController;
 
@@ -77,6 +78,13 @@ Route::group(['middleware' => 'kepala_admin'], function () {
     Route::delete('kepala_admin/manajemen_pembelian/{manajemenPembelian}', [ManajemenPembelianController::class, 'destroy'])->name('kepala_admin.manajemen_pembelian.destroy');
     Route::get('kepala_admin/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_admin.profile_settings');
     Route::patch('kepala_admin/profile_update', [UserController::class, 'updateProfile'])->name('kepala_admin.update_profile');
+
+    // Pemasok Management
+    Route::get('kepala_admin/pemasok', [PemasokController::class, 'index'])->name('kepala_admin.pemasok');
+    Route::get('kepala_admin/pemasok/add', [PemasokController::class, 'create'])->name('kepala_admin.pemasok.add');
+    Route::post('kepala_admin/pemasok/add', [PemasokController::class, 'store'])->name('kepala_admin.pemasok.store');
+    Route::delete('kepala_admin/pemasok/delete/{id}', [PemasokController::class, 'destroy'])->name('kepala_admin.pemasok.delete');
+
 });
 
 Route::group(['middleware' => 'kepala_gudang'], function () {

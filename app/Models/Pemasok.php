@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pemasok extends Model
 {
     protected $primaryKey = 'id_pemasok';
-    protected $fillable = ['nama_pemasok', 'alamat', 'no_telp'];
+    protected $fillable = ['nama_pemasok', 'alamat', 'telepon'];
 
     public function pembelians()
     {
