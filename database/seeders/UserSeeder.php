@@ -33,16 +33,22 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'nama_user' => 'Kepala Admin',
+            'nama_user' => 'Kepala Admin 1',
             'email' => 'kepadm@gmail.com',
             'password' => Hash::make('kepadmin123'),
             'role' => 'kepala_admin',
         ]);
         User::create([
-            'nama_user' => 'Kepala Admin',
+            'nama_user' => 'Kepala Admin 2',
             'email' => 'kepadm1@gmail.com',
             'password' => Hash::make('kepadmin1234'),
             'role' => 'kepala_admin',
+        ]);
+        User::create([
+            'nama_user' => 'Manager',
+            'email' => 'manager@gmail.com',
+            'password' => Hash::make('manager123'),
+            'role' => 'manager',
         ]);
     }
 }

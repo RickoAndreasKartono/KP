@@ -49,4 +49,10 @@ class ManajemenPembelian extends Model
         return $this->belongsTo(Pemasok::class, 'id_pemasok');
     }
 
+    public function validasi()
+    {
+        return $this->hasOne(Validasi::class, 'id_pembelian');
+    }
+
+
 }

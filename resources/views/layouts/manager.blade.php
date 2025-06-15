@@ -406,9 +406,7 @@
     <a href="{{ route('manager.validasi_transaksi.index') }}">
         <button class="nav-btn {{ request()->is('manager/validasi_transaksi.index') ? 'active' : '' }}">validasi transaksi</button>
     </a>
-    <a href="{{ route('manager.kelola_user') }}">
-        <button class="nav-btn {{ request()->is('manager/kelola_user') ? 'active' : '' }}">kelola user</button>
-    </a>
+  
 </div>
 
 

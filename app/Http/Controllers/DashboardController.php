@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
+use App\Models\ManajemenPembelian;
 use App\Models\StokMasuk;
 use App\Models\StokKeluar; 
 use App\Models\Pupuk; 
@@ -130,8 +131,12 @@ class DashboardController extends Controller
 
     public function manajemenPembelian()
     {
-        return $this->loadViewByRole('validasi_transaksi');    
+        // Logika di sini, misalnya:
+        $pembelians = ManajemenPembelian::with('pemasok', 'user')->get();
+
+        return view('manager.manajemen_pembelian', compact('pembelians'));
     }
+
 
     public function validasiTransaksi()
     {

@@ -10,20 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 class ValidasiTransaksi extends Model
 {
     use HasFactory;
-
-    /**
-     * DIUBAH: Nama tabel disesuaikan agar cocok dengan file migrasi Anda.
-     */
     protected $table = 'validasi_transaksis';
-
-    /**
-     * Primary key dari tabel.
-     */
     protected $primaryKey = 'id_validasi';
 
-    /**
-     * Atribut yang dapat diisi secara massal.
-     */
     protected $fillable = [
         'id_pembelian',
         'id_stok_keluar',
@@ -39,6 +28,8 @@ class ValidasiTransaksi extends Model
     {
         return $this->belongsTo(ManajemenPembelian::class, 'id_pembelian');
     }
+
+    
 
     /**
      * Relasi ke model StokKeluar.

@@ -20,6 +20,8 @@ class ValidasiTransaksiController extends Controller
         return view('manager.validasi_transaksi.index', compact('validations'));
     }
 
+    
+
     /**
      * Menyetujui pengajuan validasi dan memberi umpan balik.
      */

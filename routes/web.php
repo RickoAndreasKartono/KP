@@ -60,7 +60,10 @@ Route::group(['middleware' => 'manager'], function () {
     Route::get('manager/kelola_user', [DashboardController::class, 'kelolaUser'])->name('manager.kelola_user');
     Route::get('manager/profile_settings', [DashboardController::class, 'profileSettings'])->name('manager.profile_settings');
     Route::patch('manager/profile_update', [UserController::class, 'updateProfile'])->name('manager.update_profile');
-    
+    Route::post('manager/manajemen-pembelian/{id}/validasi', [ManajemenPembelianController::class, 'validasi'])->name('manager.manajemen_pembelian.validasi');
+    Route::post('/manager/manajemen-pembelian/validasi/{id}', [ManajemenPembelianController::class, 'validasi'])->name('manager.manajemen_pembelian.validasi');
+
+
 });
 
 Route::group(['middleware' => 'kepala_admin'], function () {

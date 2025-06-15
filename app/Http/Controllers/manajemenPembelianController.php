@@ -59,9 +59,6 @@ class ManajemenPembelianController extends Controller
 
         ManajemenPembelian::create($validatedData);
 
-                
-
-
         return redirect()->route('kepala_admin.manajemen_pembelian.index')
                          ->with('success', 'Data pembelian berhasil ditambahkan dan dikirim untuk validasi.');
     }
@@ -149,4 +146,35 @@ class ManajemenPembelianController extends Controller
         return redirect()->route('kepala_admin.manajemen_pembelian.index')
                          ->with('success', 'Data pembelian berhasil dihapus.');
     }
+
+    public function validasi(Request $request, $id)
+    {
+        $pembelian = ManajemenPembelian::findOrFail($id);
+
+        if ($request->action == 'validasi') {
+            $validasi = new ValidasiTransaksi();
+            $validasi->id_pembelian = $pembelian->id_pembelian;
+            $validasi->id_user = auth()->id(); // manager yang validasi
+            $validasi->status_validasi = 'pending';
+            $validasi->tanggal_validasi = now(); // <-- tambahkan ini
+            $validasi->save();
+
+
+            // Ubah status pembelian menjadi 'disetujui sementara'
+            $pembelian->status = 'validated';
+            $pembelian->save();
+
+            return redirect()->back()->with('success', 'Pengajuan disetujui dan masuk ke daftar validasi.');
+        } elseif ($request->action == 'tolak') {
+            // Update status menjadi 'ditolak'
+            $pembelian->status = 'rejected';
+            $pembelian->save();
+
+            return redirect()->back()->with('error', 'Pengajuan telah ditolak.');
+        }
+
+        return redirect()->back()->with('error', 'Aksi tidak dikenal.');
+    }
+
+
 }
