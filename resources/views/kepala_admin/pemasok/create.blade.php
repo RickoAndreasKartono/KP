@@ -38,11 +38,40 @@
             </div>
             <div class="form-group">
                 <label for="no_telepon">Nomor Telepon</label>
-                <input type="text" name="no_telepon" class="form-control" value="{{ old('no_telepon') }}">
+                <input 
+                    type="text" 
+                    name="no_telepon" 
+                    id="no_telepon" 
+                    class="form-control" 
+                    placeholder="Masukkan telepon pemasok"
+                    value="{{ old('np_telepon', isset($pemasok) ? $pemasok->no_telepon : '') }}"
+                    maxlength="15"
+                    required
+                >
+
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="{{ route('kepala_admin.pemasok.index') }}" class="btn btn-secondary">Batal</a>
         </form>
     </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const teleponInput = document.getElementById('no_telepon');
+
+    teleponInput.addEventListener('input', function(e) {
+      // Hanya izinkan angka
+      this.value = this.value.replace(/[^0-9]/g, '');
+
+      // Batasi maksimal 15 digit
+      if (this.value.length > 15) {
+        this.value = this.value.slice(0, 15);
+      }
+    });
+
+    // Autofokus nama pemasok saat halaman terbuka
+    document.getElementById('nama_pemasok').focus();
+  });
+</script>
+
 @endsection
