@@ -397,8 +397,8 @@
   <a href="{{ url('kepala_gudang/stok_keluar') }}">
     <button class="nav-btn {{ request()->is('kepala_gudang/stok_keluar') ? 'active' : '' }}">stok keluar</button>
   </a>
-  <a href="{{ url('kepala_gudang/laporan_stok') }}">
-    <button class="nav-btn {{ request()->is('kepala_gudang/laporan_stok') ? 'active' : '' }}">laporan stok</button>
+  <a href="{{ url('laporan_stok/laporan') }}">
+    <button class="nav-btn {{ request()->is('laporan_stok/laporan') ? 'active' : '' }}">laporan stok</button>
   </a>
   <a href="{{ url('kepala_gudang/manajemen_pembelian') }}">
     <button class="nav-btn {{ request()->is('kepala_gudang/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>

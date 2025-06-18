@@ -44,10 +44,11 @@
                     id="no_telepon" 
                     class="form-control" 
                     placeholder="Masukkan telepon pemasok"
-                    value="{{ old('np_telepon', isset($pemasok) ? $pemasok->no_telepon : '') }}"
+                    value="{{ old('no_telepon', isset($pemasok) ? $pemasok->no_telepon : '') }}"
                     maxlength="15"
                     required
                 >
+
 
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -69,8 +70,6 @@
       }
     });
 
-    // Autofokus nama pemasok saat halaman terbuka
-    document.getElementById('nama_pemasok').focus();
   });
 </script>
 

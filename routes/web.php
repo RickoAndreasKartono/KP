@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanStokController;
 use App\Http\Controllers\StokMasukController;
 use App\Http\Controllers\StokKeluarController;
 use App\Http\Controllers\UserController;
@@ -66,7 +67,10 @@ Route::group(['middleware' => 'kepala_admin'], function () {
     Route::get('kepala_admin/stok_pupuk', [DashboardController::class, 'stokPupuk'])->name('kepala_admin.stok_pupuk');
     Route::get('kepala_admin/stok_masuk', [DashboardController::class, 'stokMasuk'])->name('kepala_admin.stok_masuk');
     Route::get('kepala_admin/stok_keluar', [DashboardController::class, 'stokKeluar'])->name('kepala_admin.stok_keluar');
-    Route::get('kepala_admin/laporan_stok', [DashboardController::class, 'laporanStok'])->name('kepala_admin.laporan_stok');
+    Route::get('laporan_stok/laporan', [LaporanStokController::class, 'index'])->name('laporan_stok.laporan');
+    Route::get('laporan_stok/stok_pdf', [LaporanStokController::class, 'exportPdf'])->name('laporan_stok.stok_pdf');
+
+
     Route::get('kepala_admin/profile_settings', [DashboardController::class, 'profileSettings'])->name('kepala_admin.profile_settings');
     Route::get('kepala_admin/manajemen_pembelian', [ManajemenPembelianController::class, 'index'])->name('kepala_admin.manajemen_pembelian.index');
     Route::get('kepala_admin/manajemen_pembelian/create', [ManajemenPembelianController::class, 'create'])->name('kepala_admin.manajemen_pembelian.create');
@@ -93,7 +97,9 @@ Route::group(['middleware' => 'kepala_gudang'], function () {
     Route::get('kepala_gudang/stok_masuk/{pupuk}/edit', [StokMasukController::class, 'edit'])->name('kepala_gudang.stok_masuk.edit');
     Route::put('kepala_gudang/stok_masuk/{pupuk}', [StokMasukController::class, 'update'])->name('kepala_gudang.stok_masuk.update');
     Route::delete('kepala_gudang/stok_masuk/{pupuk}', [StokMasukController::class, 'destroy'])->name('kepala_gudang.stok_masuk.destroy');
-
+    Route::get('laporan_stok/laporan', [LaporanStokController::class, 'index'])->name('laporan_stok.laporan');
+    Route::get('laporan_stok/stok_pdf', [LaporanStokController::class, 'exportPdf'])->name('laporan_stok.stok_pdf');
+    Route::get('forgot', [AuthController::class, 'forgot'])->name('auth.forgot');
     // STOK KELUAR
     Route::get('kepala_gudang/stok_keluar', [StokKeluarController::class, 'index'])->name('kepala_gudang.stok_keluar.index');
     Route::get('kepala_gudang/stok_keluar/tambah', [StokKeluarController::class, 'create'])->name('kepala_gudang.stok_keluar.create');

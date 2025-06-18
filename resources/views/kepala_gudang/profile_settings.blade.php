@@ -55,6 +55,8 @@
                 <div class="actions-row">
                     <button type="submit" class="btn btn-save">Simpan Perubahan</button>
                     <a href="{{ route('logout') }}" class="btn btn-logout">Logout</a>
+                    <a href="{{ route('auth.forgot') }}" class="btn btn-reset">Reset Password</a>
+
                 </div>
             </form>
 

@@ -54,4 +54,8 @@ class StokMasuk extends Model
         // PERBAIKAN: Menambahkan parameter ketiga (ownerKey)
         return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
+    public function pemasok()
+    {
+        return $this->belongsTo(Pemasok::class, 'id_pemasok');
+    }
 }

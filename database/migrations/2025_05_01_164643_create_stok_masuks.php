@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('stok_masuks', function (Blueprint $table) {
             $table->id('id_stok_masuk');
             $table->unsignedBigInteger('id_pupuk');
+            $table->unsignedBigInteger('id_pemasok');
             $table->integer('jumlah_masuk');
             $table->date('tanggal_masuk');
             $table->unsignedBigInteger('id_user');
@@ -22,6 +23,7 @@ return new class extends Migration
             // Foreign keys
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
             $table->foreign('id_pupuk')->references('id_pupuk')->on('pupuks')->onDelete('cascade');
+            $table->foreign('id_pemasok')->references('id_pemasok')->on('pemasoks')->onDelete('cascade');
             // Foreign key untuk pemasok dihapus
         });
     }
