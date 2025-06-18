@@ -30,7 +30,8 @@
                         <option value="">-- Pilih Pupuk --</option>
                         @foreach ($daftarPupuk as $pupuk)
                             <option value="{{ $pupuk->id_pupuk }}" {{ old('id_pupuk') == $pupuk->id_pupuk ? 'selected' : '' }}>
-                                {{ $pupuk->nama_pupuk }} (Stok: {{ $pupuk->jumlah_tersedia }})
+                                {{-- PERBAIKAN: Menambahkan satuan pada tampilan stok --}}
+                                {{ $pupuk->nama_pupuk }} (Stok: {{ $pupuk->jumlah_tersedia }} {{ $pupuk->satuan }})
                             </option>
                         @endforeach
                     </select>
@@ -44,10 +45,17 @@
                     <input type="date" name="tanggal_keluar" class="form-control" value="{{ old('tanggal_keluar', date('Y-m-d')) }}" required>
                 </div>
                 
-                {{-- DIPERBAIKI: Nama field disesuaikan menjadi 'tujuan' agar cocok dengan database --}}
+                {{-- PERBAIKAN: Mengganti textarea menjadi dropdown untuk 'tujuan' --}}
                 <div class="form-group">
-                    <label for="tujuan">Tujuan</label>
-                    <textarea name="tujuan" id="tujuan" class="form-control" rows="3" placeholder="Contoh: Lahan Blok C, Proyek A">{{ old('tujuan') }}</textarea>
+                    <label for="tujuan">Lokasi Tujuan</label>
+                    <select name="tujuan" id="tujuan" class="form-control" required>
+                        <option value="">-- Pilih Lokasi Tujuan --</option>
+                        @foreach ($lokasiTujuan as $lokasi)
+                            <option value="{{ $lokasi }}" {{ old('tujuan') == $lokasi ? 'selected' : '' }}>
+                                {{ $lokasi }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Simpan</button>

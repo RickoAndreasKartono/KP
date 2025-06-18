@@ -403,12 +403,6 @@
   <a href="{{ url('kepala_gudang/manajemen_pembelian') }}">
     <button class="nav-btn {{ request()->is('kepala_gudang/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
   </a>
-  <a href="{{ url('kepala_gudang/validasi_transaksi') }}">
-    <button class="nav-btn {{ request()->is('kepala_gudang/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
-  </a>
-  <a href="{{ url('kepala_gudang/kelola_user') }}">
-    <button class="nav-btn {{ request()->is('kepala_gudang/kelola_user') ? 'active' : '' }}">kelola user</button>
-  </a>
 </div>
 
 

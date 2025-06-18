@@ -23,18 +23,18 @@
             justify-content: space-between;
             padding: 30px 30px;
             background-color: #2f5656;
-            width: calc(100% + 40px); /* Adjust width to account for body padding */
-            margin-left: -20px; /* Offset for body padding */
-            margin-right: -20px; /* Offset for body padding */
-            margin-top: -20px; /* Offset for body padding */
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            margin-right: -20px;
+            margin-top: -20px;
         }
 
         /* PERBAIKAN DI SINI UNTUK HEADER: */
-        header a { /* Mengubah gaya link header agar flex untuk nama user */
+        header a {
             display: flex;
             align-items: center;
-            gap: 15px; /* Jarak antara avatar dan info user */
-            color: white; /* Warna teks info user */
+            gap: 15px;
+            color: white;
             text-decoration: none;
         }
         .user-avatar {
@@ -53,39 +53,37 @@
             border-radius: 50%;
             object-fit: cover;
         }
-        .user-info-display { /* Container untuk nama dan role user */
+        .user-info-display {
             display: flex;
             flex-direction: column;
-            text-align: left; /* Rata kiri teks */
+            text-align: left;
         }
         .user-info-display span {
             font-family: 'M PLUS 1p', sans-serif;
-            white-space: nowrap; /* Mencegah teks putus baris */
+            white-space: nowrap;
         }
-        .user-info-display .user-name-display { /* Nama user */
+        .user-info-display .user-name-display {
             font-weight: bold;
             font-size: 20px;
         }
-        .user-info-display .user-role-display { /* Role user */
+        .user-info-display .user-role-display {
             font-size: 14px;
-            opacity: 0.8; /* Sedikit transparan untuk role */
+            opacity: 0.8;
         }
         /* AKHIR PERBAIKAN HEADER */
 
-        header h1 { /* Ini adalah judul "CV Agro Citra Indonesia" */
+        header h1 {
             font-family: 'Potta One', cursive;
             color: #fff;
             font-size: 30px;
         }
         
-        /* [BARU] Styling untuk sisi kanan header */
         .header-right {
             display: flex;
             align-items: center;
-            gap: 30px; /* Jarak antara judul dan tombol logout */
+            gap: 30px;
         }
 
-        /* [BARU] Styling untuk Tombol Logout di Header */
         .btn-logout-header {
             display: flex;
             align-items: center;
@@ -93,7 +91,7 @@
             padding: 8px 15px;
             background-color: transparent;
             color: white;
-            border: 2px solid #b9d8d6; /* Warna border sama dengan background body */
+            border: 2px solid #b9d8d6;
             border-radius: 10px;
             font-weight: bold;
             font-size: 16px;
@@ -103,7 +101,7 @@
         }
 
         .btn-logout-header:hover {
-            background-color: #f44336; /* Warna merah saat hover untuk menandakan aksi keluar */
+            background-color: #f44336;
             border-color: #f44336;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -112,7 +110,6 @@
         .btn-logout-header i {
             font-size: 18px;
         }
-
 
         .navbar {
             display: flex;
@@ -156,48 +153,103 @@
             font-weight: bold;
         }
 
-        /* This .controls might be redundant if controls-right is used, but keeping it for now */
-        .controls {
+        /* PERBAIKAN: Styling untuk bagian kiri section header */
+        .section-header-left {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 30px;
+        }
+
+        .controls-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .add-btn {
             display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 8px 12px;
+            gap: 8px;
+            padding: 0 15px;
+            height: 43px;
             background-color: #4caf50;
             color: white;
             border-radius: 10px;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
             cursor: pointer;
-            white-space: nowrap; /* Prevent wrap */
-            border: 2px solid black;
-            text-decoration: none; /* Ensure it looks like a button not a link */
+            white-space: nowrap;
+            border: none;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
         }
 
         .add-btn:hover {
-            background-color: rgb(68, 154, 185);
+            background-color: #45a049;
             text-decoration: none;
         }
+        
+        /* === STYLING SEARCH BAR YANG DIPERBAIKI === */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            border: 2px solid #2f5656;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            height: 43px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Fixed width untuk search bar */
+        }
 
-        .search-bar input {
-            background-color: #909090;
-            padding: 8px 12px;
-            border: 2px solid white;
-            border-radius: 8px;
+        .search-bar input[type="text"] {
+            border: none;
             outline: none;
-            font-size: 18px;
-            color: white;
-            width: 400px; /* Adjust width */
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #333;
+            width: 100%;
+            background-color: transparent;
+            transition: all 0.2s ease-in-out;
+            flex: 1; /* Menggunakan flex untuk mengisi ruang yang tersedia */
         }
 
-        .search-bar input::placeholder {
-            color: white;
+        .search-bar input[type="text"]::placeholder {
+            color: #888;
         }
+
+        .search-bar:focus-within input[type="text"] {
+            /* Tidak mengubah width, hanya mengubah style focus */
+            background-color: #f8f9fa;
+        }
+
+        .search-bar button {
+            background-color: #2f5656;
+            border: none;
+            padding: 0 15px;
+            height: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-bar button i {
+            color: white;
+            font-size: 16px;
+        }
+
+        .search-bar button:hover {
+            background-color: #3d6160;
+        }
+
+        .search-bar:focus-within {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
+        /* === AKHIR STYLING SEARCH BAR === */
 
         .container {
             background-color: #d1e9e7;
@@ -223,141 +275,124 @@
             background-color: #3d6160;
             color: white;
         }
-
-        /* Existing action-btn styles - keep them */
-        .action-btn {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            font-size: 30px;
-            color: #2f5656;
-            margin: 0 5px;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .action-btn:hover {
-            transform: scale(1.2);
-        }
-
-        .edit-btn {
-            color: #4caf50;
-        }
-
-        .edit-btn:hover {
-            color: rgb(1, 179, 255);
-        }
-
-        .delete-btn {
-            color: #f44336;
-        }
-
-        .delete-btn:hover {
-            color: rgb(189, 36, 189);
-        }
-
-        /* Modified .section-header to match specific use case (justify-content: space-between) */
-        .section-header {
-            display: flex;
-            justify-content: space-between; /* Memisahkan elemen di kiri dan kanan */
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .controls-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* --- START ADDITIONS FOR TABLE ROLES AND ACTIONS (from previous suggestions) --- */
-
-        /* Styling untuk form kontrol select (dropdown) dalam tabel */
+        
+        /* --- STYLING UNTUK ELEMEN DALAM TABEL --- */
         table td select {
             padding: 6px 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            font-size: 16px; /* Menyesuaikan ukuran font */
+            font-size: 16px;
             color: #2f5656;
-            background-color: #f0f0f0; /* Memberi sedikit warna latar belakang */
-            -webkit-appearance: none; /* Menghilangkan gaya default browser untuk select */
+            background-color: #f0f0f0;
+            -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            /* Tambahkan ikon dropdown kustom menggunakan SVG data URI */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232f5656'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 16px;
             cursor: pointer;
         }
-
         table td select:focus {
             border-color: #2f5656;
             outline: none;
         }
-
-        /* Styling dasar untuk tombol aksi di dalam tabel */
         table td .btn-table-action {
             background-color: transparent;
             border: none;
             cursor: pointer;
-            font-size: 24px; /* Menyesuaikan ukuran ikon agar konsisten */
-            margin: 0 5px; /* Sesuaikan margin jika diperlukan */
+            font-size: 24px;
+            margin: 0 5px;
             transition: color 0.3s ease, transform 0.2s ease;
-            padding: 0; /* Menghilangkan padding default tombol */
-            display: inline-flex; /* Memastikan ikon di tengah secara vertikal */
+            padding: 0;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
         }
-
         table td .btn-table-action:hover {
-            transform: scale(1.1); /* Efek zoom saat hover */
+            transform: scale(1.1);
         }
-
-        /* Styling spesifik untuk tombol update role */
-        table td .btn-update-role {
-            color: #4caf50; /* Warna hijau */
-        }
-
-        table td .btn-update-role:hover {
-            color: #388e3c; /* Warna hijau lebih gelap saat hover */
-        }
-
-        /* Styling spesifik untuk tombol delete user */
         table td .btn-delete-user {
-            color: #f44336; /* Warna merah */
+            color: #f44336;
         }
-
         table td .btn-delete-user:hover {
-            color: #d32f2f; /* Warna merah lebih gelap saat hover */
+            color: #d32f2f;
         }
-
-        /* Untuk form update role, pastikan elemen sejajar dan terpusat */
         table td form.update-role-form {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
         }
-
-        /* Penyesuaian lebar kolom untuk Role dan Aksi */
         table th:nth-child(4),
         table td:nth-child(4) {
             width: 200px;
             white-space: nowrap;
         }
-
         table th:last-child,
         table td:last-child {
             width: 100px;
             white-space: nowrap;
+        }
+
+        /* PERBAIKAN: Alert styling */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .section-header-left {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+                width: 100%;
+            }
+            
+            .controls-right {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                width: 100%;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-header-left {
+                gap: 10px;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: 280px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         {{-- Sisi Kiri: Info Pengguna --}}
-        <a href="{{ route('owner.profile_settings') }}">
+        <a href="#">
             <div class="user-avatar">
                 <img src="{{ asset('images/user.png') }}" alt="User Avatar">
             </div>
@@ -411,10 +446,8 @@
     </div>
 
     @yield('section-header')
-
-    <div class="container">
-        @yield('content')
-    </div>
+    
+    @yield('content')
 
 </body>
 </html>

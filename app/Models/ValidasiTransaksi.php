@@ -26,7 +26,6 @@ class ValidasiTransaksi extends Model
      */
     protected $fillable = [
         'id_pembelian',
-        'id_stok_keluar',
         'status_validasi',
         'id_user',
         'tanggal_validasi',

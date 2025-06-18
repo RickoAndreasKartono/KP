@@ -45,21 +45,31 @@
                     @enderror
                 </div>
 
+                <!-- Ganti input text satuan dengan dropdown -->
                 <div class="form-group">
-                    <label for="satuan">Satuan (Contoh: Kg, Ton, Karung)</label>
-                    <input type="text" name="satuan" id="satuan" class="form-control @error('satuan') is-invalid @enderror" value="{{ old('satuan', $manajemenPembelian->satuan) }}" required>
-                    @error('satuan')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <label for="satuan">Satuan</label>
+                <select class="form-control" id="satuan" name="satuan" required>
+                    <option value="">Pilih Satuan</option>
+                    @foreach($satuanOptions as $value => $label)
+                    <option value="{{ $value }}" {{ (old('satuan', $manajemenPembelian->satuan) == $value) ? 'selected' : '' }}>
+                    {{ $label }}
+            </option>
+        @endforeach
+    </select>
+</div>
 
                 <div class="form-group">
-                    <label for="pemasok">Nama Pemasok</label>
-                    <input type="text" name="pemasok" id="pemasok" class="form-control @error('pemasok') is-invalid @enderror" value="{{ old('pemasok', $manajemenPembelian->pemasok) }}" required>
-                    @error('pemasok')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <label for="id_pemasok">Nama Pemasok</label>
+                <select name="id_pemasok" id="id_pemasok" class="form-control" required>
+                    <option value="">Pilih Pemasok</option>
+                    {{-- Variabel $pemasokList dikirim dari Controller --}}
+                    @foreach ($pemasokList as $pemasok)
+                        <option value="{{ $pemasok->id_pemasok }}" {{ old('id_pemasok') == $pemasok->id_pemasok ? 'selected' : '' }}>
+                            {{ $pemasok->nama_pemasok }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
                 <div class="form-group">
                     <label for="tanggal_pembelian">Tanggal Pembelian</label>

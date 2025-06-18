@@ -18,7 +18,7 @@
         h1 {
             font-size: 3rem;
             color: black;
-            animation: bounceIn 5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, fadeOut 3s 5s forwards;
+            animation: bounceIn 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, fadeOut 2s 3s forwards;
             opacity: 0;
         }
         @keyframes bounceIn {
@@ -56,7 +56,7 @@
     <script>
         setTimeout(() => {
             window.location.href = '{{ url("login") }}';
-        }, 8000); 
+        }, 3000); 
     </script>
 </body>
 </html>

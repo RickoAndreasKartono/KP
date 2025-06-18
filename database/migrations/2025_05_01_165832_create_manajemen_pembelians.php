@@ -16,13 +16,23 @@ return new class extends Migration
             $table->string('nama_pupuk');
             $table->integer('jumlah');
             $table->string('satuan');
-            $table->string('pemasok');
+            
+            // Kolom foreign key untuk pemasok
+            $table->foreignId('id_pemasok')->nullable()
+                  ->constrained('pemasoks', 'id_pemasok')
+                  ->onDelete('set null');
+
             $table->enum('status', ['pending', 'validated', 'rejected'])->default('pending');
             $table->date('tanggal_pembelian');
-            $table->unsignedBigInteger('id_user');
+            
+            // Kolom foreign key untuk user
+            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
 
-            $table->timestamps();
-            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade');
+            // HANYA SATU BARIS INI untuk created_at dan updated_at
+            $table->timestamps(); 
+            
+            // HANYA SATU BARIS INI untuk soft delete
+            $table->softDeletes(); 
         });
     }
 
@@ -31,7 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Drop the table if it exists (typo corrected from 'manajemen_pembelian')
         Schema::dropIfExists('manajemen_pembelians');
     }
 };

@@ -1,6 +1,6 @@
-@extends('layouts.owner')
+@extends('layouts.' . Auth::user()->role)
 
-@section('title', 'Laporan Stok - Owner')
+@section('title', 'Laporan Stok - ' . ucfirst(Auth::user()->role))
 
 @section('section-header')
 <div class="section-header">
@@ -43,4 +43,3 @@
   </div>
 </div>
 @endsection
-

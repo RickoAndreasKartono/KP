@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pupuks', function (Blueprint $table) {
-            $table->id('id_pupuk');
-            $table->string('nama_pupuk', 50);
-            $table->integer('jumlah_tersedia');
-            $table->string('satuan');
+        Schema::create('pemasoks', function (Blueprint $table) {
+            $table->id('id_pemasok');
+            $table->string('nama_pemasok', 50)->unique();
+            $table->text('alamat')->nullable();
+            $table->string('no_telepon', 15)->nullable();
             $table->timestamps();
         });
-
-        
     }
 
     /**
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pupuks');
+        Schema::dropIfExists('pemasoks');
     }
 };

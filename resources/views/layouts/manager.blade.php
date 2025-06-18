@@ -7,6 +7,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&family=M+PLUS+1p:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 
     <style>
         /* Global styles */
@@ -346,6 +347,7 @@
             width: 200px;
             white-space: nowrap;
         }
+        
 
         table th:last-child,
         table td:last-child {
@@ -404,10 +406,7 @@
         <button class="nav-btn {{ request()->is('manager/manajemen_pembelian') ? 'active' : '' }}">manajemen pembelian</button>
     </a>
     <a href="{{ route('manager.validasi_transaksi.index') }}">
-        <button class="nav-btn {{ request()->is('manager/validasi_transaksi.index') ? 'active' : '' }}">validasi transaksi</button>
-    </a>
-    <a href="{{ route('manager.kelola_user') }}">
-        <button class="nav-btn {{ request()->is('manager/kelola_user') ? 'active' : '' }}">kelola user</button>
+    <button class="nav-btn {{ request()->is('manager/validasi_transaksi') ? 'active' : '' }}">validasi transaksi</button>
     </a>
 </div>
 

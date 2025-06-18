@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('id_user');
-            $table->string('nama_user'); // Tidak nullable
-            $table->string('email')->unique(); // Email harus unik dan tidak nullable
-            $table->string('password'); // Tidak nullable
-            $table->enum('role', ['owner', 'manager', 'kepala_admin', 'kepala_gudang'])->default('owner'); // Set default role
+            $table->string('nama_user', 50);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->enum('role', ['owner', 'manager', 'kepala_admin', 'kepala_gudang'])->default('owner');
             $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
+
+          
+            $table->timestamp('deleted_at')->nullable();
         });
 
-        // Menambahkan tabel password_resets jika diperlukan untuk reset password
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
             $table->string('token');
@@ -35,6 +37,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('password_resets');
         Schema::dropIfExists('users');
     }
 };

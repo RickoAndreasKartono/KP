@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\StokMasuk;
 use App\Models\StokKeluar; 
 use App\Models\Pupuk; 
+use App\Models\ManajemenPembelian; 
 use Illuminate\Support\Facades\Hash;
 
 class DashboardController extends Controller
@@ -18,9 +19,6 @@ class DashboardController extends Controller
         $user = Auth::user();
         $role = $user->role;
         $data = array_merge($extraData, ['getRecord' => User::find($user->id_user)]);
-        
-        // DIHAPUS: Logika stok masuk dipindahkan ke fungsinya sendiri
-        // if ($page === 'stok_masuk' && $role === 'owner') { ... }
 
         $viewPath = "$role.$page";
 
@@ -31,91 +29,113 @@ class DashboardController extends Controller
         abort(403, 'Unauthorized or view not found.');
     }
 
-     public function stokPupuk(Request $request)
-    {
-        // Ambil kata kunci pencarian dari URL
-        $search = $request->input('search');
-
-        // Mulai query untuk mengambil data master pupuk
-        // dengan menghitung total dari relasi stokMasuks dan stokKeluars
-        $query = Pupuk::withSum('stokMasuks as total_masuk', 'jumlah_masuk')
-                      ->withSum('stokKeluars as total_keluar', 'jumlah_keluar')
-                      ->orderBy('nama_pupuk');
-
-        // Filter data jika ada pencarian
-        if ($search) {
-            $query->where('nama_pupuk', 'like', '%' . $search . '%');
-        }
-
-        $daftarPupuk = $query->get();
-        
-        // Hitung sisa stok untuk setiap item pupuk
-        $daftarPupuk->each(function ($pupuk) {
-            $pupuk->total_masuk = $pupuk->total_masuk ?? 0;
-            $pupuk->total_keluar = $pupuk->total_keluar ?? 0;
-            $pupuk->sisa_stok = $pupuk->total_masuk - $pupuk->total_keluar;
-        });
-
-        // Kirim data yang sudah dihitung ke view
-        return view('read.stok_pupuk', compact('daftarPupuk'));
+    public function stokPupuk(Request $request)
+{
+    $search = $request->input('search');
+    $sortBy = $request->input('sort_by', 'nama_pupuk'); // Default sort by nama_pupuk
+    
+    $query = Pupuk::withSum('stokMasuks as total_masuk', 'jumlah_masuk')
+                  ->withSum('stokKeluars as total_keluar', 'jumlah_keluar');
+    
+    if ($search) {
+        $query->where('nama_pupuk', 'like', '%' . $search . '%');
     }
-
+    
+    // Apply sorting based on the sort_by parameter
+    switch ($sortBy) {
+        case 'total_masuk':
+            $query->orderByRaw('COALESCE((SELECT SUM(jumlah_masuk) FROM stok_masuks WHERE stok_masuks.id_pupuk = pupuks.id_pupuk), 0) DESC');
+            break;
+        case 'total_keluar':
+            $query->orderByRaw('COALESCE((SELECT SUM(jumlah_keluar) FROM stok_keluars WHERE stok_keluars.id_pupuk = pupuks.id_pupuk), 0) DESC');
+            break;
+        case 'sisa_stok':
+            $query->orderByRaw('(COALESCE((SELECT SUM(jumlah_masuk) FROM stok_masuks WHERE stok_masuks.id_pupuk = pupuks.id_pupuk), 0) - COALESCE((SELECT SUM(jumlah_keluar) FROM stok_keluars WHERE stok_keluars.id_pupuk = pupuks.id_pupuk), 0)) DESC');
+            break;
+        case 'nama_pupuk':
+        default:
+            $query->orderBy('nama_pupuk', 'ASC');
+            break;
+    }
+    
+    // Using paginate(10) to divide data into pages
+    $daftarPupuk = $query->paginate(10)->withQueryString();
+    
+    $daftarPupuk->each(function ($pupuk) {
+        $pupuk->total_masuk = $pupuk->total_masuk ?? 0;
+        $pupuk->total_keluar = $pupuk->total_keluar ?? 0;
+        // Calculate remaining stock directly here
+        $pupuk->sisa_stok = ($pupuk->total_masuk) - ($pupuk->total_keluar);
+    });
+    
+    return view('read.stok_pupuk', compact('daftarPupuk'));
+}
 
     /**
-     * DIPERBARUI: Fungsi ini sekarang menangani logikanya sendiri
+     * DIPERBARUI: Fungsi ini sekarang menangani logiknya sendiri
      * untuk memungkinkan fungsionalitas pencarian.
      */
     public function stokMasuk(Request $request)
     {
-        // 1. Ambil kata kunci pencarian dari URL
-        $search = $request->input('search');
+        $sortBy = $request->get('sort_by', 'tanggal_masuk');
+        $sortDirection = $request->get('sort_direction', 'desc');
+        $allowedSorts = ['tanggal_masuk', 'nama_pupuk', 'jumlah_masuk'];
+        if (!in_array($sortBy, $allowedSorts)) $sortBy = 'tanggal_masuk';
 
-        // 2. Mulai query untuk mengambil data stok masuk
-        $query = StokMasuk::with(['user', 'pupuk'])->latest('tanggal_masuk');
+        $query = StokMasuk::with(['user', 'pupuk']);
 
-        // 3. Jika ada kata kunci pencarian, filter data
-        if ($search) {
-            $query->whereHas('pupuk', function ($q) use ($search) {
-                $q->where('nama_pupuk', 'like', '%' . $search . '%');
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->whereHas('pupuk', fn($subQ) => $subQ->where('nama_pupuk', 'like', "%{$searchTerm}%"))
+                  ->orWhereHas('user', fn($subQ) => $subQ->where('nama_user', 'like', "%{$searchTerm}%"));
             });
         }
+        if ($request->filled('tanggal_dari')) $query->whereDate('tanggal_masuk', '>=', $request->tanggal_dari);
+        if ($request->filled('tanggal_sampai')) $query->whereDate('tanggal_masuk', '<=', $request->tanggal_sampai);
 
-        // 4. Ambil hasil akhir dari query
-        $stokMasuk = $query->get();
-
-        // 5. Kirim data yang sudah disaring ke view milik owner
-        // (Asumsi view ada di 'owner.stok_masuk.index' atau 'owner.stok_masuk')
-        return view('read.stok_masuk', compact('stokMasuk'));
-    
+        if ($sortBy === 'nama_pupuk') {
+            $query->join('pupuks', 'stok_masuks.id_pupuk', '=', 'pupuks.id_pupuk')
+                  ->orderBy('pupuks.nama_pupuk', $sortDirection)->select('stok_masuks.*');
+        } else {
+            $query->orderBy($sortBy, $sortDirection);
+        }
+        
+        $stokMasukHistory = $query->paginate(10)->withQueryString();
+        return view('read.stok_masuk', compact('stokMasukHistory', 'sortBy', 'sortDirection'));
     }
 
+    /**
+     * DIPERBARUI: Menampilkan Riwayat Stok Keluar dengan filter, sorting, dan pagination.
+     */
     public function stokKeluar(Request $request)
     {
-        // 1. Ambil kata kunci pencarian dari URL
-        $search = $request->input('search');
+        $sortBy = $request->get('sort_by', 'tanggal_keluar');
+        $sortDirection = $request->get('sort_direction', 'desc');
+        $allowedSorts = ['tanggal_keluar', 'nama_pupuk', 'jumlah_keluar'];
+        if (!in_array($sortBy, $allowedSorts)) $sortBy = 'tanggal_keluar';
 
-        // 2. Mulai query untuk mengambil data stok keluar
-        $query = StokKeluar::with(['user', 'pupuk'])->latest('tanggal_keluar');
+        $query = StokKeluar::with(['user', 'pupuk']);
 
-        // 3. Jika ada kata kunci pencarian, filter data
-        if ($search) {
-            $query->whereHas('pupuk', function ($q) use ($search) {
-                $q->where('nama_pupuk', 'like', '%' . $search . '%');
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->whereHas('pupuk', fn($subQ) => $subQ->where('nama_pupuk', 'like', "%{$searchTerm}%"))
+                  ->orWhereHas('user', fn($subQ) => $subQ->where('nama_user', 'like', "%{$searchTerm}%"));
             });
         }
+        if ($request->filled('tanggal_dari')) $query->whereDate('tanggal_keluar', '>=', $request->tanggal_dari);
+        if ($request->filled('tanggal_sampai')) $query->whereDate('tanggal_keluar', '<=', $request->tanggal_sampai);
 
-        // 4. Ambil hasil akhir dari query
-        $stokKeluarHistory = $query->get();
+        if ($sortBy === 'nama_pupuk') {
+            $query->join('pupuks', 'stok_keluars.id_pupuk', '=', 'pupuks.id_pupuk')
+                  ->orderBy('pupuks.nama_pupuk', $sortDirection)->select('stok_keluars.*');
+        } else {
+            $query->orderBy($sortBy, $sortDirection);
+        }
 
-        // 5. Tentukan path view berdasarkan role
-        $viewPath = 'read.stok_keluar'; // Menggunakan view bersama
-
-        // Anda bisa menambahkan logika untuk path view yang berbeda per role jika perlu
-        // if(view()->exists(Auth::user()->role . '.stok_keluar')) {
-        //     $viewPath = Auth::user()->role . '.stok_keluar';
-        // }
-
-        return view($viewPath, ['stokKeluarHistory' => $stokKeluarHistory]);
+        $stokKeluarHistory = $query->paginate(10)->withQueryString();
+        return view('read.stok_keluar', compact('stokKeluarHistory', 'sortBy', 'sortDirection'));
     }
 
     public function laporanStok()
@@ -128,14 +148,86 @@ class DashboardController extends Controller
         return $this->loadViewByRole('profile_settings');
     }
 
-    public function manajemenPembelian()
+    /**
+     * FIXED: Fungsi manajemenPembelian yang sudah diperbaiki
+     * Sekarang menangani filter dan pagination dengan benar
+     */
+    public function manajemenPembelian(Request $request)
     {
-        return $this->loadViewByRole('validasi_transaksi');    
+        $user = Auth::user();
+        $query = ManajemenPembelian::with(['user', 'pemasok']);
+
+        // --- Logika Filter ---
+        // Pencarian umum
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('nama_pupuk', 'like', '%' . $searchTerm . '%')
+                  ->orWhereHas('pemasok', function($subQ) use ($searchTerm) {
+                      $subQ->where('nama_pemasok', 'like', '%' . $searchTerm . '%');
+                  });
+            });
+        }
+
+        // Filter untuk status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        // Filter spesifik tanggal
+        if ($request->filled('tanggal_dari')) {
+            $query->whereDate('tanggal_pembelian', '>=', $request->tanggal_dari);
+        }
+        if ($request->filled('tanggal_sampai')) {
+            $query->whereDate('tanggal_pembelian', '<=', $request->tanggal_sampai);
+        }
+
+        // --- Logika berdasarkan role ---
+        if ($user->hasRole('owner')) {
+            // Owner bisa melihat semua data
+            $pembelians = $query->orderBy('tanggal_pembelian', 'desc')->paginate(10);
+        } 
+        elseif ($user->hasRole('kepala_gudang')) {
+            // Kepala gudang hanya melihat data yang sudah divalidasi
+            $query->whereIn('status', ['validated', 'selesai']);
+            $pembelians = $query->orderBy('tanggal_pembelian', 'desc')->paginate(10);
+        }
+        elseif ($user->hasRole('manager')) {
+            // Manager bisa melihat semua data (read-only)
+            $pembelians = $query->orderBy('tanggal_pembelian', 'desc')->paginate(10);
+        }
+        else {
+            // Role lain default
+            $pembelians = $query->orderBy('tanggal_pembelian', 'desc')->paginate(10);
+        }
+
+        // Kirim data ke view
+        return view('read.manajemen_pembelian', compact('pembelians'));
     }
 
-    public function validasiTransaksi()
+    public function validasiTransaksi(Request $request)
     {
-        return $this->loadViewByRole('validasi_transaksi');
+        // Ambil parameter sorting dari URL, defaultnya tanggal terbaru
+        $sortBy = $request->get('sort_by', 'tanggal_validasi');
+        $sortDirection = $request->get('sort_direction', 'desc');
+
+        // Daftar kolom yang aman untuk di-sort
+        $allowedSorts = ['tanggal_validasi', 'status_validasi'];
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'tanggal_validasi';
+        }
+
+        // Memulai query dasar dengan memuat relasi yang diperlukan
+        $query = ValidasiTransaksi::with(['user', 'pembelian.pemasok', 'pengajuanStokKeluar.pupuk']);
+
+        // Terapkan sorting
+        $query->orderBy($sortBy, $sortDirection);
+
+        // Ambil hasil dengan pagination (10 data per halaman)
+        $validations = $query->paginate(10)->withQueryString();
+
+        // Mengirim data ke view read-only
+        return view('owner.validasi_transaksi', compact('validations', 'sortBy', 'sortDirection'));
     }
 
     public function kelolaUser()

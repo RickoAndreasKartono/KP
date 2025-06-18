@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('id_pupuk');
             $table->integer('jumlah_masuk');
             $table->date('tanggal_masuk');
-            // Kolom id_pemasok dihapus
             $table->unsignedBigInteger('id_user');
             $table->timestamps();
 

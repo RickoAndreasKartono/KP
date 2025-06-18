@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; // Sesuaikan namespace jika controller Anda ada di folder lain
+namespace App\Http\Controllers; 
 
 use App\Http\Controllers\Controller;
 use App\Models\Pupuk;
@@ -11,26 +11,30 @@ use Illuminate\Support\Facades\Auth;
 class StokKeluarController extends Controller
 {
     /**
-     * Fungsi ini akan menampilkan halaman yang berbeda berdasarkan role pengguna.
+     * FUNGSI BARU: Menyiapkan daftar lokasi tujuan
      */
+    private function getLokasiTujuan()
+    {
+        return [
+            'Desa Perajin',
+            'Desa Air Kumbang',
+            'Desa Teluk Tenggirik'
+        ];
+    }
+
     public function index()
     {
         $userRole = Auth::user()->role;
 
         if ($userRole == 'kepala_gudang') {
-            // UNTUK KEPALA GUDANG: Tampilkan riwayat dengan tombol aksi CRUD.
             $stokKeluarHistory = StokKeluar::with(['user', 'pupuk'])->latest('tanggal_keluar')->get();
             return view('kepala_gudang.stok_keluar.index', compact('stokKeluarHistory'));
         
         } elseif (in_array($userRole, ['owner', 'manager', 'kepala_admin'])) {
-            // UNTUK ROLE LAIN: Tampilkan riwayat yang sama dalam mode read-only.
             $stokKeluarHistory = StokKeluar::with(['user', 'pupuk'])->latest('tanggal_keluar')->get();
-            
-            // DIPERBAIKI: Mengarahkan ke view baru 'read.stok_keluar' sesuai dengan file yang Anda buat.
             return view('read.stok_keluar', compact('stokKeluarHistory'));
         
         } else {
-            // Fallback jika ada role lain yang tidak terdefinisi
             abort(403, 'Akses Ditolak.');
         }
     }
@@ -47,7 +51,11 @@ class StokKeluarController extends Controller
     public function create()
     {
         $daftarPupuk = Pupuk::where('jumlah_tersedia', '>', 0)->orderBy('nama_pupuk')->get();
-        return view('kepala_gudang.stok_keluar.create', compact('daftarPupuk'));
+        
+        // PERBAIKAN: Mengambil daftar lokasi dan mengirimkannya ke view
+        $lokasiTujuan = $this->getLokasiTujuan();
+
+        return view('kepala_gudang.stok_keluar.create', compact('daftarPupuk', 'lokasiTujuan'));
     }
 
     /**
@@ -55,11 +63,15 @@ class StokKeluarController extends Controller
      */
     public function store(Request $request)
     {
+        // Mengambil daftar lokasi untuk validasi
+        $lokasiTujuan = $this->getLokasiTujuan();
+
         $validatedData = $request->validate([
             'id_pupuk' => 'required|exists:pupuks,id_pupuk',
             'jumlah_keluar' => 'required|integer|min:1',
             'tanggal_keluar' => 'required|date',
-            'tujuan' => 'required|string|max:255',
+            // PERBAIKAN: Validasi 'tujuan' harus salah satu dari daftar lokasi
+            'tujuan' => 'required|in:' . implode(',', $lokasiTujuan),
         ]);
 
         $pupuk = Pupuk::findOrFail($validatedData['id_pupuk']);
@@ -88,7 +100,9 @@ class StokKeluarController extends Controller
      */
     public function edit(StokKeluar $stokKeluar)
     {
-        return view('kepala_gudang.stok_keluar.edit', compact('stokKeluar'));
+        // PERBAIKAN: Kirim juga daftar lokasi ke form edit
+        $lokasiTujuan = $this->getLokasiTujuan();
+        return view('kepala_gudang.stok_keluar.edit', compact('stokKeluar', 'lokasiTujuan'));
     }
 
     /**
@@ -96,10 +110,12 @@ class StokKeluarController extends Controller
      */
     public function update(Request $request, StokKeluar $stokKeluar)
     {
+        $lokasiTujuan = $this->getLokasiTujuan();
+
         $validatedData = $request->validate([
             'jumlah_keluar' => 'required|integer|min:1',
             'tanggal_keluar' => 'required|date',
-            'tujuan' => 'required|string|max:255',
+            'tujuan' => 'required|in:' . implode(',', $lokasiTujuan),
         ]);
 
         $pupuk = $stokKeluar->pupuk;

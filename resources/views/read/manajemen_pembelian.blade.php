@@ -1,4 +1,5 @@
-@extends('layouts.kepala_admin') {{-- Pastikan nama file layout ini sesuai dengan proyek Anda --}}
+{{-- File ini khusus untuk tampilan read-only oleh Owner dan Kepala Gudang --}}
+@extends('layouts.' . Auth::user()->role)
 
 @section('title', 'Manajemen Pembelian')
 
@@ -144,6 +145,15 @@
         background-color: #17a673;
         border-color: #169b6b;
     }
+    .btn-info {
+        color: #fff;
+        background-color: #36b9cc;
+        border-color: #36b9cc;
+    }
+    .btn-info:hover {
+        background-color: #2c9faf;
+        border-color: #2a96a5;
+    }
     .btn-sm {
         padding: 5px 10px;
         font-size: 12px;
@@ -164,6 +174,11 @@
         color: #721c24;
         background-color: #f8d7da;
         border-color: #f5c6cb;
+    }
+    .alert-info {
+        background-color: #e7f3ff;
+        border-color: #b3d7ff;
+        color: #004085;
     }
     
     /* Status Badge Styling */
@@ -188,6 +203,31 @@
         background-color: #f8d7da;
         color: #721c24;
         border: 1px solid #f1b0b7;
+    }
+    .status-selesai {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 0.25em 0.4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.25rem;
+    }
+    .badge-info { 
+        color: #fff; 
+        background-color: #36b9cc; 
+    }
+    .badge-primary { 
+        color: #fff; 
+        background-color: #4e73df; 
     }
     
     /* Pagination Styling */
@@ -271,6 +311,10 @@
         background-color: #545b62;
         border-color: #4e555b;
     }
+
+    .text-muted {
+        color: #858796 !important;
+    }
     
     /* Responsive */
     @media (max-width: 768px) {
@@ -300,17 +344,33 @@
 
 <div class="container">
     <div class="page-header">
-        <h2 class="page-title">Daftar Pengajuan Pembelian</h2>
-        {{-- Tombol untuk mengarahkan ke halaman tambah data --}}
-        <a href="{{ route('kepala_admin.manajemen_pembelian.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Buat Pengajuan Baru
-        </a>
+        <h2 class="page-title">
+            @if(Auth::user()->hasRole('owner'))
+                Laporan Manajemen Pembelian (Semua Data)
+            @elseif(Auth::user()->hasRole('kepala_gudang'))
+                Laporan Manajemen Pembelian (Data Tervalidasi)
+            @elseif(Auth::user()->hasRole('manager'))
+                Laporan Manajemen Pembelian
+            @else
+                Laporan Pembelian
+            @endif
+        </h2>
     </div>
 
     {{-- Filter Section --}}
     <div class="filter-card">
-        <form method="GET" action="{{ route('kepala_admin.manajemen_pembelian.index') }}">
+        <form method="GET" action="{{ request()->url() }}">
             <div class="filter-row">
+                <div class="filter-group">
+                    <label for="search">Cari Pupuk / Pemasok</label>
+                    <input type="text" 
+                           name="search" 
+                           id="search" 
+                           value="{{ request('search') }}"
+                           placeholder="Masukkan kata kunci..."
+                           class="form-control">
+                </div>
+                
                 <div class="filter-group">
                     <label for="tanggal_dari">Tanggal Dari</label>
                     <input type="date" 
@@ -330,30 +390,12 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label for="nama_pupuk">Nama Pupuk</label>
-                    <input type="text" 
-                           name="nama_pupuk" 
-                           id="nama_pupuk" 
-                           value="{{ request('nama_pupuk') }}"
-                           placeholder="Cari nama pupuk..."
-                           class="form-control">
-                </div>
-                
-                <div class="filter-group">
-                    <label for="pemasok">Pemasok</label>
-                    <input type="text" 
-                           name="pemasok" 
-                           id="pemasok" 
-                           value="{{ request('pemasok') }}"
-                           placeholder="Cari pemasok..."
-                           class="form-control">
-                </div>
-                
-                <div class="filter-group">
                     <label for="status">Status</label>
                     <select name="status" id="status" class="form-control">
                         <option value="">Semua Status</option>
-                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        @if(!Auth::user()->hasRole('kepala_gudang'))
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        @endif
                         <option value="validated" {{ request('status') == 'validated' ? 'selected' : '' }}>Disetujui</option>
                         <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
                     </select>
@@ -363,7 +405,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i> Filter
                     </button>
-                    <a href="{{ route('kepala_admin.manajemen_pembelian.index') }}" class="btn btn-reset">
+                    <a href="{{ request()->url() }}" class="btn btn-reset">
                         <i class="fas fa-undo"></i> Reset
                     </a>
                 </div>
@@ -384,102 +426,100 @@
     @endif
 
     {{-- Informasi hasil filter --}}
-    @if(request()->hasAny(['tanggal_dari', 'tanggal_sampai', 'nama_pupuk', 'pemasok', 'status']))
-        <div class="alert" style="background-color: #e7f3ff; border-color: #b3d7ff; color: #004085;">
+    @if(request()->hasAny(['search', 'tanggal_dari', 'tanggal_sampai', 'status']))
+        <div class="alert alert-info">
             <i class="fas fa-info-circle"></i> 
             Menampilkan hasil filter: 
+            @if(request('search'))
+                <strong>Pencarian:</strong> "{{ request('search') }}"
+            @endif
             @if(request('tanggal_dari'))
                 <strong>Dari:</strong> {{ \Carbon\Carbon::parse(request('tanggal_dari'))->isoFormat('D MMMM Y') }}
             @endif
             @if(request('tanggal_sampai'))
                 <strong>Sampai:</strong> {{ \Carbon\Carbon::parse(request('tanggal_sampai'))->isoFormat('D MMMM Y') }}
             @endif
-            @if(request('nama_pupuk'))
-                <strong>Pupuk:</strong> "{{ request('nama_pupuk') }}"
-            @endif
-            @if(request('pemasok'))
-                <strong>Pemasok:</strong> "{{ request('pemasok') }}"
-            @endif
             @if(request('status'))
                 <strong>Status:</strong> {{ ucfirst(request('status')) }}
             @endif
+            @if(isset($pembelians) && $pembelians->total() > 0)
+                - <strong>Total:</strong> {{ $pembelians->total() }} data
+            @endif
         </div>
+    @else
+        @if(isset($pembelians) && $pembelians->total() > 0)
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> 
+                Total data: <strong>{{ $pembelians->total() }}</strong> pembelian
+            </div>
+        @endif
     @endif
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Pupuk</th>
-                <th>Jumlah Karung</th>
-                <th>Berat (Kg)</th>
-                <th>Pemasok</th>
-                <th>Tanggal Pembelian</th>
-                <th>Status</th>
-                <th>Diajukan Oleh</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($pembelians as $pembelian)
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>{{ ($pembelians->currentPage() - 1) * $pembelians->perPage() + $loop->iteration }}</td>
-                    <td>
-                        <strong>{{ $pembelian->nama_pupuk }}</strong>
-                    </td>
-                    <td>{{ number_format($pembelian->jumlah) }} {{ $pembelian->satuan }}</td>
-                    <td>{{ number_format($pembelian->jumlah * 50) }} Kg</td>
-                    <td>{{ $pembelian->pemasok->nama_pemasok ?? 'N/A' }}</td>
-                    <td>{{ \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->isoFormat('D MMMM Y') }}</td>
-                    <td>
-                        {{-- Status badge dengan styling yang lebih menarik --}}
-                        <span class="status-badge status-{{ $pembelian->status }}">
-                            {{ ucfirst($pembelian->status) }}
-                        </span>
-                    </td>
-                    <td>{{ $pembelian->user->nama_user ?? 'N/A' }}</td>
-                    <td>
-                        {{-- Tombol Aksi hanya muncul jika status masih 'pending' --}}
-                        @if ($pembelian->status == 'pending')
-                            <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-                                <a href="{{ route('kepala_admin.manajemen_pembelian.edit', ['manajemenPembelian' => $pembelian->id_pembelian]) }}" 
-                                   class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <form action="{{ route('kepala_admin.manajemen_pembelian.destroy', ['manajemenPembelian' => $pembelian->id_pembelian]) }}" 
-                                      method="POST" 
-                                      style="display:inline-block;" 
-                                      onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pengajuan ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        @else
-                            <span class="text-muted">-</span>
-                        @endif
-                    </td>
+                    <th>No</th>
+                    <th>Nama Pupuk</th>
+                    <th>Jumlah</th>
+                    <th>Pemasok</th>
+                    <th>Tanggal Pembelian</th>
+                    <th>Status</th>
+                    <th>Diajukan Oleh</th>
                 </tr>
-            @empty
-                {{-- Pesan jika tidak ada data sama sekali --}}
-                <tr>
-                    <td colspan="9" style="text-align: center; padding: 40px; color: #858796;">
-                        <i class="fas fa-inbox fa-2x" style="margin-bottom: 10px; display: block;"></i>
-                        @if(request()->hasAny(['tanggal_dari', 'tanggal_sampai', 'nama_pupuk', 'pemasok', 'status']))
-                            Tidak ada data yang sesuai dengan filter yang dipilih.
-                        @else
-                            Belum ada data pengajuan pembelian.
-                        @endif
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse ($pembelians as $pembelian)
+                    <tr>
+                        <td>
+                            @if(method_exists($pembelians, 'firstItem') && $pembelians->firstItem())
+                                {{ ($pembelians->currentPage() - 1) * $pembelians->perPage() + $loop->iteration }}
+                            @else
+                                {{ $loop->iteration }}
+                            @endif
+                        </td>
+                        <td>
+                            <strong>{{ $pembelian->nama_pupuk }}</strong>
+                        </td>
+                        <td>{{ number_format($pembelian->jumlah) }} {{ $pembelian->satuan }}</td>
+                        <td>{{ $pembelian->pemasok->nama_pemasok ?? 'N/A' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($pembelian->tanggal_pembelian)->isoFormat('D MMMM Y') }}</td>
+                        <td>
+                            <span class="status-badge status-{{ strtolower($pembelian->status) }}">
+                                @if($pembelian->status == 'validated')
+                                    Disetujui
+                                @elseif($pembelian->status == 'pending')
+                                    Pending
+                                @elseif($pembelian->status == 'rejected')
+                                    Ditolak
+                                @elseif($pembelian->status == 'selesai')
+                                    Selesai
+                                @else
+                                    {{ ucfirst($pembelian->status) }}
+                                @endif
+                            </span>
+                        </td>
+                        <td>{{ $pembelian->user->name ?? $pembelian->user->nama_user ?? 'System' }}</td>
+                       
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="{{ Auth::user()->hasRole('kepala_gudang') ? '8' : '7' }}" style="text-align: center; padding: 40px; color: #858796;">
+                            <i class="fas fa-inbox fa-2x" style="margin-bottom: 10px; display: block;"></i>
+                            @if(request()->hasAny(['search', 'tanggal_dari', 'tanggal_sampai', 'status']))
+                                Tidak ada data yang sesuai dengan filter yang dipilih.
+                            @else
+                                Belum ada data pembelian.
+                            @endif
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     {{-- Pagination --}}
-    @if($pembelians->hasPages())
+    @if(isset($pembelians) && $pembelians->hasPages())
         <div class="pagination-wrapper">
             <div class="pagination-info">
                 Menampilkan {{ $pembelians->firstItem() }} - {{ $pembelians->lastItem() }} dari {{ $pembelians->total() }} data
@@ -491,7 +531,7 @@
                     @if ($pembelians->onFirstPage())
                         <li class="disabled"><span>‹ Sebelumnya</span></li>
                     @else
-                        <li><a href="{{ $pembelians->previousPageUrl() }}" rel="prev">‹ Sebelumnya</a></li>
+                        <li><a href="{{ $pembelians->appends(request()->query())->previousPageUrl() }}" rel="prev">‹ Sebelumnya</a></li>
                     @endif
 
                     {{-- Pagination Elements --}}
@@ -499,13 +539,13 @@
                         @if ($page == $pembelians->currentPage())
                             <li class="active"><span>{{ $page }}</span></li>
                         @else
-                            <li><a href="{{ $url }}">{{ $page }}</a></li>
+                            <li><a href="{{ $pembelians->appends(request()->query())->url($page) }}">{{ $page }}</a></li>
                         @endif
                     @endforeach
 
                     {{-- Next Page Link --}}
                     @if ($pembelians->hasMorePages())
-                        <li><a href="{{ $pembelians->nextPageUrl() }}" rel="next">Selanjutnya ›</a></li>
+                        <li><a href="{{ $pembelians->appends(request()->query())->nextPageUrl() }}" rel="next">Selanjutnya ›</a></li>
                     @else
                         <li class="disabled"><span>Selanjutnya ›</span></li>
                     @endif
@@ -515,28 +555,40 @@
     @endif
 </div>
 
+
 {{-- JavaScript untuk enhance user experience --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Auto-submit form saat tanggal berubah (opsional)
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach(input => {
-        input.addEventListener('change', function() {
-            // Uncomment line below if you want auto-submit on date change
-            // this.form.submit();
-        });
-    });
+    // Validasi tanggal
+    const tanggalDari = document.getElementById('tanggal_dari');
+    const tanggalSampai = document.getElementById('tanggal_sampai');
     
-    // Clear individual filter
-    function clearFilter(inputName) {
-        const input = document.querySelector(`[name="${inputName}"]`);
-        if (input) {
-            input.value = '';
+    if (tanggalDari && tanggalSampai) {
+        tanggalDari.addEventListener('change', function() {
+            tanggalSampai.min = this.value;
+        });
+        
+        tanggalSampai.addEventListener('change', function() {
+            tanggalDari.max = this.value;
+        });
+        
+        // Set initial min/max based on current values
+        if (tanggalDari.value) {
+            tanggalSampai.min = tanggalDari.value;
+        }
+        if (tanggalSampai.value) {
+            tanggalDari.max = tanggalSampai.value;
         }
     }
     
-    // Add clear buttons to each filter (if needed)
-    // You can enhance this further by adding individual clear buttons
+    // Auto-submit form saat status berubah (opsional)
+    const statusSelect = document.getElementById('status');
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            // Uncomment baris berikut jika ingin auto-submit
+            // this.form.submit();
+        });
+    }
 });
 </script>
 @endsection
